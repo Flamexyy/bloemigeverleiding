@@ -58,8 +58,8 @@ export default function Header() {
 
     return (
         <>
-            <header className='bg-white'>
-                <div className='max-w-[1600px] mx-auto flex items-center justify-between p-4 lg:px-8'>
+            <header className='bg-white text-text'>
+                <div className='max-w-[1600px] mx-auto flex items-center justify-between p-4 lg:px-6'>
                     <a href="/"><h1 className="text-2xl md:text-3xl font-bold">LOGO</h1></a>
 
                     {/* Desktop Nav */}
@@ -91,7 +91,7 @@ export default function Header() {
                     <div className='flex gap-1 items-center text-xl md:text-2xl'>
                         <button 
                             onClick={() => setIsCartOpen(true)}
-                            className="p-2 hover:bg-gray-100 rounded-full transition-colors relative"
+                            className="p-2 hover:bg-accent rounded-full transition-colors relative"
                         >
                             <MdOutlineShoppingBag />
                             {itemCount > 0 && (
@@ -102,7 +102,7 @@ export default function Header() {
                         </button>
                         <button 
                             onClick={handleProfileClick}
-                            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+                            className="p-2 hover:bg-accent rounded-full transition-colors"
                         >
                             <LuUser />
                         </button>
@@ -110,12 +110,12 @@ export default function Header() {
                         <div className="flex items-center gap-2 md:hidden">
                             <button 
                                 onClick={() => setIsOpen(!isOpen)}
-                                className="p-2 h-[36px] w-[36px] hover:bg-gray-100 rounded-full transition-colors flex flex-col gap-[5px] justify-center items-center"
+                                className="p-2 h-[36px] w-[36px] hover:bg-accent rounded-full transition-colors flex flex-col gap-[5px] justify-center items-center"
                             >
-                                <span className={`block w-5 h-[2px] rounded-full bg-[#333333] transition-all duration-300 origin-center ${
+                                <span className={`block w-5 h-[2px] rounded-full bg-text transition-all duration-300 origin-center ${
                                     isOpen ? 'rotate-45 translate-y-[3.5px]' : ''
                                 }`} />
-                                <span className={`block w-5 h-[2px] rounded-full bg-[#333333] transition-all duration-300 origin-center ${
+                                <span className={`block w-5 h-[2px] rounded-full bg-text transition-all duration-300 origin-center ${
                                     isOpen ? '-rotate-45 -translate-y-[3.5px]' : ''
                                 }`} />
                             </button>

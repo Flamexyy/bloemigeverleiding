@@ -72,7 +72,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               e.preventDefault();
               setLiked(!liked);
             }}
-            className="absolute top-3 right-3 text-2xl text-text bg-accent p-2 rounded-full shadow-lg hover:bg-white"
+            className="absolute top-3 right-3 text-2xl text-text bg-accent p-2 rounded-full hover:bg-white"
           >
             {liked ? <AiFillHeart /> : <AiOutlineHeart />}
           </button>
@@ -83,9 +83,9 @@ export default function ProductCard({ product }: ProductCardProps) {
           )}
         </div>
         <div className='flex justify-between flex-col text-center items-center mt-3'>
-          <div className='flex flex-col sm:flex-wrap sm:gap-4 items-center mb-4'>
+          <div className='flex flex-col sm:flex-wrap items-center mb-4'>
             <h2 className='font-medium text-[#333333] truncate'>{product.title}</h2>
-            <p className='text-text font-bold'>€{parseFloat(product.price).toFixed(2)}</p>
+            <p className='text-text font-bold text-lg'>€{parseFloat(product.price).toFixed(2)}</p>
           </div>
           {product.availableForSale && (
             <button 

@@ -41,7 +41,7 @@ export default function Home() {
 
   return (
     <div>
-        <div className="relative w-full h-auto flex flex-col justify-center lg:flex-row items-center gap-14 pt-[150px] p-4 lg:p-8 lg:py-20">
+        <div className="relative w-full h-auto flex flex-col justify-center lg:flex-row items-center gap-14 pt-[80px] p-4 lg:p-8">
       {/* Text Section */}
       <div className="flex items-center justify-center text-center">
         <div className="text-text space-y-4">

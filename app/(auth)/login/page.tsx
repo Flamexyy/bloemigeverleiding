@@ -45,9 +45,9 @@ export default function Login() {
   };
 
   return (
-    <div className="w-full max-w-[400px]">
+    <div className="w-full max-w-[400px] text-text">
       <div className="text-center mb-8">
-        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
           <LuUser className="text-2xl" />
         </div>
         <h1 className="text-3xl font-bold">LOGIN</h1>
