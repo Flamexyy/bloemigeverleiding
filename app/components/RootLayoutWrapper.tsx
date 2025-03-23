@@ -37,7 +37,7 @@ export default function RootLayoutWrapper({
           </div>
         </>
       )}
-      <main className={`flex-1 ${!isAuthPage ? 'pt-[105px] pb-[25px]' : ''}`}>
+      <main className={`flex-1 ${!isAuthPage ? 'pt-[105px] pb-[25px] bg-white' : ''}`}>
         {children}
       </main>
       {!isAuthPage && <Footer />}

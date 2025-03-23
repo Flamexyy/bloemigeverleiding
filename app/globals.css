@@ -3,12 +3,9 @@
 @tailwind utilities;
 
 html {
-  background-color: #ffe5f1 !important;
+  background-color: #ffe5f1;
 }
 
-body {
-  background-color: white;
-}
 /* Custom scrollbar styles */
 .hover\:scrollbar-thin::-webkit-scrollbar {
   width: 4px;
