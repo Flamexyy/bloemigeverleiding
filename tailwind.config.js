@@ -11,7 +11,8 @@ module.exports = {
         sans: ['var(--font-gabarito)'],
       },
       colors: {
-        accent: '#6C63FF',
+        accent: '#ffe5f1',
+        text: '#654b56',
       },
     },
   },

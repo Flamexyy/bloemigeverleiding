@@ -1,11 +1,12 @@
 'use client';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { BiChevronRight } from "react-icons/bi";
 import ProductCard from './components/ProductCard';
 import { getProducts } from './utils/shopify';
 import Image from 'next/image';
 import { IoMdPricetags } from "react-icons/io";
+import { RiArrowRightUpLine } from "react-icons/ri";
+import Claims from './components/Claims';
 
 interface ShopifyProduct {
   id: string;
@@ -76,16 +77,21 @@ export default function Home() {
       {/* Rest of Content - Constrained Width */}
       <div className="max-w-[1600px] mx-auto">
         {/* Featured Products */}
-        <div className="p-4 lg:p-8 space-y-8">
-          <div className="flex justify-between items-center">
-            <h2 className="text-3xl font-bold">Featured Products</h2>
-            <Link 
-              href="/shop"
-              className="flex items-center gap-2 hover:opacity-70 transition-opacity"
-            >
-              View All
-              <BiChevronRight className="text-xl" />
-            </Link>
+        <div className="p-4 lg:p-8 py-14 lg:py-20">
+          <div className="flex flex-col gap-6 items-start mb-10">
+            <div className='w-full flex justify-between items-center gap-10'>
+              <div className='max-w-[800px]'>
+                <h2 className="text-3xl font-bold">Nieuwste producten</h2>
+              </div>
+              <Link 
+                href="/shop"
+                className="min-w-fit flex items-center gap-2 hover:opacity-70 transition-opacity"
+              >
+                Bekijk alles
+                <RiArrowRightUpLine className="text-xl" />
+              </Link>
+            </div>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius cum natus illum iste aut nemo earum quae minima ad officiis, ipsum autem similique praesentium distinctio laborum quo. Nulla, cupiditate! Dolore.</p>
           </div>
 
           {loading && (
@@ -115,14 +121,24 @@ export default function Home() {
           )}
 
           {!loading && !error && products.length > 0 && (
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              {products.slice(0, 4).map((product) => (
-                <ProductCard 
-                  key={product.id}
-                  product={product}
-                />
-              ))}
-            </div>
+            <>
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                {products.slice(0, 4).map((product) => (
+                  <ProductCard 
+                    key={product.id}
+                    product={product}
+                  />
+                ))}
+              </div>
+              <div className="flex justify-center mt-6">
+                <Link 
+                  href="/shop"
+                    className='flex items-center justify-center px-5 p-3 bg-transparent text-text border-2 border-accent hover:bg-accent rounded-[100px] transition-all duration-300'
+                >
+                  Bekijk alle producten
+                </Link>
+              </div>
+            </>
           )}
 
           {!loading && !error && products.length === 0 && (
@@ -137,6 +153,7 @@ export default function Home() {
             </div>
           )}
         </div>
+        <Claims />
       </div>
     </div>
   );

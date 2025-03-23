@@ -23,7 +23,7 @@ export default function RootLayoutWrapper({
               <div className="h-9 flex items-center justify-center">
                 <Link 
                   href="/shop" 
-                  className="flex items-center gap-2 text-white text-sm hover:opacity-80 transition-opacity group"
+                  className="flex items-center gap-2 text-text text-sm hover:opacity-80 transition-opacity group"
                 >
                   <span>Gratis verzending bij bestellingen over €50,-</span>
                   <BiChevronRight className="text-lg transition-transform group-hover:translate-x-0.5" />
