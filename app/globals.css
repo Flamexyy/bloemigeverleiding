@@ -6,16 +6,9 @@ html {
   background-color: #ffe5f1;
 }
 
-:root {
-  --background: #ffffff;
-  --foreground: #333333;
-}
-
 body {
-  color: var(--foreground);
-  background: var(--background);
+  background-color: white;
 }
-
 /* Custom scrollbar styles */
 .hover\:scrollbar-thin::-webkit-scrollbar {
   width: 4px;
