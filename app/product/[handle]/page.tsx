@@ -156,9 +156,9 @@ export default function ProductPage({ params }: ProductPageProps) {
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
-                    className={`relative w-[60px] h-[60px] rounded-lg overflow-hidden flex-shrink-0 transition-all border-2 ${
+                    className={`relative w-[60px] h-[60px] rounded-[15px] overflow-hidden flex-shrink-0 transition-all border-2 ${
                       selectedImage === index 
-                        ? 'border-black' 
+                        ? 'border-text' 
                         : 'border-transparent hover:opacity-80'
                     }`}
                   >
@@ -176,7 +176,7 @@ export default function ProductPage({ params }: ProductPageProps) {
 
             {/* Main Image */}
             <div className="flex-1">
-              <div className="aspect-square relative rounded-lg overflow-hidden w-full max-w-[500px]">
+              <div className="aspect-square relative rounded-[30px] overflow-hidden w-full max-w-[500px]">
                 <Image
                   src={product.images.edges[selectedImage].node.originalSrc}
                   alt={product.images.edges[selectedImage].node.altText || product.title}
@@ -209,7 +209,7 @@ export default function ProductPage({ params }: ProductPageProps) {
           {/* Mobile Layout */}
           <div className="lg:hidden">
             {/* Swipeable Main Image */}
-            <div className="relative rounded-lg overflow-hidden">
+            <div className="relative rounded-[30px] overflow-hidden">
               <div 
                 className="aspect-square relative"
                 onTouchStart={handleTouchStart}
@@ -251,9 +251,9 @@ export default function ProductPage({ params }: ProductPageProps) {
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
-                  className={`relative w-[60px] h-[60px] rounded-lg overflow-hidden flex-shrink-0 transition-all border-2 ${
+                  className={`relative w-[60px] h-[60px] rounded-[15px] overflow-hidden flex-shrink-0 transition-all border-2 ${
                     selectedImage === index 
-                      ? 'border-black' 
+                      ? 'border-text' 
                       : 'border-transparent hover:opacity-80'
                   }`}
                 >
