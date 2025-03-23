@@ -43,7 +43,7 @@ export default function Home() {
       {/* Hero Section - Full Width */}
       <div className='relative w-full h-[300px] md:h-[400px] lg:h-[500px]'>
         <Image
-          src="/thumb-1920-641461.jpg"
+          src="/view-beautiful-blooming-roses.jpg"
           alt="Hero Image"
           fill
           className="object-cover"

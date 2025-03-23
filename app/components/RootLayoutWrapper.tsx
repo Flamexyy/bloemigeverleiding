@@ -18,14 +18,14 @@ export default function RootLayoutWrapper({
       {!isAuthPage && (
         <>
           {/* Simple Banner */}
-          <div className="fixed top-0 left-0 right-0 bg-zinc-900 z-40">
+          <div className="fixed top-0 left-0 right-0 bg-accent z-40">
             <div className="max-w-[1600px] mx-auto px-4 lg:px-8">
               <div className="h-9 flex items-center justify-center">
                 <Link 
                   href="/shop" 
                   className="flex items-center gap-2 text-white text-sm hover:opacity-80 transition-opacity group"
                 >
-                  <span>Free shipping on orders over €50</span>
+                  <span>Gratis verzending bij bestellingen over €50,-</span>
                   <BiChevronRight className="text-lg transition-transform group-hover:translate-x-0.5" />
                 </Link>
               </div>
