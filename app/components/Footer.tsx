@@ -30,13 +30,13 @@ export default function Footer() {
             </div> */}
             
             {/* Main Footer */}
-            <div className="bg-[#fff0f6] text-text">
+            <div className="bg-text text-white">
                 <div className="max-w-[1600px] mx-auto px-4 lg:px-8 pt-20 pb-10">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
                         {/* Logo and Description */}
                         <div className="space-y-6">
                             <h2 className="text-2xl font-bold">LOGO</h2>
-                            <p className="text-text text-sm leading-loose">
+                            <p className="text-white text-sm leading-loose">
                                 We deliver innovative products, experiences and services 
                                 to inspire our customers. Free shipping for Members.
                             </p>
@@ -45,7 +45,7 @@ export default function Footer() {
                         {/* Quick Links */}
                         <div>
                             <h3 className="text-lg mb-6">GET HELP</h3>
-                            <ul className="space-y-4 text-text text-sm">
+                            <ul className="space-y-4 text-white text-sm">
                                 <li><a href="#" className="hover:text-white">Order Status</a></li>
                                 <li><a href="#" className="hover:text-white">Shipping & Delivery</a></li>
                                 <li><a href="#" className="hover:text-white">Returns</a></li>
@@ -57,7 +57,7 @@ export default function Footer() {
                         {/* About */}
                         <div>
                             <h3 className="text-lg mb-6">ABOUT US</h3>
-                            <ul className="space-y-4 text-text text-sm">
+                            <ul className="space-y-4 text-white text-sm">
                                 <li><a href="#" className="hover:text-white">News</a></li>
                                 <li><a href="#" className="hover:text-white">Careers</a></li>
                                 <li><a href="#" className="hover:text-white">Investors</a></li>
@@ -68,7 +68,7 @@ export default function Footer() {
                         {/* Join Us */}
                         <div>
                             <h3 className="text-lg mb-6">JOIN US</h3>
-                            <ul className="space-y-4 text-text text-sm">
+                            <ul className="space-y-4 text-white text-sm">
                                 <li><a href="#" className="hover:text-white">Mobile App</a></li>
                                 <li><a href="#" className="hover:text-white">Membership</a></li>
                                 <li><a href="#" className="hover:text-white">Newsletter</a></li>
@@ -78,7 +78,7 @@ export default function Footer() {
                     </div>
 
                     {/* Bottom Section */}
-                    <div className="border-t border-text mt-20 pt-10 flex flex-col md:flex-row justify-between items-center text-text text-sm">
+                    <div className="border-t border-white mt-20 pt-10 flex flex-col md:flex-row justify-between items-center text-white text-sm">
                         <div className="flex gap-4 mb-4 md:mb-0">
                             <a href="/terms-of-service" className="hover:text-white">Terms of Service</a>
                             <a href="/terms-of-use" className="hover:text-white">Terms of Use</a>
