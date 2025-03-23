@@ -5,6 +5,7 @@ import { BiChevronRight } from "react-icons/bi";
 import ProductCard from './components/ProductCard';
 import { getProducts } from './utils/shopify';
 import Image from 'next/image';
+import { IoMdPricetags } from "react-icons/io";
 
 interface ShopifyProduct {
   id: string;
@@ -52,20 +53,20 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
           {/* Constrained Content Width */}
           <div className="max-w-[1600px] h-full mx-auto relative px-4 lg:px-8">
-            <div className="absolute bottom-8 right-8 text-right">
+            <div className="h-full items-center flex justify-center text-center">
               <div className="text-white space-y-4">
                 <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">
-                  Welcome to Our Store
+                  Bloemigeverleiding
                 </h1>
                 <p className="text-lg md:text-xl opacity-90 max-w-2xl ml-auto">
                   Discover our collection of premium products
                 </p>
-                <Link 
-                  href="/shop"
-                  className="inline-block bg-white text-black px-6 py-3 rounded-full hover:bg-white/90 transition-colors text-lg font-medium"
-                >
-                  Shop Now
+               
+               <div className='w-full flex justify-center items-center'>
+                <Link className='w-fit'
+                  href="/shop"><button className="custom font-bold flex items-center gap-2 justify-center">Shop nu<IoMdPricetags /></button>
                 </Link>
+                </div>
               </div>
             </div>
           </div>

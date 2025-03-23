@@ -5,7 +5,7 @@ export default function Footer() {
     return (
         <footer className="mt-auto">
             {/* Newsletter Section */}
-            <div className="bg-gray-100">
+            {/* <div className="bg-gray-100">
                 <div className="max-w-[1600px] mx-auto px-4 lg:px-8 py-12 md:py-20">
                     <div className="max-w-2xl mx-auto text-center space-y-4 md:space-y-6">
                         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold">Join Our Newsletter</h2>
@@ -27,7 +27,7 @@ export default function Footer() {
                         </form>
                     </div>
                 </div>
-            </div>
+            </div> */}
             
             {/* Main Footer */}
             <div className="bg-zinc-900 text-white">
