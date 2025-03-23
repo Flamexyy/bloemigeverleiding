@@ -30,7 +30,7 @@ export default function Footer() {
             </div> */}
             
             {/* Main Footer */}
-            <div className="bg-accent text-text">
+            <div className="bg-[#fff0f6] text-text">
                 <div className="max-w-[1600px] mx-auto px-4 lg:px-8 pt-20 pb-10">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
                         {/* Logo and Description */}
