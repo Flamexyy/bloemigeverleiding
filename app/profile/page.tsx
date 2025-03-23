@@ -1,0 +1,581 @@
+'use client';
+import ProtectedRoute from '../components/ProtectedRoute';
+import { useState, useEffect } from 'react';
+import { CgShoppingBag } from "react-icons/cg";
+import { LuUser } from "react-icons/lu";
+import { IoSettingsOutline } from "react-icons/io5";
+import { BiChevronRight } from "react-icons/bi";
+import { useAuth } from '../context/AuthContext';
+import { LuPackage } from "react-icons/lu";
+import Image from 'next/image';
+
+interface LineItem {
+  title: string;
+  quantity: number;
+  variant: {
+    price: string;
+  };
+  imageUrl?: string;
+}
+
+interface Order {
+  id: string;
+  orderNumber: string;
+  totalPrice: string;
+  currencyCode: string;
+  createdAt: string;
+  status: string;
+  lineItems: LineItem[];
+}
+
+const formatPhoneNumber = (phone: string) => {
+  // Remove any non-digit characters
+  const cleaned = phone.replace(/\D/g, '');
+  
+  // Format for display (06 1234 5678)
+  if (cleaned.length >= 10) {
+    return `${cleaned.slice(0, 2)} ${cleaned.slice(2, 6)} ${cleaned.slice(6, 10)}`;
+  }
+  
+  return cleaned;
+};
+
+export default function Profile() {
+  const { user, setUser, logout } = useAuth();
+  const [activeTab, setActiveTab] = useState('orders');
+  const [isLoading, setIsLoading] = useState(false);
+  const [updateError, setUpdateError] = useState<string | null>(null);
+  const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [ordersLoading, setOrdersLoading] = useState(true);
+  const [ordersError, setOrdersError] = useState<string | null>(null);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phone: ''
+  });
+  const [passwordData, setPasswordData] = useState({
+    newPassword: '',
+    confirmPassword: ''
+  });
+  const [passwordError, setPasswordError] = useState<string | null>(null);
+  const [passwordSuccess, setPasswordSuccess] = useState(false);
+  const [isPasswordLoading, setIsPasswordLoading] = useState(false);
+
+  // Update form data when user data is available
+  useEffect(() => {
+    if (user) {
+      setFormData({
+        firstName: user.firstName || '',
+        lastName: user.lastName || '',
+        email: user.email || '',
+        phone: user.phone || ''
+      });
+    }
+  }, [user]);
+
+  // Fetch orders
+  useEffect(() => {
+    const fetchOrders = async () => {
+      if (!user) return;
+      
+      try {
+        setOrdersLoading(true);
+        setOrdersError(null);
+        
+        // Use the access token from user data
+        if (!user.accessToken) {
+          throw new Error('Please log in to view your orders');
+        }
+
+        const response = await fetch('/api/orders', {
+          headers: {
+            'Authorization': `Bearer ${user.accessToken}`
+          }
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.message || 'Failed to fetch orders');
+        }
+
+        if (!Array.isArray(data.orders)) {
+          throw new Error('Invalid response format');
+        }
+
+        setOrders(data.orders);
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+        setOrdersError(error instanceof Error ? error.message : 'Failed to fetch orders');
+      } finally {
+        setOrdersLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, [user]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let value = e.target.value;
+    
+    // Format phone number as user types
+    if (e.target.id === 'phone') {
+      value = formatPhoneNumber(value);
+    }
+
+    setFormData({
+      ...formData,
+      [e.target.id]: value
+    });
+    
+    setUpdateError(null);
+    setUpdateSuccess(false);
+  };
+
+  const handleSaveChanges = async () => {
+    setIsLoading(true);
+    setUpdateError(null);
+    setUpdateSuccess(false);
+
+    try {
+      const response = await fetch('/api/user/update', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          ...formData,
+          accessToken: user?.accessToken
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Failed to update profile');
+      }
+
+      // Update local user data
+      setUser(data.user);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      setUpdateSuccess(true);
+    } catch (error) {
+      console.error('Update error:', error);
+      setUpdateError(error instanceof Error ? error.message : 'Failed to update profile');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const formatCurrency = (amount: number) => {
+    return new Intl.NumberFormat('en-US', {
+      style: 'currency',
+      currency: 'EUR',
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }).format(amount);
+  };
+
+  const formatDate = (dateString: string) => {
+    return new Date(dateString).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
+
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPasswordData({
+      ...passwordData,
+      [e.target.id]: e.target.value
+    });
+    setPasswordError(null);
+    setPasswordSuccess(false);
+  };
+
+  const handleUpdatePassword = async () => {
+    setPasswordError(null);
+    setPasswordSuccess(false);
+    setIsPasswordLoading(true);
+
+    try {
+      // Validate passwords
+      if (passwordData.newPassword.length < 8) {
+        throw new Error('Password must be at least 8 characters long');
+      }
+
+      if (passwordData.newPassword !== passwordData.confirmPassword) {
+        throw new Error('Passwords do not match');
+      }
+
+      const response = await fetch('/api/user/update-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          password: passwordData.newPassword,
+          accessToken: user?.accessToken
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message);
+      }
+
+      setPasswordSuccess(true);
+      setPasswordData({ newPassword: '', confirmPassword: '' });
+
+      // Show success message briefly before logout
+      setTimeout(() => {
+        logout(); // This will clear user data and redirect to login
+      }, 1500);
+
+    } catch (error) {
+      setPasswordError(error instanceof Error ? error.message : 'Failed to update password');
+    } finally {
+      setIsPasswordLoading(false);
+    }
+  };
+
+  return (
+    <ProtectedRoute>
+      <div className="max-w-[1600px] mx-auto py-6">
+        <div className="flex flex-col lg:flex-row gap-8 py-6 xl:py-10 px-4 lg:px-8">
+          {/* Left Side - Navigation */}
+          <div className="lg:w-[300px]">
+            <div className="sticky top-[100px]">
+              <div className="p-6 border rounded-2xl mb-6">
+                <div className="flex items-center gap-4 pb-4 border-b">
+                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center shrink-0">
+                    <LuUser className="text-2xl" />
+                  </div>
+                  <div className="min-w-0">
+                    <h2 className="text-xl font-bold truncate">{user?.firstName} {user?.lastName}</h2>
+                    <p className="opacity-50 truncate">{user?.email}</p>
+                  </div>
+                </div>
+                
+                <div className="pt-4 space-y-2">
+                  <button
+                    onClick={() => setActiveTab('settings')}
+                    className="w-full bg-zinc-900 text-white rounded-xl p-3 hover:bg-zinc-800 transition-colors"
+                  >
+                    Edit Profile
+                  </button>
+                  <button
+                    onClick={logout}
+                    className="w-full border border-gray-200 rounded-xl p-3 hover:bg-gray-50 transition-colors"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
+
+              <nav className="space-y-2">
+                <button 
+                  onClick={() => setActiveTab('orders')}
+                  className={`w-full flex items-center justify-between p-4 rounded-xl transition-colors ${
+                    activeTab === 'orders' ? 'bg-gray-100' : 'hover:bg-gray-50'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <CgShoppingBag className="text-xl" />
+                    <span>Orders</span>
+                  </div>
+                  <BiChevronRight className="text-xl" />
+                </button>
+
+                <button
+                  onClick={() => setActiveTab('settings')}
+                  className={`w-full flex items-center justify-between p-4 rounded-xl transition-colors ${
+                    activeTab === 'settings' ? 'bg-gray-100' : 'hover:bg-gray-50'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <IoSettingsOutline className="text-xl" />
+                    <span>Settings</span>
+                  </div>
+                  <BiChevronRight className="text-xl" />
+                </button>
+              </nav>
+            </div>
+          </div>
+
+          {/* Right Side - Content */}
+          <div className="flex-1">
+            {activeTab === 'orders' && (
+              <div className="space-y-4 flex flex-col gap-6">
+                <h1 className="text-3xl font-bold">My Orders</h1>
+                
+                {ordersLoading ? (
+                  // Loading state
+                  <div className="space-y-4">
+                    {[1, 2].map((i) => (
+                      <div key={i} className="border rounded-2xl p-6 space-y-6 animate-pulse">
+                        <div className="h-6 bg-gray-200 rounded w-1/4"></div>
+                        <div className="h-20 bg-gray-200 rounded"></div>
+                      </div>
+                    ))}
+                  </div>
+                ) : ordersError ? (
+                  // Error state
+                  <div className="text-center py-12 border rounded-2xl">
+                    <p className="text-red-500 mb-4">{ordersError}</p>
+                    <button
+                      onClick={() => window.location.reload()}
+                      className="px-6 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors"
+                    >
+                      Try Again
+                    </button>
+                  </div>
+                ) : orders.length === 0 ? (
+                  // Empty state
+                  <div className="text-center py-12 border rounded-2xl">
+                    <div className="flex justify-center mb-4">
+                      <LuPackage className="text-4xl text-gray-400" />
+                    </div>
+                    <h3 className="text-xl font-medium mb-2">No orders yet</h3>
+                    <p className="text-gray-500 mb-6">
+                      When you place an order, it will appear here.
+                    </p>
+                  </div>
+                ) : (
+                  // Orders list
+                  <div className="space-y-4">
+                    {orders.map((order) => (
+                      <div key={order.id} className="border rounded-2xl p-6 space-y-6">
+                        <div className="flex justify-between items-start">
+                          <div>
+                            <h3 className="font-bold">Order #{order.orderNumber}</h3>
+                            <p className="text-sm opacity-50">
+                              Placed on {formatDate(order.createdAt)}
+                            </p>
+                          </div>
+                          <span className={`px-3 py-1 rounded-lg text-sm ${
+                            order.status.toLowerCase() === 'cancelled' || order.status.toLowerCase() === 'canceled'
+                              ? 'bg-red-100 text-red-800'
+                              : order.status.toLowerCase() === 'refunded'
+                              ? 'bg-blue-100 text-blue-800'
+                              : order.status.toLowerCase() === 'unfulfilled' 
+                              ? 'bg-orange-100 text-orange-800'
+                              : order.status.toLowerCase() === 'completed'
+                              ? 'bg-green-100 text-green-800'
+                              : 'bg-gray-100 text-gray-800'
+                          }`}>
+                            {order.status.toLowerCase()}
+                          </span>
+                        </div>
+
+                        {order.lineItems.map((item, index) => (
+                          <div key={index} className="flex gap-4">
+                            <div className="w-20 h-20 bg-gray-100 rounded-xl shrink-0 relative overflow-hidden">
+                              {item.imageUrl ? (
+                                <Image
+                                  src={item.imageUrl}
+                                  alt={item.title}
+                                  fill
+                                  className="object-cover"
+                                  sizes="80px"
+                                />
+                              ) : (
+                                <div className="w-full h-full flex items-center justify-center">
+                                  <CgShoppingBag className="text-2xl text-gray-400" />
+                                </div>
+                              )}
+                            </div>
+                            <div className="flex-1">
+                              <h3 className="font-bold">{item.title}</h3>
+                              <p className="text-sm opacity-50">Quantity: {item.quantity}</p>
+                              <p className="font-bold mt-2">
+                                {new Intl.NumberFormat('en-US', {
+                                  style: 'currency',
+                                  currency: order.currencyCode
+                                }).format(parseFloat(item.variant.price))}
+                              </p>
+                            </div>
+                          </div>
+                        ))}
+
+                        <div className="flex justify-between items-center pt-4 border-t">
+                          <span className="font-bold">Total</span>
+                          <span className="font-bold">
+                            {new Intl.NumberFormat('en-US', {
+                              style: 'currency',
+                              currency: order.currencyCode
+                            }).format(parseFloat(order.totalPrice))}
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {activeTab === 'settings' && (
+              <div className="space-y-4 flex flex-col gap-6">
+                <h1 className="text-3xl font-bold">Account Settings</h1>
+                
+                <div className="border rounded-2xl p-6 space-y-6">
+                  {updateError && (
+                    <div className="bg-red-50 text-red-500 p-4 rounded-xl">
+                      {updateError}
+                    </div>
+                  )}
+                  
+                  {updateSuccess && (
+                    <div className="bg-green-50 text-green-500 p-4 rounded-xl">
+                      Profile updated successfully!
+                    </div>
+                  )}
+
+                  <div className="space-y-4">
+                    <h3 className="font-bold">Personal Information</h3>
+                    <div className="grid md:grid-cols-2 gap-4">
+                      <div className="space-y-2">
+                        <label htmlFor="firstName" className="block font-bold text-sm">
+                          FIRST NAME
+                        </label>
+                        <input 
+                          type="text" 
+                          id="firstName"
+                          value={formData.firstName}
+                          onChange={handleChange}
+                          className="w-full border rounded-xl p-3"
+                          placeholder="Enter your first name"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label htmlFor="lastName" className="block font-bold text-sm">
+                          LAST NAME
+                        </label>
+                        <input 
+                          type="text" 
+                          id="lastName"
+                          value={formData.lastName}
+                          onChange={handleChange}
+                          className="w-full border rounded-xl p-3"
+                          placeholder="Enter your last name"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label htmlFor="email" className="block font-bold text-sm">
+                          EMAIL
+                        </label>
+                        <input 
+                          type="email" 
+                          id="email"
+                          value={formData.email}
+                          onChange={handleChange}
+                          className="w-full border rounded-xl p-3"
+                          placeholder="Enter your email"
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label htmlFor="phone" className="block font-bold text-sm">
+                          PHONE (OPTIONAL)
+                        </label>
+                        <input 
+                          type="tel"
+                          id="phone"
+                          value={formData.phone}
+                          onChange={handleChange}
+                          placeholder="06 1234 5678"
+                          className="w-full border rounded-xl p-3"
+                          pattern="[0-9\s]*"
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <button 
+                    onClick={handleSaveChanges}
+                    disabled={isLoading}
+                    className={`w-full bg-zinc-900 text-white rounded-xl p-3 hover:bg-zinc-800 transition-colors ${
+                      isLoading ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                  >
+                    {isLoading ? (
+                      <div className="flex items-center justify-center gap-2">
+                        <div className="w-4 h-4 rounded-full bg-white/30 animate-pulse" />
+                        <div className="w-16 h-4 bg-white/30 rounded animate-pulse" />
+                      </div>
+                    ) : 'Save Changes'}
+                  </button>
+                </div>
+
+                <div className="border rounded-2xl p-6 space-y-6">
+                  {passwordError && (
+                    <div className="bg-red-50 text-red-500 p-4 rounded-xl">
+                      {passwordError}
+                    </div>
+                  )}
+                  
+                  {passwordSuccess && (
+                    <div className="bg-green-50 text-green-500 p-4 rounded-xl">
+                      Password updated successfully! You will be logged out in a moment...
+                    </div>
+                  )}
+
+                  <div className="space-y-4">
+                    <h3 className="font-bold">Change Password</h3>
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <label htmlFor="newPassword" className="block font-bold text-sm">
+                          NEW PASSWORD
+                        </label>
+                        <input 
+                          type="password" 
+                          id="newPassword"
+                          value={passwordData.newPassword}
+                          onChange={handlePasswordChange}
+                          className="w-full border rounded-xl p-3"
+                          minLength={8}
+                          required
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <label htmlFor="confirmPassword" className="block font-bold text-sm">
+                          CONFIRM NEW PASSWORD
+                        </label>
+                        <input 
+                          type="password" 
+                          id="confirmPassword"
+                          value={passwordData.confirmPassword}
+                          onChange={handlePasswordChange}
+                          className="w-full border rounded-xl p-3"
+                          minLength={8}
+                          required
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <button 
+                    onClick={handleUpdatePassword}
+                    disabled={isPasswordLoading}
+                    className={`w-full bg-zinc-900 text-white rounded-xl p-3 hover:bg-zinc-800 transition-colors ${
+                      isPasswordLoading ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                  >
+                    {isPasswordLoading ? (
+                      <div className="flex items-center justify-center gap-2">
+                        <div className="w-4 h-4 rounded-full bg-white/30 animate-pulse" />
+                        <div className="w-24 h-4 bg-white/30 rounded animate-pulse" />
+                      </div>
+                    ) : 'Update Password'}
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </ProtectedRoute>
+  );
+} 

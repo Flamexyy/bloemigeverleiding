@@ -1,0 +1,11 @@
+services:
+  web:
+    build: .
+    restart: always
+
+  tunnel:
+    image: cloudflare/cloudflared
+    restart: always
+    command: tunnel run
+    env_file:
+      - .env.production

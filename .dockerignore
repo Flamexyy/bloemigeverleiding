@@ -1,0 +1,9 @@
+.env.development
+.env.example
+.next
+.github
+.vscode
+.git
+node_modules
+.DS_Store
+data
