@@ -91,7 +91,7 @@ export default function Home() {
                 <RiArrowRightUpLine className="text-xl" />
               </Link>
             </div>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius cum natus illum iste aut nemo earum quae minima ad officiis, ipsum autem similique praesentium distinctio laborum quo. Nulla, cupiditate! Dolore.</p>
+            <p className='max-w-[800px]'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius cum natus illum iste aut nemo earum quae minima ad officiis, ipsum autem similique praesentium distinctio laborum quo. Nulla, cupiditate! Dolore.</p>
           </div>
 
           {loading && (
