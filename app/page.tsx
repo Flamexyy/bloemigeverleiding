@@ -7,7 +7,6 @@ import Image from 'next/image';
 import { IoMdPricetags } from "react-icons/io";
 import { RiArrowRightUpLine } from "react-icons/ri";
 import Claims from './components/Claims';
-
 interface ShopifyProduct {
   id: string;
   handle: string;
@@ -42,37 +41,40 @@ export default function Home() {
 
   return (
     <div>
-      {/* Hero Section - Full Width */}
-      <div className='relative w-full h-[300px] md:h-[400px] lg:h-[500px]'>
-        <Image
-          src="/view-beautiful-blooming-roses.jpg"
-          alt="Hero Image"
-          fill
-          className="object-cover"
-          priority
-        />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
-          {/* Constrained Content Width */}
-          <div className="max-w-[1600px] h-full mx-auto relative px-4 lg:px-8">
-            <div className="h-full items-center flex justify-center text-center">
-              <div className="text-white space-y-4">
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">
-                  Bloemigeverleiding
-                </h1>
-                <p className="text-lg md:text-xl opacity-90 max-w-2xl ml-auto">
-                  Discover our collection of premium products
-                </p>
-               
-               <div className='w-full flex justify-center items-center'>
-                <Link className='w-fit'
-                  href="/shop"><button className="custom font-bold flex items-center gap-2 justify-center">Shop nu<IoMdPricetags /></button>
-                </Link>
-                </div>
-              </div>
-            </div>
+        <div className="relative w-full h-auto flex flex-col justify-center lg:flex-row items-center gap-14 pt-[150px] p-4 lg:p-8 lg:py-20">
+      {/* Text Section */}
+      <div className="flex items-center justify-center text-center">
+        <div className="text-text space-y-4">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">
+            Bloemigeverleiding
+          </h1>
+          <p className="text-lg md:text-xl opacity-90 max-w-2xl mx-auto">
+            "De liefde voor bloemen die altijd bloeien"
+          </p>
+          <div className="w-full flex justify-center items-center">
+            <Link className="w-fit" href="/shop">
+               <button 
+                  className='flex items-center justify-center px-5 p-3 bg-accent text-text hover:bg-gray-100 rounded-[100px] transition-all duration-300'
+                >Shop nu
+                  <IoMdPricetags className="text-xl ml-2" />
+                </button>
+            </Link>
           </div>
         </div>
       </div>
+
+      {/* Image Section */}
+      <div className="w-full md:w-[400px] h-[500px] relative">
+        <Image
+          src="/top-view-beautiful-roses-bouquet-with-pink-ribbon.jpg"
+          alt="Hero Image"
+          fill
+          className="object-cover rounded-bl-[100px] rounded-tr-[100px] rounded-[50px] lg:rounded-t-[500px]"
+          priority
+        />
+      </div>
+    </div>
+
 
       {/* Rest of Content - Constrained Width */}
       <div className="max-w-[1600px] mx-auto">

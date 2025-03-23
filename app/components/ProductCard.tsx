@@ -77,7 +77,7 @@ export default function ProductCard({ product }: ProductCardProps) {
             {liked ? <AiFillHeart /> : <AiOutlineHeart />}
           </button>
           {product.availableForSale ? null : (
-            <div className='absolute bottom-3 right-3 px-4 py-2 bg-white/90 text-[#666666] rounded-[100px] text-sm shadow-lg'>
+            <div className='absolute bottom-3 right-3 px-4 py-2 bg-white/90 text-[#666666] rounded-[100px] text-sm'>
               Out of Stock
             </div>
           )}

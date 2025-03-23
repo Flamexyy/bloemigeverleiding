@@ -58,7 +58,7 @@ export default function Header() {
 
     return (
         <>
-            <header className='bg-white border-b'>
+            <header className='bg-white'>
                 <div className='max-w-[1600px] mx-auto flex items-center justify-between p-4 lg:px-8'>
                     <a href="/"><h1 className="text-2xl md:text-3xl font-bold">LOGO</h1></a>
 
