@@ -87,13 +87,13 @@ export default function Home() {
         {/* Featured Products */}
         <div className="p-4 lg:p-8 py-14 lg:py-20">
           <div className="flex flex-col gap-6 items-start mb-10 text-text">
-            <div className='w-full flex justify-between items-center gap-10'>
+            <div className='w-full flex justify-between items-start gap-10'>
               <div className='max-w-[800px]'>
                 <h2 className="text-3xl font-bold">Nieuwste producten</h2>
               </div>
               <Link 
                 href="/shop"
-                className="min-w-fit flex items-center gap-2 hover:opacity-70 transition-opacity"
+                className="min-w-fit flex items-center gap-2 hover:opacity-70 transition-opacity mt-2"
               >
                 Bekijk alles
                 <RiArrowRightUpLine className="text-xl" />

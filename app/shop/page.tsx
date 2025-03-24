@@ -194,21 +194,21 @@ export default function Shop() {
             <div className="flex items-center gap-2">
               <div className="flex-1 max-w-md flex items-center gap-2">
                 <div className="relative flex-1">
-                  <BiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-[#666666]" />
+                  <BiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-text" />
                   <input 
                     type="text" 
                     placeholder="Search" 
                     value={filters.search}
                     onChange={(e) => handleSearch(e.target.value)}
-                    className="w-full bg-[#F5F5F5] rounded-lg py-2.5 pl-10 pr-4 text-sm text-[#333333] placeholder:text-[#666666] focus:outline-none" 
+                    className="w-full bg-cream rounded-lg py-2.5 pl-10 pr-4 text-sm text-text placeholder:text-text focus:outline-none" 
                   />
                 </div>
                 <button 
                   onClick={toggleFilter}
-                  className="flex items-center gap-2 bg-[#F5F5F5] h-[40px] px-4 rounded-lg hover:bg-[#EBEBEB] transition-colors"
+                  className="flex items-center gap-2 bg-cream h-[40px] px-4 rounded-lg hover:bg-cream/70 transition-colors"
                 >
                   <RiFilterLine className="text-[#666666]" />
-                  <span className="text-sm font-medium text-[#333333]">Filter</span>
+                  <span className="text-sm font-medium text-text">Filter</span>
                 </button>
               </div>
               <div className="hidden md:flex items-center gap-2">
@@ -217,25 +217,25 @@ export default function Shop() {
                     ...prev, 
                     sort: prev.sort === 'price-asc' ? 'price-desc' : 'price-asc' 
                   }))}
-                  className="flex items-center gap-2 bg-[#F5F5F5] h-[40px] px-4 rounded-lg hover:bg-[#EBEBEB] transition-colors"
+                  className="flex items-center gap-2 bg-cream h-[40px] px-4 rounded-lg hover:bg-cream/70 transition-colors"
                 >
                   <svg 
-                    className={`w-4 h-4 transition-transform text-[#666666] ${filters.sort === 'price-desc' ? 'rotate-180' : ''}`} 
+                    className={`w-4 h-4 transition-transform text-text ${filters.sort === 'price-desc' ? 'rotate-180' : ''}`} 
                     fill="none" 
                     stroke="currentColor" 
                     viewBox="0 0 24 24"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
                   </svg>
-                  <span className="text-sm font-medium text-[#333333]">
+                  <span className="text-sm font-medium text-text">
                     {filters.sort === 'price-desc' ? 'Price: High to Low' : 'Price: Low to High'}
                   </span>
                 </button>
                 <button 
                   onClick={handleResetFilters}
-                  className="flex items-center justify-center w-10 h-[40px] bg-[#F5F5F5] rounded-lg hover:bg-[#EBEBEB] transition-colors"
+                  className="flex items-center justify-center w-10 h-[40px] bg-cream rounded-lg hover:bg-cream/70 transition-colors"
                 >
-                  <svg className="w-5 h-5 text-[#666666]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-5 h-5 text-text" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                   </svg>
                 </button>
@@ -245,18 +245,18 @@ export default function Shop() {
             {/* Products Header */}
             <div className="flex items-center justify-between">
               <div>
-                <h1 className="text-xl font-medium text-[#333333]">Products</h1>
+                <h1 className="text-xl font-medium text-text">Producten</h1>
                 <div className="flex items-center gap-2 mt-1">
-                  <span className="text-sm text-[#666666]">Results</span>
+                  <span className="text-sm text-[#666666]">Resultaten</span>
                   <span className="text-sm text-[#666666]">({filteredProducts.length})</span>
                 </div>
               </div>
               <div className="text-sm text-[#666666]">
-                {filters.sort === 'featured' && 'Featured'}
-                {filters.sort === 'price-asc' && 'Price: Low to High'}
-                {filters.sort === 'price-desc' && 'Price: High to Low'}
-                {filters.sort === 'name-asc' && 'Name: A to Z'}
-                {filters.sort === 'name-desc' && 'Name: Z to A'}
+                {filters.sort === 'featured' && 'Aanbevolen'}
+                {filters.sort === 'price-asc' && 'Prijs laag naar hoog'}
+                {filters.sort === 'price-desc' && 'Prijs: hoog naar laag'}
+                {filters.sort === 'name-asc' && 'Naam: A tot Z'}
+                {filters.sort === 'name-desc' && 'Naam: Z tot A'}
               </div>
             </div>
 
@@ -286,7 +286,7 @@ export default function Shop() {
 
             {!loading && filteredProducts.length === 0 && (
               <div className="text-center py-8">
-                <p className="text-sm text-gray-500">No products found</p>
+                <p className="text-sm text-gray-500">Geen producten gevonden</p>
               </div>
             )}
           </div>
@@ -326,13 +326,13 @@ export default function Shop() {
               }}
               className="flex-1 py-2.5 px-4 border border-[#EBEBEB] rounded-lg hover:bg-[#F5F5F5] transition-colors text-sm font-medium text-[#333333]"
             >
-              Clear filters
+              Filters verwijderen
             </button>
             <button 
               onClick={() => setShowMobileFilter(false)}
               className="flex-1 py-2.5 px-4 bg-[#18181B] text-white rounded-lg hover:bg-[#09090B] transition-colors text-sm font-medium"
             >
-              Apply filters
+              Filters toepassen
             </button>
           </div>
         </div>

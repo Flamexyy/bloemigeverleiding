@@ -95,15 +95,15 @@ export default function ProductFilter({
   };
 
   return (
-    <div className={`${isMobile ? 'space-y-6' : 'sticky top-4 space-y-6 max-h-[calc(100vh-2rem)] overflow-y-auto hover:scrollbar-thin scrollbar-thumb-[#EBEBEB] scrollbar-track-transparent'}`}>
+    <div className={`${isMobile ? 'space-y-6' : 'sticky top-4 space-y-6 max-h-[calc(100vh-2rem)] overflow-y-auto hover:scrollbar-thin scrollbar-thumb-[#EBEBEB] scrollbar-track-transparent overflow-x-hidden'}`}>
       {/* Sort Options */}
       <div className="border-b border-[#EBEBEB] pb-6">
         <button 
-          className="w-full flex items-center justify-between font-bold text-lg mb-4 text-[#333333]"
+          className="w-full flex items-center justify-between font-bold text-lg mb-4 text-text"
           onClick={() => toggleSection('sort')}
         >
-          <span>Sort By</span>
-          <BiChevronDown className={`transform transition-transform text-[#666666] ${isExpanded.sort ? 'rotate-180' : ''}`} />
+          <span>Sorteren op</span>
+          <BiChevronDown className={`transform transition-transform text-text ${isExpanded.sort ? 'rotate-180' : ''}`} />
         </button>
         {isExpanded.sort && (
           <div className="space-y-3">
@@ -123,17 +123,17 @@ export default function ProductFilter({
                   />
                   <div className={`w-4 h-4 border rounded-full ${
                     selectedSort === option.value 
-                      ? 'border-2 border-[#333333]' 
+                      ? 'border-2 border-text' 
                       : 'border-[#EBEBEB]'
                   }`}>
-                    <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-[#333333] ${
+                    <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-text ${
                       selectedSort === option.value 
                         ? 'opacity-100' 
                         : 'opacity-0'
                     }`} />
                   </div>
                 </div>
-                <span className="text-sm text-[#666666] group-hover:text-[#333333]">
+                <span className="text-sm text-text group-hover:text-text">
                   {option.label}
                 </span>
               </label>
@@ -145,11 +145,11 @@ export default function ProductFilter({
       {/* Price Range Filter */}
       <div className="border-b border-[#EBEBEB] pb-6">
         <button 
-          className="w-full flex items-center justify-between font-bold text-lg mb-4 text-[#333333]"
+          className="w-full flex items-center justify-between font-bold text-lg mb-4 text-text"
           onClick={() => toggleSection('price')}
         >
-          <span>Shop by Price</span>
-          <BiChevronDown className={`transform transition-transform text-[#666666] ${isExpanded.price ? 'rotate-180' : ''}`} />
+          <span>Prijs</span>
+          <BiChevronDown className={`transform transition-transform text-text ${isExpanded.price ? 'rotate-180' : ''}`} />
         </button>
         {isExpanded.price && (
           <div className="space-y-3">
@@ -163,7 +163,7 @@ export default function ProductFilter({
                     type="checkbox"
                     checked={selectedPrices.includes(range.value)}
                     onChange={() => handlePriceChange(range.value)}
-                    className="appearance-none w-4 h-4 border border-[#EBEBEB] rounded checked:bg-[#333333] checked:border-[#333333] transition-colors focus:outline-none"
+                    className="appearance-none w-4 h-4 border border-[#EBEBEB] rounded checked:bg-text checked:border-text transition-colors focus:outline-none"
                   />
                   {selectedPrices.includes(range.value) && (
                     <div className="absolute inset-0 flex items-center justify-center text-white">
@@ -173,7 +173,7 @@ export default function ProductFilter({
                     </div>
                   )}
                 </div>
-                <span className="text-sm text-[#666666] group-hover:text-[#333333]">{range.label}</span>
+                <span className="text-sm text-text group-hover:text-text">{range.label}</span>
               </label>
             ))}
           </div>
@@ -184,9 +184,9 @@ export default function ProductFilter({
       {onReset && !isMobile && (
         <button
           onClick={handleReset}
-          className="w-full py-2 px-4 text-sm font-medium text-[#666666] hover:text-[#333333] transition-colors"
+          className="w-full py-2 px-4 text-sm font-medium text-text hover:text-text transition-colors"
         >
-          Reset Filters
+          Herstel filters
         </button>
       )}
     </div>

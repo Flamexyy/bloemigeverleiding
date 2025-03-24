@@ -51,7 +51,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   return (
     <>
-      <Link href={`/product/${product.handle}`} className='group block mb-4'>
+      <Link href={`/product/${product.handle}`} className='group block mb-10'>
         <div className="relative w-full aspect-square rounded-[30px] overflow-hidden bg-[#F5F5F5]">
           {product.imageUrl ? (
             <Image 
@@ -72,13 +72,13 @@ export default function ProductCard({ product }: ProductCardProps) {
               e.preventDefault();
               setLiked(!liked);
             }}
-            className="absolute top-3 right-3 text-2xl text-text bg-accent p-2 rounded-full hover:bg-white"
+            className="absolute top-3 right-3 text-2xl text-text bg-cream p-2 rounded-full hover:bg-white"
           >
             {liked ? <AiFillHeart /> : <AiOutlineHeart />}
           </button>
           {product.availableForSale ? null : (
-            <div className='absolute bottom-3 right-3 px-4 py-2 bg-white/90 text-[#666666] rounded-[100px] text-sm'>
-              Out of Stock
+            <div className='absolute bottom-3 right-3 px-4 py-2 bg-cream text-text rounded-[100px] text-sm'>
+              Uitverkocht
             </div>
           )}
         </div>
@@ -90,7 +90,7 @@ export default function ProductCard({ product }: ProductCardProps) {
           {product.availableForSale && (
             <button 
               onClick={handleAddToCart}
-              className='flex items-center justify-center px-5 p-3 bg-accent text-text hover:bg-gray-100 rounded-[100px] transition-all duration-300'
+              className='w-full sm:w-fit flex items-center justify-center px-5 p-3 bg-accent text-text hover:bg-gray-100 rounded-[100px] transition-all duration-300'
             >
               <MdOutlineShoppingBag className="text-xl mr-2" />Toevoegen
             </button>
