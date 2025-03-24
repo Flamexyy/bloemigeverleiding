@@ -10,6 +10,7 @@ import { IoClose } from 'react-icons/io5';
 import { RiHome5Line, RiShoppingBag3Line, RiInformationLine, RiCustomerService2Line } from 'react-icons/ri';
 import Link from 'next/link';
 import Image from 'next/image';
+import { HiMiniChevronRight } from "react-icons/hi2";
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
@@ -104,7 +105,7 @@ export default function Header() {
                         >
                             <MdOutlineShoppingBag />
                             {itemCount > 0 && (
-                                <span className="absolute -top-0 -right-0 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                                <span className="absolute -top-0 -right-0 bg-text text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
                                     {itemCount}
                                 </span>
                             )}
@@ -147,13 +148,13 @@ export default function Header() {
             }`}>
                 <div className="h-full flex flex-col">
                     {/* Header */}
-                    <div className="flex justify-between items-center p-4 border-b">
+                    <div className="flex justify-between items-center p-4 border-b border-text/20">
                         <div className="flex items-center gap-2">
-                            <h2 className="text-xl font-bold">Menu</h2>
+                            <h2 className="text-xl font-bold text-text">Menu</h2>
                         </div>
                         <button 
                             onClick={() => setIsOpen(false)}
-                            className="hover:bg-gray-100 rounded-full transition-colors"
+                            className="hover:bg-accent text-text rounded-full transition-colors"
                         >
                             <IoClose className="text-4xl p-2" />
                         </button>
@@ -162,71 +163,66 @@ export default function Header() {
                     {/* Menu Content */}
                     <div className="flex-1 overflow-y-auto p-4">
                         <nav className="mb-8">
-                            <div className="space-y-3">
+                            <div>
                                 <Link 
                                     href="/" 
                                     onClick={() => setIsOpen(false)}
-                                    className={`flex items-center w-full p-4 rounded-xl border ${
+                                    className={`flex items-center justify-between w-full p-4 ${
                                         isActive('/') 
-                                        ? 'bg-black text-white border-black' 
-                                        : 'bg-gray-50 hover:bg-gray-100 border-gray-200'
+                                        ? 'text-text' 
+                                        : 'text-'
                                     }`}
                                 >
-                                    <RiHome5Line className="text-xl mr-3" />
-                                    <div>
+                                    <div className="flex items-center">
+                                        <RiHome5Line className="text-xl mr-3" />
                                         <span className="font-medium">Home</span>
                                     </div>
+                                    <HiMiniChevronRight className="text-lg" />
                                 </Link>
                                 <Link 
                                     href="/shop" 
                                     onClick={() => setIsOpen(false)}
-                                    className={`flex items-center w-full p-4 rounded-xl border ${
+                                    className={`flex items-center justify-between w-full p-4 ${
                                         isActive('/shop') 
-                                        ? 'bg-black text-white border-black' 
-                                        : 'bg-gray-50 hover:bg-gray-100 border-gray-200'
+                                        ? 'text-text' 
+                                        : 'text-text/50'
                                     }`}
                                 >
-                                    <RiShoppingBag3Line className="text-xl mr-3" />
-                                    <div>
+                                    <div className="flex items-center">
+                                        <RiShoppingBag3Line className="text-xl mr-3" />
                                         <span className="font-medium">Shop</span>
-                                        <p className={`text-sm mt-0.5 ${isActive('/shop') ? 'text-white/70' : 'text-gray-500'}`}>
-                                            Browse all products
-                                        </p>
                                     </div>
+                                    <HiMiniChevronRight className="text-lg" />
                                 </Link>
                                 <Link 
                                     href="/about" 
                                     onClick={() => setIsOpen(false)}
-                                    className={`flex items-center w-full p-4 rounded-xl border ${
+                                    className={`flex items-center justify-between w-full p-4 ${
                                         isActive('/about') 
-                                        ? 'bg-black text-white border-black' 
-                                        : 'bg-gray-50 hover:bg-gray-100 border-gray-200'
+                                        ? 'text-text' 
+                                        : 'text-text/50'
                                     }`}
                                 >
-                                    <RiInformationLine className="text-xl mr-3" />
-                                    <div>
-                                        <span className="font-medium">About</span>
-                                        <p className={`text-sm mt-0.5 ${isActive('/about') ? 'text-white/70' : 'text-gray-500'}`}>
-                                            Our story
-                                        </p>
+                                    <div className="flex items-center">
+                                        <RiInformationLine className="text-xl mr-3" />
+                                        <span className="font-medium">Over ons</span>
                                     </div>
+                                    <HiMiniChevronRight className="text-lg" />
                                 </Link>
                                 <Link 
                                     href="/contact" 
                                     onClick={() => setIsOpen(false)}
-                                    className={`flex items-center w-full p-4 rounded-xl border ${
+                                    className={`flex items-center justify-between w-full p-4 ${
                                         isActive('/contact') 
-                                        ? 'bg-black text-white border-black' 
-                                        : 'bg-gray-50 hover:bg-gray-100 border-gray-200'
+                                        ? 'text-text' 
+                                        : 'text-text/50'
                                     }`}
                                 >
-                                    <RiCustomerService2Line className="text-xl mr-3" />
-                                    <div>
+                                    <div className="flex items-center">
+                                        <RiCustomerService2Line className="text-xl mr-3" />
                                         <span className="font-medium">Contact</span>
-                                        <p className={`text-sm mt-0.5 ${isActive('/contact') ? 'text-white/70' : 'text-gray-500'}`}>
-                                            Get in touch
-                                        </p>
                                     </div>
+                                    <HiMiniChevronRight className="text-lg" />
                                 </Link>
                             </div>
                         </nav>
@@ -256,10 +252,10 @@ export default function Header() {
                                 </button>
                             </div>
                         ) : (
-                            <div className="mt-8">
+                            <div className="mt-8 text-text">
                                 <div className="px-4 mb-6">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-12 h-12 bg-black text-white rounded-full flex items-center justify-center">
+                                        <div className="w-12 h-12 bg-accent text-text rounded-full flex items-center justify-center">
                                             <LuUser className="text-xl" />
                                         </div>
                                         <div>
@@ -271,7 +267,7 @@ export default function Header() {
                                 <Link 
                                     href="/login"
                                     onClick={() => setIsOpen(false)}
-                                    className="block w-full py-4 px-4 bg-black text-white font-bold rounded-xl hover:bg-black/90 transition-colors text-center"
+                                    className="block w-full py-4 px-4 bg-accent text-text font-bold rounded-[50px] hover:bg-accent/70 transition-colors text-center"
                                 >
                                     Sign In
                                 </Link>
