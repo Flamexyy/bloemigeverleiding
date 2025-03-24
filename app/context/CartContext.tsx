@@ -77,6 +77,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updateQuantity = (id: string, quantity: number) => {
+    if (quantity <= 0) {
+      // Remove item if quantity is 0 or less
+      removeFromCart(id);
+      return;
+    }
+    
     setItems(currentItems =>
       currentItems.map(item =>
         item.id === id ? { ...item, quantity } : item

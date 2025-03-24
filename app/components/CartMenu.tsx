@@ -142,17 +142,17 @@ export default function CartMenu({ isOpen, onClose }: CartMenuProps) {
                         </div>
                       </div>
                       <div className="mt-2">
-                        <div className="flex items-center border rounded-full w-fit">
+                        <div className="flex items-center border border-accent rounded-full w-fit">
                           <button
-                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                            className="px-3 py-1 hover:bg-accent/10 rounded-l-full"
+                            onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
+                            className="px-3 py-1 hover:bg-accent/50 transition-colors rounded-l-full"
                           >
                             -
                           </button>
-                          <span className="px-3">{item.quantity}</span>
+                          <span className="w-8 text-center">{item.quantity}</span>
                           <button
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="px-3 py-1 hover:bg-accent/10 rounded-r-full"
+                            className="px-3 py-1 hover:bg-accent/50 transition-colors rounded-r-full"
                           >
                             +
                           </button>
