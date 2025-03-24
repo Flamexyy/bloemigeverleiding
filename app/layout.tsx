@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Gabarito } from "next/font/google";
+import { Gabarito, Courgette, Pacifico } from "next/font/google";
 import "./globals.css";
 import RootLayoutWrapper from "./components/RootLayoutWrapper";
 import { AuthProvider } from './context/AuthContext';
@@ -11,6 +11,18 @@ const gabarito = Gabarito({
   display: "swap",
   weight: ["400", "500", "600", "700", "800", "900"],
   variable: '--font-gabarito',
+});
+
+const courgette = Courgette({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-courgette",
+});
+
+const pacifico = Pacifico({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-pacifico",
 });
 
 export const metadata: Metadata = {
@@ -25,7 +37,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${gabarito.variable} font-sans antialiased min-h-screen flex flex-col pt-20`}>
+      <body className={`${gabarito.variable} ${courgette.variable} ${pacifico.variable} font-sans antialiased min-h-screen flex flex-col pt-20`}>
         <AuthProvider>
           <CartProvider>
             <RootLayoutWrapper>

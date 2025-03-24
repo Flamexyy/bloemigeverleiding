@@ -2,7 +2,7 @@ import React from 'react';
 import { FaShippingFast } from "react-icons/fa";
 import { HiOutlinePercentBadge } from "react-icons/hi2";
 import { RiArrowRightUpLine } from "react-icons/ri";
-
+import Link from 'next/link';
 
 export default function Claims() {
     return (
@@ -27,11 +27,14 @@ export default function Claims() {
            >
                 <h2 className='text-2xl mb-4 font-bold'>Begin met shoppen</h2>
                 <div className='w-full flex justify-end items-end flex-end'>
-                    <button 
-                        className='w-full flex items-center justify-center px-5 p-3 bg-accent text-text hover:bg-gray-100 rounded-[100px] transition-all duration-300'
-                    >Bekijk het assortiment
-                        <RiArrowRightUpLine className="text-xl ml-2" />
-                    </button>
+                    <Link href="/shop" passHref>
+                        <button 
+                            className='flex items-center justify-center px-5 p-3 bg-accent text-text hover:bg-gray-100 rounded-[100px] transition-all duration-300'
+                        >
+                            Bekijk het assortiment
+                            <RiArrowRightUpLine className="text-xl ml-2" />
+                        </button>
+                    </Link>
                 </div>
            </div>
         </div>

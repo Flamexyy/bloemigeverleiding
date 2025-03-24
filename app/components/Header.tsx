@@ -9,6 +9,7 @@ import { useCart } from '../context/CartContext';
 import { IoClose } from 'react-icons/io5';
 import { RiHome5Line, RiShoppingBag3Line, RiInformationLine, RiCustomerService2Line } from 'react-icons/ri';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
@@ -60,7 +61,15 @@ export default function Header() {
         <>
             <header className='bg-white text-text'>
                 <div className='max-w-[1600px] mx-auto flex items-center justify-between p-4 lg:px-6'>
-                    <a href="/"><h1 className="text-2xl md:text-3xl font-bold">LOGO</h1></a>
+                    <Link href="/">
+                            <Image 
+                                src="/logo-wide.svg" 
+                                alt="Logo" 
+                                width={200} 
+                                height={100} 
+                                className="object-contain"
+                            />
+                    </Link>
 
                     {/* Desktop Nav */}
                     <nav className="hidden md:block">
@@ -88,7 +97,7 @@ export default function Header() {
                         </ul>
                     </nav>
 
-                    <div className='flex gap-1 items-center text-xl md:text-2xl'>
+                    <div className='w-[200px] flex gap-1 items-center justify-end text-xl md:text-2xl'>
                         <button 
                             onClick={() => setIsCartOpen(true)}
                             className="p-2 hover:bg-accent rounded-full transition-colors relative"

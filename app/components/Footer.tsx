@@ -30,12 +30,12 @@ export default function Footer() {
             </div> */}
             
             {/* Main Footer */}
-            <div className="bg-[#fcf5f2] text-[#6E4B3A]">
+            <div className="bg-cream text-[#6E4B3A]">
                 <div className="max-w-[1600px] mx-auto px-4 lg:px-8 pt-20 pb-10">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
                         {/* Logo and Description */}
                         <div className="space-y-6">
-                            <h2 className="text-2xl font-bold">LOGO</h2>
+                            <Image src="/logo-footer.svg" alt="Bloemige Verleiding Logo" width={150} height={50} />
                             <p className="text-[#6E4B3A] text-sm leading-loose">
                                 We deliver innovative products, experiences and services 
                                 to inspire our customers. Free shipping for Members.
@@ -80,11 +80,11 @@ export default function Footer() {
                     {/* Bottom Section */}
                     <div className="border-t border-[#6E4B3A] mt-20 pt-10 flex flex-col md:flex-row justify-between items-center text-[#6E4B3A] text-sm">
                         <div className="flex gap-4 mb-4 md:mb-0">
-                            <a href="/terms-of-service" className="hover:text-white">Terms of Service</a>
-                            <a href="/terms-of-use" className="hover:text-white">Terms of Use</a>
-                            <a href="/privacy-policy" className="hover:text-white">Privacy Policy</a>
+                            <a href="/terms-of-service" className="hover:text-white">Servicevoorwaarden</a>
+                            <a href="/terms-of-use" className="hover:text-white">Gebruiksvoorwaarden</a>
+                            <a href="/privacy-policy" className="hover:text-white">Privacybeleid</a>
                         </div>
-                        <p>© {new Date().getFullYear()} Company Name. All Rights Reserved</p>
+                        <p>© {new Date().getFullYear()} Bloemigeverleiding. Alle Rechten Voorbehouden</p>
                     </div>
                 </div>
             </div>

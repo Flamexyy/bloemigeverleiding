@@ -13,6 +13,7 @@ module.exports = {
       colors: {
         accent: '#ffe5f1',
         text: '#654b56',
+        cream: '#fcf5f2',
       },
     },
   },
