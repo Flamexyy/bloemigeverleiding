@@ -325,7 +325,7 @@ export default function Profile() {
                 ) : ordersError ? (
                   // Error state
                   <div className="text-center py-12 border rounded-2xl">
-                    <p className="text-red-500 mb-4">{ordersError}</p>
+                    <p className="text-red-400 mb-4">{ordersError}</p>
                     <button
                       onClick={() => window.location.reload()}
                       className="px-6 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors"
@@ -423,7 +423,7 @@ export default function Profile() {
                 
                 <div className="border rounded-2xl p-6 space-y-6">
                   {updateError && (
-                    <div className="bg-red-50 text-red-500 p-4 rounded-xl">
+                    <div className="bg-red-50 text-red-400 p-4 rounded-xl">
                       {updateError}
                     </div>
                   )}
@@ -511,7 +511,7 @@ export default function Profile() {
 
                 <div className="border rounded-2xl p-6 space-y-6">
                   {passwordError && (
-                    <div className="bg-red-50 text-red-500 p-4 rounded-xl">
+                    <div className="bg-red-50 text-red-400 p-4 rounded-xl">
                       {passwordError}
                     </div>
                   )}

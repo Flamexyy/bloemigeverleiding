@@ -284,7 +284,7 @@ export default function ProductPage({ params }: ProductPageProps) {
               ) : product.compareAtPriceRange?.maxVariantPrice?.amount && 
                   parseFloat(product.compareAtPriceRange.maxVariantPrice.amount) > parseFloat(product.priceRange.minVariantPrice.amount) ? (
                 <>
-                  <p className="text-xl font-bold text-red-600">
+                  <p className="text-xl font-bold text-red-400">
                     €{parseFloat(product.priceRange.minVariantPrice.amount).toFixed(2)}
                   </p>
                   <p className="text-lg text-gray-500 line-through">

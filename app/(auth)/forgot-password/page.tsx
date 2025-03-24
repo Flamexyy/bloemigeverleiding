@@ -53,12 +53,12 @@ export default function ForgotPassword() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         {error && (
-          <div className="bg-red-50 text-red-500 p-3 rounded-xl text-center">
+          <div className="bg-red-50 text-red-400 p-3 rounded-xl text-center">
             {error}
           </div>
         )}
         {success && (
-          <div className="bg-green-50 text-green-500 p-3 rounded-xl text-center">
+          <div className="bg-green-50 text-green-400 p-3 rounded-xl text-center">
             Reset link has been sent to your email address.
           </div>
         )}

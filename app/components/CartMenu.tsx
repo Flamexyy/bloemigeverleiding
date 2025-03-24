@@ -99,7 +99,7 @@ export default function CartMenu({ isOpen, onClose }: CartMenuProps) {
                       </div>
                       <button 
                         onClick={() => removeFromCart(item.id)}
-                        className="text-red-500 text-sm hover:underline mt-2"
+                        className="text-red-400 text-sm hover:underline mt-2"
                       >
                         Verwijderen
                       </button>

@@ -118,7 +118,7 @@ export default function Home() {
           )}
 
           {error && (
-            <div className="text-center py-10 text-red-500">
+            <div className="text-center py-10 text-red-400">
               <p>Error loading products: {error}</p>
               <button 
                 onClick={() => window.location.reload()} 
