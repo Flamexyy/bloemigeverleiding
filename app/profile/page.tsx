@@ -8,12 +8,14 @@ import { BiChevronRight } from "react-icons/bi";
 import { useAuth } from '../context/AuthContext';
 import { LuPackage } from "react-icons/lu";
 import Image from 'next/image';
+import { TbLogout } from "react-icons/tb";
 
 interface LineItem {
   title: string;
   quantity: number;
   variant: {
     price: string;
+    compareAtPrice?: string;
   };
   imageUrl?: string;
 }
@@ -248,7 +250,7 @@ export default function Profile() {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left Side - Navigation */}
           <div className="lg:w-[300px]">
-            <div className="sticky top-24">
+            <div className="sticky top-24 space-y-6">
               {/* Profile Header */}
               <div className="flex items-center gap-4 mb-4">
                 <div className="min-w-16 h-16 bg-accent rounded-full flex items-center justify-center">
@@ -292,6 +294,15 @@ export default function Profile() {
                   <BiChevronRight className="text-xl" />
                 </button>
               </nav>
+
+              {/* Logout Button */}
+              <button 
+                onClick={logout}
+                className="w-full flex items-center gap-3 p-4 rounded-xl text-red-400 hover:bg-red-50 transition-colors"
+              >
+                <TbLogout className="text-xl" />
+                <span>Uitloggen</span>
+              </button>
             </div>
           </div>
 
@@ -340,21 +351,21 @@ export default function Profile() {
                       <div key={order.id} className="border border-text/20 rounded-2xl p-6 space-y-6">
                         <div className="flex justify-between items-start">
                           <div>
-                            <h3 className="font-bold">Bestelling #{order.orderNumber}</h3>
-                            <p className="text-sm opacity-50">
+                            <h3 className="font-bold text-text">Bestelling #{order.orderNumber}</h3>
+                            <p className="text-sm text-text/50">
                               Geplaatst op {formatDate(order.createdAt)}
                             </p>
                           </div>
-                          <span className={`px-3 py-1 rounded-lg text-sm ${
+                          <span className={`px-3 py-1 rounded-[50px] text-sm ${
                             order.status.toLowerCase() === 'cancelled' || order.status.toLowerCase() === 'canceled'
-                              ? 'bg-red-100 text-red-800'
+                              ? 'bg-red-400 text-white'
                               : order.status.toLowerCase() === 'refunded'
-                              ? 'bg-blue-100 text-blue-800'
+                              ? 'bg-text text-white'
                               : order.status.toLowerCase() === 'unfulfilled' 
-                              ? 'bg-orange-100 text-orange-800'
+                              ? 'bg-accent text-text'
                               : order.status.toLowerCase() === 'completed'
-                              ? 'bg-green-100 text-green-800'
-                              : 'bg-gray-100 text-gray-800'
+                              ? 'bg-accent text-text'
+                              : 'bg-accent text-text'
                           }`}>
                             {order.status.toLowerCase()}
                           </span>
@@ -362,42 +373,41 @@ export default function Profile() {
 
                         {order.lineItems.map((item, index) => (
                           <div key={index} className="flex gap-4">
-                            <div className="w-20 h-20 bg-gray-100 rounded-xl shrink-0 relative overflow-hidden">
-                              {item.imageUrl ? (
-                                <Image
-                                  src={item.imageUrl}
-                                  alt={item.title}
-                                  fill
-                                  className="object-cover"
-                                  sizes="80px"
-                                />
-                              ) : (
-                                <div className="w-full h-full flex items-center justify-center">
-                                  <CgShoppingBag className="text-2xl text-gray-400" />
-                                </div>
-                              )}
+                            <div className="w-20 h-20 bg-accent rounded-xl shrink-0 relative overflow-hidden">
+                              <Image
+                                src={item.imageUrl || '/placeholder.jpg'}
+                                alt={item.title}
+                                fill
+                                className="object-cover"
+                                sizes="80px"
+                              />
                             </div>
                             <div className="flex-1">
-                              <h3 className="font-bold">{item.title}</h3>
-                              <p className="text-sm opacity-50">Quantity: {item.quantity}</p>
-                              <p className="font-bold mt-2">
-                                {new Intl.NumberFormat('en-US', {
-                                  style: 'currency',
-                                  currency: order.currencyCode
-                                }).format(parseFloat(item.variant.price))}
-                              </p>
+                              <h3 className="font-medium text-text">{item.title}</h3>
+                              <p className="text-sm text-text/50">Aantal: {item.quantity}</p>
+                              <div className="flex items-center gap-2">
+                                {item.variant.compareAtPrice && parseFloat(item.variant.compareAtPrice) > parseFloat(item.variant.price) && (
+                                  <span className="text-sm line-through text-text/50">
+                                    €{parseFloat(item.variant.compareAtPrice).toFixed(2)}
+                                  </span>
+                                )}
+                                <span className={`font-medium ${
+                                  item.variant.compareAtPrice && parseFloat(item.variant.compareAtPrice) > parseFloat(item.variant.price)
+                                    ? 'text-red-400'
+                                    : 'text-text'
+                                }`}>
+                                  €{parseFloat(item.variant.price).toFixed(2)}
+                                </span>
+                              </div>
                             </div>
                           </div>
                         ))}
 
-                        <div className="flex justify-between items-center pt-4 border-t">
-                          <span className="font-bold">Totaal</span>
-                          <span className="font-bold">
-                            {new Intl.NumberFormat('en-US', {
-                              style: 'currency',
-                              currency: order.currencyCode
-                            }).format(parseFloat(order.totalPrice))}
-                          </span>
+                        <div className="pt-4 border-t border-text/20">
+                          <div className="flex justify-between text-text">
+                            <span>Totaal</span>
+                            <span className="font-bold">€{parseFloat(order.totalPrice).toFixed(2)}</span>
+                          </div>
                         </div>
                       </div>
                     ))}
@@ -555,6 +565,13 @@ export default function Profile() {
                     {isPasswordLoading ? 'Bijwerken...' : 'Wachtwoord Bijwerken'}
                   </button>
                 </div>
+
+                <button 
+                  onClick={logout}
+                  className="w-full bg-red-400 text-white rounded-xl p-3 hover:bg-red-500 transition-colors"
+                >
+                  Uitloggen
+                </button>
               </div>
             )}
           </div>
