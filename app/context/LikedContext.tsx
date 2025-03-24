@@ -2,23 +2,22 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
 
-interface LikedProduct {
+export interface LikedProduct {
   id: string;
-  handle: string;
   title: string;
-  price: string;
-  compareAtPrice?: string;
+  price: number;
   imageUrl: string;
-  availableForSale: boolean;
+  handle: string;
   variantId: string;
+  availableForSale: boolean;
 }
 
 interface LikedContextType {
-  likedItems: LikedProduct[];
+  items: LikedProduct[];
   addToLiked: (product: LikedProduct) => void;
-  removeFromLiked: (productId: string) => void;
-  isLiked: (productId: string) => boolean;
-  likedCount: number;
+  removeLiked: (id: string) => void;
+  isLiked: (id: string) => boolean;
+  clearLiked: () => void;
 }
 
 const LikedContext = createContext<LikedContextType | undefined>(undefined);
@@ -92,11 +91,11 @@ export function LikedProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <LikedContext.Provider value={{ 
-      likedItems, 
+      items: likedItems, 
       addToLiked, 
-      removeFromLiked, 
+      removeLiked: removeFromLiked, 
       isLiked,
-      likedCount: likedItems.length 
+      clearLiked: () => setLikedItems([]) 
     }}>
       {children}
     </LikedContext.Provider>

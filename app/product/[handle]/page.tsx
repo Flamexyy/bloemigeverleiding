@@ -6,6 +6,8 @@ import Image from 'next/image';
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import CartMenu from '@/app/components/CartMenu';
+import { IoMdAdd, IoMdRemove, IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
+import { useLiked } from '@/app/context/LikedContext';
 
 interface ProductPageProps {
   params: {
@@ -22,6 +24,9 @@ export default function ProductPage({ params }: ProductPageProps) {
   const { addToCart } = useCart();
   const { handle } = params;
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [selectedVariant, setSelectedVariant] = useState<any>(null);
+  const [quantity, setQuantity] = useState(1);
+  const { addToLiked, removeLiked, isLiked } = useLiked();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -40,16 +45,23 @@ export default function ProductPage({ params }: ProductPageProps) {
     fetchProduct();
   }, [handle]);
 
+  useEffect(() => {
+    if (product?.variants?.edges?.length > 0) {
+      setSelectedVariant(product.variants.edges[0].node);
+    }
+  }, [product]);
+
   const handleAddToCart = () => {
-    if (!product || isOutOfStock) return;
+    if (!selectedVariant || isOutOfStock) return;
 
     const cartItem = {
-      id: product.id,
+      id: selectedVariant.id,
+      variantId: selectedVariant.id,
       title: product.title,
-      price: parseFloat(product.priceRange.minVariantPrice.amount),
-      quantity: 1,
-      imageUrl: product.images.edges[0]?.node.originalSrc || '',
-      variantId: product.variants.edges[0]?.node.id
+      price: parseFloat(selectedVariant.price.amount),
+      imageUrl: product.images.edges[0]?.node.originalSrc,
+      quantity: quantity,
+      size: selectedVariant.title !== 'Default Title' ? selectedVariant.title : undefined
     };
 
     try {
@@ -102,6 +114,30 @@ export default function ProductPage({ params }: ProductPageProps) {
     setSelectedImage(prev => 
       prev === 0 ? product.images.edges.length - 1 : prev - 1
     );
+  };
+
+  const handleQuantityChange = (delta: number) => {
+    setQuantity(prev => Math.max(1, Math.min(10, prev + delta)));
+  };
+
+  const handleFavoriteToggle = () => {
+    if (!product || !selectedVariant) return;
+    
+    const item = {
+      id: product.id,
+      title: product.title,
+      price: parseFloat(product.priceRange.minVariantPrice.amount),
+      imageUrl: product.images.edges[0]?.node.originalSrc,
+      handle: product.handle,
+      variantId: selectedVariant.id,
+      availableForSale: selectedVariant.availableForSale
+    };
+
+    if (isLiked(product.id)) {
+      removeLiked(product.id);
+    } else {
+      addToLiked(item);
+    }
   };
 
   if (!product) return (
@@ -303,18 +339,88 @@ export default function ProductPage({ params }: ProductPageProps) {
             <p className="opacity-70 text-md leading-relaxed">{product.description}</p>
           </div>
 
-          <button
-            onClick={handleAddToCart}
-            disabled={isOutOfStock}
-            className={`w-full rounded-[50px] p-3 flex items-center justify-center gap-2 transition-colors text-sm
-              ${isOutOfStock 
-                ? 'bg-accent/50 text-text/70 cursor-not-allowed' 
-                : 'bg-accent text-text hover:bg-accent/70 cursor-pointer'
-              }`}
-          >
-            <MdOutlineShoppingBag className="text-lg" />
-            {isOutOfStock ? 'Uitverkocht' : 'Toevoegen aan winkelwagen'}
-          </button>
+          {/* Variant Selection */}
+          {product?.variants?.edges?.length > 1 && (
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-text">
+                Maat
+              </label>
+              <div className="flex flex-wrap gap-2">
+                {product.variants.edges.map((edge: any) => (
+                  <button
+                    key={edge.node.id}
+                    onClick={() => setSelectedVariant(edge.node)}
+                    className={`px-4 py-2 rounded-full border ${
+                      selectedVariant?.id === edge.node.id
+                        ? 'bg-accent text-text border-accent'
+                        : 'border-text/20 text-text hover:border-accent'
+                    }`}
+                  >
+                    {edge.node.title}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Add to Cart Section */}
+          <div className="space-y-2 sm:space-y-4">
+            {/* Buttons row */}
+            <div className="flex flex-col sm:flex-row items-left gap-2 sm:gap-4">
+              {/* Quantity Selector */}
+              <div className="w-fit flex items-center rounded-[50px] border-2 border-accent bg-white">
+                <button
+                  onClick={() => handleQuantityChange(-1)}
+                  className="p-3 text-text hover:bg-accent/50 transition-colors rounded-l-[50px]"
+                >
+                  <IoMdRemove />
+                </button>
+                <span className="w-12 text-center font-medium text-text">{quantity}</span>
+                <button
+                  onClick={() => handleQuantityChange(1)}
+                  className="p-3 text-text hover:bg-accent/50 transition-colors rounded-r-[50px]"
+                >
+                  <IoMdAdd />
+                </button>
+              </div>
+
+              {/* Add to Cart Button */}
+              <button
+                onClick={handleAddToCart}
+                disabled={isOutOfStock}
+                className={`flex-1 rounded-[50px] p-3 flex items-center justify-center gap-2 transition-colors text-sm
+                  ${isOutOfStock 
+                    ? 'bg-accent/50 text-text/70 cursor-not-allowed' 
+                    : 'bg-accent text-text hover:bg-accent/70 cursor-pointer'
+                  }`}
+              >
+                <MdOutlineShoppingBag className="text-lg" />
+                {isOutOfStock ? 'Uitverkocht' : 'Toevoegen aan winkelwagen'}
+              </button>
+            </div>
+
+            {/* Favorite Button */}
+            <button
+              onClick={handleFavoriteToggle}
+              className={`w-full rounded-[50px] p-3 flex items-center justify-center gap-2 transition-colors text-sm
+                ${isLiked(product?.id)
+                  ? 'bg-text text-white hover:bg-text/80 border-2 border-text hover:border-text/80'
+                  : 'border-2 border-accent text-text hover:bg-accent'
+                }`}
+            >
+              {isLiked(product?.id) ? (
+                <>
+                  <IoMdHeart className="text-lg" />
+                  <span>Verwijderen uit favorieten</span>
+                </>
+              ) : (
+                <>
+                  <IoMdHeartEmpty className="text-lg" />
+                  <span>Toevoegen aan favorieten</span>
+                </>
+              )}
+            </button>
+          </div>
         </div>
       </div>
       <CartMenu 

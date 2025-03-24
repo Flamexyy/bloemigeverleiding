@@ -1,6 +1,6 @@
 'use client';
 import { MdOutlineShoppingBag } from "react-icons/md";
-import { AiOutlineHeart, AiFillHeart } from "react-icons/ai";
+import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '../context/CartContext';
@@ -13,7 +13,7 @@ interface ProductCardProps {
     id: string;
     handle: string;
     title: string;
-    price: string;
+    price: string | number;
     compareAtPrice?: string;
     imageUrl: string;
     availableForSale: boolean;
@@ -23,44 +23,46 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
-  const { isLiked, addToLiked, removeFromLiked } = useLiked();
+  const { isLiked, addToLiked, removeLiked } = useLiked();
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   if (!product) {
     return null;
   }
 
-  const handleAddToCart = (e: React.MouseEvent) => {
-    e.preventDefault();
+  const priceAsNumber = typeof product.price === 'string' ? parseFloat(product.price) : product.price;
+
+  const handleAddToCart = () => {
     if (!product.availableForSale) return;
 
-    try {
-      const cartItem = {
+    addToCart({
+      id: product.id,
+      variantId: product.variantId,
+      title: product.title,
+      price: priceAsNumber,
+      imageUrl: product.imageUrl,
+      quantity: 1
+    });
+    setIsCartOpen(true);
+  };
+
+  const handleFavoriteToggle = () => {
+    if (isLiked(product.id)) {
+      removeLiked(product.id);
+    } else {
+      addToLiked({
         id: product.id,
         title: product.title,
-        price: parseFloat(product.price),
-        quantity: 1,
+        price: priceAsNumber,
         imageUrl: product.imageUrl,
+        handle: product.handle,
         variantId: product.variantId,
-      };
-
-      addToCart(cartItem);
-      setIsCartOpen(true);
-    } catch (error) {
-      console.error('Error adding to cart:', error);
+        availableForSale: product.availableForSale
+      });
     }
   };
 
-  const handleLikeClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    if (isLiked(product.id)) {
-      removeFromLiked(product.id);
-    } else {
-      addToLiked(product);
-    }
-  };
-
-  const isOnSale = product.compareAtPrice && parseFloat(product.compareAtPrice) > parseFloat(product.price);
+  const isOnSale = product.compareAtPrice && parseFloat(product.compareAtPrice) > priceAsNumber;
 
   return (
     <>
@@ -81,10 +83,10 @@ export default function ProductCard({ product }: ProductCardProps) {
             </div>
           )}
           <button 
-            onClick={handleLikeClick}
+            onClick={handleFavoriteToggle}
             className="absolute top-3 right-3 text-2xl text-text bg-cream p-2 rounded-full hover:bg-white"
           >
-            {isLiked(product.id) ? <AiFillHeart /> : <AiOutlineHeart />}
+            {isLiked(product.id) ? <IoMdHeart /> : <IoMdHeartEmpty />}
           </button>
           {!product.availableForSale ? (
             <div className='absolute bottom-3 right-3 px-4 py-2 bg-cream text-text rounded-[100px] text-sm'>
@@ -102,13 +104,13 @@ export default function ProductCard({ product }: ProductCardProps) {
             <div className="flex items-center gap-2">
               {isOnSale ? (
                 <>
-                  <span className="text-red-400 font-bold text-lg">€{parseFloat(product.price).toFixed(2)}</span>
+                  <span className="text-red-400 font-bold text-lg">€{priceAsNumber.toFixed(2)}</span>
                   <span className="text-text line-through text-sm">
                     €{parseFloat(product.compareAtPrice!).toFixed(2)}
                   </span>
                 </>
               ) : (
-                <span className="text-text font-bold text-lg">€{parseFloat(product.price).toFixed(2)}</span>
+                <span className="text-text font-bold text-lg">€{priceAsNumber.toFixed(2)}</span>
               )}
             </div>
           </div>

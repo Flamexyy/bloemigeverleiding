@@ -21,7 +21,9 @@ export default function Header() {
     const router = useRouter();
     const { user } = useAuth();
     const { itemCount } = useCart();
-    const { likedCount } = useLiked();
+    const { items } = useLiked();
+
+    const likedCount = items.length;
 
     const isActive = (path: string) => {
         if (path === '/' && pathname === '/') return true;
