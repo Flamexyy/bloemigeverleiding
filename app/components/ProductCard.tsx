@@ -13,6 +13,7 @@ interface ProductCardProps {
     handle: string;
     title: string;
     price: string;
+    compareAtPrice?: string;
     imageUrl: string;
     availableForSale: boolean;
     variantId: string;
@@ -49,6 +50,8 @@ export default function ProductCard({ product }: ProductCardProps) {
     }
   };
 
+  const isOnSale = product.compareAtPrice && parseFloat(product.compareAtPrice) > parseFloat(product.price);
+
   return (
     <>
       <Link href={`/product/${product.handle}`} className='group block mb-10'>
@@ -76,16 +79,31 @@ export default function ProductCard({ product }: ProductCardProps) {
           >
             {liked ? <AiFillHeart /> : <AiOutlineHeart />}
           </button>
-          {product.availableForSale ? null : (
+          {!product.availableForSale ? (
             <div className='absolute bottom-3 right-3 px-4 py-2 bg-cream text-text rounded-[100px] text-sm'>
               Uitverkocht
+            </div>
+          ) : isOnSale && (
+            <div className='absolute bottom-3 right-3 px-4 py-2 bg-text text-cream rounded-[100px] text-sm'>
+              Aanbieding
             </div>
           )}
         </div>
         <div className='flex justify-between flex-col text-center items-center mt-3'>
           <div className='flex flex-col sm:flex-wrap items-center mb-4'>
             <h2 className='font-medium text-[#333333] truncate'>{product.title}</h2>
-            <p className='text-text font-bold text-lg'>€{parseFloat(product.price).toFixed(2)}</p>
+            <div className="flex items-center gap-2">
+              {isOnSale ? (
+                <>
+                  <span className="text-red-400 font-bold text-lg">€{parseFloat(product.price).toFixed(2)}</span>
+                  <span className="text-gray-500 line-through text-sm">
+                    €{parseFloat(product.compareAtPrice!).toFixed(2)}
+                  </span>
+                </>
+              ) : (
+                <span className="text-text font-bold text-lg">€{parseFloat(product.price).toFixed(2)}</span>
+              )}
+            </div>
           </div>
           {product.availableForSale && (
             <button 

@@ -12,6 +12,7 @@ interface ShopifyProduct {
   handle: string;
   title: string;
   price: string;
+  compareAtPrice?: string;
   imageUrl: string;
   availableForSale: boolean;
   variantId: string;

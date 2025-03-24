@@ -194,76 +194,69 @@ export async function getCustomer(accessToken: string) {
 
 export async function getProducts() {
   try {
-    const response = await fetch(`https://${domain}/api/2024-01/graphql.json`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Shopify-Storefront-Access-Token": storefrontAccessToken,
-      },
-      body: JSON.stringify({
-        query: `
-            {
-              products(first: 20) {
-                edges {
-                  node {
-                    id
-                    title
-                    handle
-                    availableForSale
-                    variants(first: 1) {
-                      edges {
-                        node {
-                          id
-                          availableForSale
-                        }
-                      }
+    const response = await shopifyFetch({
+      query: `
+        query {
+          products(first: 250) {
+            edges {
+              node {
+                id
+                handle
+                title
+                priceRange {
+                  minVariantPrice {
+                    amount
+                  }
+                }
+                compareAtPriceRange {
+                  maxVariantPrice {
+                    amount
+                  }
+                }
+                images(first: 1) {
+                  edges {
+                    node {
+                      originalSrc
+                      altText
                     }
-                    options {
-                      name
-                      values
-                    }
-                    priceRange {
-                      minVariantPrice {
+                  }
+                }
+                variants(first: 1) {
+                  edges {
+                    node {
+                      id
+                      compareAtPrice {
                         amount
-                        currencyCode
                       }
-                    }
-                    images(first: 1) {
-                      edges {
-                        node {
-                          originalSrc
-                          altText
-                        }
+                      price {
+                        amount
                       }
+                      availableForSale
                     }
                   }
                 }
               }
             }
-          `,
-      }),
+          }
+        }
+      `,
+      variables: {},
     });
 
-    const { data } = await response.json();
+    if (!response?.products?.edges) {
+      throw new Error('Invalid response structure from Shopify');
+    }
 
-    return data.products.edges.map(({ node }: any) => {
-      // Get colors from options
-      const colorOption = node.options?.find(
-        (opt: any) => opt.name.toLowerCase() === "color"
-      );
-      const colors = colorOption ? colorOption.values : [];
-
-      return {
-        id: node.id,
-        handle: node.handle,
-        title: node.title,
-        price: parseFloat(node.priceRange.minVariantPrice.amount).toFixed(2),
-        imageUrl: node.images.edges[0]?.node.originalSrc || "",
-        availableForSale: node.availableForSale,
-        variantId: node.variants.edges[0]?.node.id || "",
-        colors: colors,
-      };
-    });
+    return response.products.edges.map((edge: any) => ({
+      id: edge.node.id,
+      handle: edge.node.handle,
+      title: edge.node.title,
+      price: edge.node.variants.edges[0].node.price.amount,
+      compareAtPrice: edge.node.variants.edges[0].node.compareAtPrice?.amount,
+      imageUrl: edge.node.images.edges[0]?.node.originalSrc || '',
+      availableForSale: edge.node.variants.edges[0].node.availableForSale,
+      variantId: edge.node.variants.edges[0].node.id,
+    }));
   } catch (error) {
     console.error("Error fetching products:", error);
     throw error;
@@ -272,66 +265,76 @@ export async function getProducts() {
 
 export async function getProduct(handle: string) {
   try {
-    const response = await fetch(`https://${domain}/api/2024-01/graphql.json`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-Shopify-Storefront-Access-Token": storefrontAccessToken,
-      },
-      body: JSON.stringify({
-        query: `
-            query getProduct($handle: String!) {
-              productByHandle(handle: $handle) {
-                id
-                title
-                handle
-                description
-                options {
-                  name
-                  values
-                }
-                variants(first: 20) {
-                  edges {
-                    node {
-                      id
-                      selectedOptions {
-                        name
-                        value
-                      }
-                      price {
-                        amount
-                        currencyCode
-                      }
-                      availableForSale
-                      quantityAvailable
-                    }
+    const response = await shopifyFetch({
+      query: `
+        query getProduct($handle: String!) {
+          productByHandle(handle: $handle) {
+            id
+            title
+            handle
+            description
+            priceRange {
+              minVariantPrice {
+                amount
+              }
+              maxVariantPrice {
+                amount
+              }
+            }
+            compareAtPriceRange {
+              minVariantPrice {
+                amount
+              }
+              maxVariantPrice {
+                amount
+              }
+            }
+            options {
+              name
+              values
+            }
+            variants(first: 20) {
+              edges {
+                node {
+                  id
+                  selectedOptions {
+                    name
+                    value
                   }
-                }
-                priceRange {
-                  minVariantPrice {
+                  price {
                     amount
                     currencyCode
                   }
-                }
-                images(first: 10) {
-                  edges {
-                    node {
-                      originalSrc
-                      altText
-                    }
+                  compareAtPrice {
+                    amount
+                    currencyCode
                   }
+                  availableForSale
+                  quantityAvailable
                 }
               }
             }
-          `,
-        variables: {
-          handle: handle,
-        },
-      }),
+            images(first: 20) {
+              edges {
+                node {
+                  originalSrc
+                  altText
+                }
+              }
+            }
+          }
+        }
+      `,
+      variables: {
+        handle: handle,
+      },
     });
 
-    const { data } = await response.json();
-    return data.productByHandle;
+    if (!response?.productByHandle) {
+      throw new Error('Product not found');
+    }
+
+    return response.productByHandle;
   } catch (error) {
     console.error("Error fetching product:", error);
     throw error;

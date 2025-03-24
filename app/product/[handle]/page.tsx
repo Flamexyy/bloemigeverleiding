@@ -274,7 +274,29 @@ export default function ProductPage({ params }: ProductPageProps) {
         <div className="flex-1 lg:max-w-[400px] space-y-4">
           <div>
             <h1 className="text-3xl font-bold uppercase">{product.title}</h1>
-            <p className="text-xl font-bold mt-1 text-text">€{parseFloat(product.priceRange.minVariantPrice.amount).toFixed(2)}</p>
+            <div className="flex items-center gap-2 mt-1">
+              {product.priceRange?.maxVariantPrice?.amount && 
+               product.priceRange?.minVariantPrice?.amount && 
+               parseFloat(product.priceRange.maxVariantPrice.amount) > parseFloat(product.priceRange.minVariantPrice.amount) ? (
+                <p className="text-xl font-bold text-text">
+                  From €{parseFloat(product.priceRange.minVariantPrice.amount).toFixed(2)}
+                </p>
+              ) : product.compareAtPriceRange?.maxVariantPrice?.amount && 
+                  parseFloat(product.compareAtPriceRange.maxVariantPrice.amount) > parseFloat(product.priceRange.minVariantPrice.amount) ? (
+                <>
+                  <p className="text-xl font-bold text-red-600">
+                    €{parseFloat(product.priceRange.minVariantPrice.amount).toFixed(2)}
+                  </p>
+                  <p className="text-lg text-gray-500 line-through">
+                    €{parseFloat(product.compareAtPriceRange.maxVariantPrice.amount).toFixed(2)}
+                  </p>
+                </>
+              ) : (
+                <p className="text-xl font-bold text-text">
+                  €{parseFloat(product.priceRange.minVariantPrice.amount).toFixed(2)}
+                </p>
+              )}
+            </div>
           </div>
 
           <div className="space-y-2">
