@@ -103,7 +103,7 @@ export default function ProductCard({ product }: ProductCardProps) {
               {isOnSale ? (
                 <>
                   <span className="text-red-400 font-bold text-lg">€{parseFloat(product.price).toFixed(2)}</span>
-                  <span className="text-gray-500 line-through text-sm">
+                  <span className="text-text line-through text-sm">
                     €{parseFloat(product.compareAtPrice!).toFixed(2)}
                   </span>
                 </>

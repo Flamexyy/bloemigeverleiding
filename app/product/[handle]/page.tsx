@@ -287,7 +287,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                   <p className="text-xl font-bold text-red-400">
                     €{parseFloat(product.priceRange.minVariantPrice.amount).toFixed(2)}
                   </p>
-                  <p className="text-lg text-gray-500 line-through">
+                  <p className="text-sm text-text line-through">
                     €{parseFloat(product.compareAtPriceRange.maxVariantPrice.amount).toFixed(2)}
                   </p>
                 </>

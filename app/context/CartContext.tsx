@@ -3,11 +3,11 @@ import { createContext, useContext, useState, useEffect } from 'react';
 
 interface CartItem {
   id: string;
+  variantId: string;
   title: string;
   price: number;
   quantity: number;
   imageUrl: string;
-  variantId: string;
   size?: string;
 }
 

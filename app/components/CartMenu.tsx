@@ -3,6 +3,7 @@ import { MdOutlineShoppingBag } from "react-icons/md";
 import { useCart } from '../context/CartContext';
 import { IoClose } from "react-icons/io5";
 import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 interface CartMenuProps {
   isOpen: boolean;
@@ -10,6 +11,7 @@ interface CartMenuProps {
 }
 
 export default function CartMenu({ isOpen, onClose }: CartMenuProps) {
+  const router = useRouter();
   const { items, removeFromCart, updateQuantity, total, createCheckout } = useCart();
   const [isLoading, setIsLoading] = useState(false);
 
@@ -17,12 +19,37 @@ export default function CartMenu({ isOpen, onClose }: CartMenuProps) {
     if (isLoading || items.length === 0) return;
     setIsLoading(true);
     try {
-      const checkoutUrl = await createCheckout();
-      if (checkoutUrl) {
-        window.location.href = checkoutUrl;
+      console.log('Sending items to checkout:', items); // Debug log
+
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          items: items.map(item => ({
+            variantId: item.variantId,
+            quantity: item.quantity
+          }))
+        }),
+      });
+
+      const data = await response.json();
+      console.log('Checkout response:', data); // Debug log
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Error creating checkout');
       }
+
+      if (!data.checkoutUrl) {
+        throw new Error('No checkout URL received');
+      }
+
+      window.location.href = data.checkoutUrl;
     } catch (error) {
       console.error('Checkout error:', error);
+      // Show error to user
+      alert(error instanceof Error ? error.message : 'Error creating checkout');
     } finally {
       setIsLoading(false);
     }
