@@ -61,7 +61,7 @@ export default function Home() {
             />
             </h1>
           <p className="text-lg md:text-xl opacity-90 max-w-2xl mx-auto pb-2">
-            "De liefde voor bloemen die altijd bloeien"
+            "De liefde voor bloemen die altijd bloeien"
           </p>
           <div className="w-full flex justify-center items-center">
             <Link className="w-fit" href="/shop">

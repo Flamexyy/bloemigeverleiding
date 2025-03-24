@@ -66,12 +66,12 @@ export default function CookieConsent() {
     onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
     disabled?: boolean;
   }) => (
-    <label className={`relative inline-flex items-center justify-center w-5 h-5 rounded border ${
+    <label className={`relative inline-flex items-center justify-center w-5 h-5 rounded-[4px] border ${
       disabled 
-        ? 'border-gray-300 bg-gray-100' 
+        ? 'border-text/20 bg-accent/30' 
         : checked 
-          ? 'border-black bg-black' 
-          : 'border-gray-300 hover:border-gray-400'
+          ? 'border-text bg-accent' 
+          : 'border-text/20 hover:border-text'
     } transition-colors cursor-pointer`}>
       <input
         type="checkbox"
@@ -80,7 +80,7 @@ export default function CookieConsent() {
         onChange={onChange}
         disabled={disabled}
       />
-      {checked && <BsCheck className={`text-lg ${disabled ? 'text-gray-500' : 'text-white'}`} />}
+      {checked && <BsCheck className={`text-lg ${disabled ? 'text-text/50' : 'text-text'}`} />}
     </label>
   );
 
@@ -89,129 +89,137 @@ export default function CookieConsent() {
   return (
     <>
       {/* Cookie Consent Banner */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t z-[60] transform transition-transform duration-300">
-        <div className="max-w-[1600px] mx-auto p-3 md:p-6">
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-text/20 z-[60] transform transition-all duration-300">
+        <div className={`max-w-[1600px] mx-auto ${showDetails ? 'p-6 md:p-8' : 'p-3 md:p-6'}`}>
           {!showDetails ? (
             // Simple View
             <div className="flex flex-col gap-3">
               <div className="flex-1 min-w-0">
-                <p className="text-sm text-gray-600">
-                  We use cookies to enhance your experience.{' '}
+                <p className="text-sm text-text/70">
+                  We gebruiken cookies om je ervaring te verbeteren.{' '}
                   <button 
                     onClick={() => setShowDetails(true)}
-                    className="underline hover:text-black transition-colors"
+                    className="underline hover:text-text transition-colors"
                   >
-                    Customize preferences
+                    Voorkeuren aanpassen
                   </button>
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                 <button
                   onClick={handleDecline}
-                  className="px-3 py-2 border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors text-sm font-medium order-3 sm:order-1"
+                  className="px-3 py-2 border border-text/20 text-text rounded-[100px] hover:bg-accent transition-colors text-sm font-medium order-3 sm:order-1"
                 >
-                  Decline
+                  Weigeren
                 </button>
                 <button
                   onClick={handleAcceptNecessary}
-                  className="px-3 py-2 border border-black text-black rounded-lg hover:bg-gray-100 transition-colors text-sm font-medium order-2"
+                  className="px-3 py-2 border border-text text-text rounded-[100px] hover:bg-accent transition-colors text-sm font-medium order-2"
                 >
-                  Necessary
+                  Alleen noodzakelijk
                 </button>
                 <button
                   onClick={handleAcceptAll}
-                  className="px-3 py-2 bg-black text-white rounded-lg hover:bg-black/90 transition-colors text-sm font-medium order-1 sm:order-3"
+                  className="px-3 py-2 bg-accent text-text rounded-[100px] hover:bg-accent/70 transition-colors text-sm font-medium order-1 sm:order-3"
                 >
-                  Accept All
+                  Alles accepteren
                 </button>
               </div>
             </div>
           ) : (
             // Detailed View
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div className="flex justify-between items-start gap-4">
                 <div className="min-w-0">
-                  <h2 className="text-lg font-bold mb-1">Cookie Preferences</h2>
-                  <p className="text-sm text-gray-600">
-                    Manage your cookie preferences below.
+                  <h2 className="text-xl font-bold mb-2 text-text">Cookie voorkeuren</h2>
+                  <p className="text-sm text-text/70">
+                    Beheer hieronder je cookie voorkeuren. Deze instellingen helpen ons om je ervaring te verbeteren en de website beter te laten functioneren.
                   </p>
                 </div>
                 <button 
                   onClick={() => setShowDetails(false)}
-                  className="p-1.5 hover:bg-gray-100 rounded-full transition-colors shrink-0"
+                  className="p-1.5 hover:bg-accent rounded-full transition-colors shrink-0"
                 >
-                  <IoClose className="text-xl" />
+                  <IoClose className="text-xl text-text" />
                 </button>
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-4">
                 {/* Necessary Cookies */}
-                <div className="flex items-start justify-between p-3 bg-gray-50 rounded-xl gap-4">
-                  <div className="min-w-0">
+                <div 
+                  className="flex items-start justify-between p-6 bg-accent/30 rounded-xl gap-4 cursor-not-allowed"
+                >
+                  <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="font-bold">Necessary</h3>
-                      <span className="text-xs bg-gray-200 px-2 py-0.5 rounded">Required</span>
+                      <h3 className="font-bold text-text">Noodzakelijk</h3>
+                      <span className="text-xs bg-accent px-2 py-0.5 rounded-[100px] text-text">Vereist</span>
                     </div>
-                    <p className="text-sm text-gray-600 mt-1">
-                      Essential for the website to function.
+                    <p className="text-sm text-text/70 mt-1">
+                      Deze cookies zijn essentieel voor het functioneren van de website. Ze maken basisfuncties mogelijk zoals navigatie en toegang tot beveiligde delen van de website.
                     </p>
                   </div>
                   <CustomCheckbox checked={cookieSettings.necessary} disabled />
                 </div>
 
                 {/* Analytics Cookies */}
-                <div className="flex items-start justify-between p-3 bg-gray-50 rounded-xl gap-4">
-                  <div className="min-w-0">
-                    <h3 className="font-bold">Analytics</h3>
-                    <p className="text-sm text-gray-600 mt-1">
-                      Help us understand website usage.
+                <div 
+                  onClick={() => setCookieSettings(prev => ({
+                    ...prev,
+                    analytics: !prev.analytics
+                  }))}
+                  className="flex items-start justify-between p-6 bg-accent/30 rounded-xl gap-4 cursor-pointer hover:bg-accent/40 transition-colors"
+                >
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-bold text-text">Analytics</h3>
+                    <p className="text-sm text-text/70 mt-1">
+                      Deze cookies helpen ons te begrijpen hoe bezoekers onze website gebruiken. Ze verzamelen anonieme gegevens die ons helpen de website te verbeteren en de gebruikerservaring te optimaliseren.
                     </p>
                   </div>
                   <CustomCheckbox 
                     checked={cookieSettings.analytics}
-                    onChange={(e) => setCookieSettings(prev => ({
-                      ...prev,
-                      analytics: e.target.checked
-                    }))}
+                    onChange={() => {}} // Handle click on the entire div instead
                   />
                 </div>
 
                 {/* Marketing Cookies */}
-                <div className="flex items-start justify-between p-3 bg-gray-50 rounded-xl gap-4">
-                  <div className="min-w-0">
-                    <h3 className="font-bold">Marketing</h3>
-                    <p className="text-sm text-gray-600 mt-1">
-                      Used for relevant advertisements.
+                <div 
+                  onClick={() => setCookieSettings(prev => ({
+                    ...prev,
+                    marketing: !prev.marketing
+                  }))}
+                  className="flex items-start justify-between p-6 bg-accent/30 rounded-xl gap-4 cursor-pointer hover:bg-accent/40 transition-colors"
+                >
+                  <div className="min-w-0 flex-1">
+                    <h3 className="font-bold text-text">Marketing</h3>
+                    <p className="text-sm text-text/70 mt-1">
+                      Deze cookies worden gebruikt om advertenties relevanter te maken voor jou. Ze helpen ons ook om de effectiviteit van onze marketingcampagnes te meten en te verbeteren.
                     </p>
                   </div>
                   <CustomCheckbox 
                     checked={cookieSettings.marketing}
-                    onChange={(e) => setCookieSettings(prev => ({
-                      ...prev,
-                      marketing: e.target.checked
-                    }))}
+                    onChange={() => {}} // Handle click on the entire div instead
                   />
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-2 pt-4 border-t">
+              <div className="flex flex-col sm:flex-row gap-2 pt-6 border-t border-text/20">
                 <button
                   onClick={handleDecline}
-                  className="px-3 py-2 border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-100 transition-colors text-sm font-medium order-3 sm:order-1"
+                  className="px-3 py-2 border border-text/20 text-text rounded-[100px] hover:bg-accent transition-colors text-sm font-medium order-3 sm:order-1"
                 >
-                  Decline All
+                  Alles weigeren
                 </button>
                 <button
                   onClick={() => setShowDetails(false)}
-                  className="px-3 py-2 border border-black text-black rounded-lg hover:bg-gray-100 transition-colors text-sm font-medium order-2"
+                  className="px-3 py-2 border border-text text-text rounded-[100px] hover:bg-accent transition-colors text-sm font-medium order-2"
                 >
-                  Cancel
+                  Annuleren
                 </button>
                 <button
                   onClick={handleSavePreferences}
-                  className="px-3 py-2 bg-black text-white rounded-lg hover:bg-black/90 transition-colors text-sm font-medium order-1 sm:order-3"
+                  className="px-3 py-2 bg-accent text-text rounded-[100px] hover:bg-accent/70 transition-colors text-sm font-medium order-1 sm:order-3"
                 >
-                  Save Preferences
+                  Voorkeuren opslaan
                 </button>
               </div>
             </div>
