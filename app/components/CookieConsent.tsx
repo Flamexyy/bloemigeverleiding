@@ -89,8 +89,8 @@ export default function CookieConsent() {
   return (
     <>
       {/* Cookie Consent Banner */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-text/20 z-[60] transform transition-all duration-300">
-        <div className={`max-w-[1600px] mx-auto ${showDetails ? 'p-6 md:p-8' : 'p-3 md:p-6'}`}>
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-text/20 z-[60] transform transition-all duration-300 max-h-[85vh] md:max-h-[75vh] overflow-y-auto">
+        <div className={`max-w-[1600px] mx-auto ${showDetails ? 'p-4 md:p-8' : 'p-3 md:p-6'}`}>
           {!showDetails ? (
             // Simple View
             <div className="flex flex-col gap-3">
@@ -128,10 +128,10 @@ export default function CookieConsent() {
             </div>
           ) : (
             // Detailed View
-            <div className="space-y-6">
-              <div className="flex justify-between items-start gap-4">
+            <div className="space-y-4 md:space-y-6">
+              <div className="flex justify-between items-start gap-4 sticky top-0 bg-white pb-4">
                 <div className="min-w-0">
-                  <h2 className="text-xl font-bold mb-2 text-text">Cookie voorkeuren</h2>
+                  <h2 className="text-lg md:text-xl font-bold mb-2 text-text">Cookie voorkeuren</h2>
                   <p className="text-sm text-text/70">
                     Beheer hieronder je cookie voorkeuren. Deze instellingen helpen ons om je ervaring te verbeteren en de website beter te laten functioneren.
                   </p>
@@ -144,10 +144,10 @@ export default function CookieConsent() {
                 </button>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3 md:space-y-4">
                 {/* Necessary Cookies */}
                 <div 
-                  className="flex items-start justify-between p-6 bg-accent/30 rounded-xl gap-4 cursor-not-allowed"
+                  className="flex items-start justify-between p-4 md:p-6 bg-accent/30 rounded-xl gap-4 cursor-not-allowed"
                 >
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 flex-wrap">
@@ -167,7 +167,7 @@ export default function CookieConsent() {
                     ...prev,
                     analytics: !prev.analytics
                   }))}
-                  className="flex items-start justify-between p-6 bg-accent/30 rounded-xl gap-4 cursor-pointer hover:bg-accent/40 transition-colors"
+                  className="flex items-start justify-between p-4 md:p-6 bg-accent/30 rounded-xl gap-4 cursor-pointer hover:bg-accent/40 transition-colors"
                 >
                   <div className="min-w-0 flex-1">
                     <h3 className="font-bold text-text">Analytics</h3>
@@ -187,7 +187,7 @@ export default function CookieConsent() {
                     ...prev,
                     marketing: !prev.marketing
                   }))}
-                  className="flex items-start justify-between p-6 bg-accent/30 rounded-xl gap-4 cursor-pointer hover:bg-accent/40 transition-colors"
+                  className="flex items-start justify-between p-4 md:p-6 bg-accent/30 rounded-xl gap-4 cursor-pointer hover:bg-accent/40 transition-colors"
                 >
                   <div className="min-w-0 flex-1">
                     <h3 className="font-bold text-text">Marketing</h3>
@@ -202,7 +202,7 @@ export default function CookieConsent() {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-2 pt-6 border-t border-text/20">
+              <div className="flex flex-col sm:flex-row gap-2 pt-4 md:pt-6 border-t border-text/20 sticky bottom-0 bg-white">
                 <button
                   onClick={handleDecline}
                   className="px-3 py-2 border border-text/20 text-text rounded-[100px] hover:bg-accent transition-colors text-sm font-medium order-3 sm:order-1"
