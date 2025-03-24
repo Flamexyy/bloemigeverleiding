@@ -44,7 +44,7 @@ export default function AboutPage() {
               </li>
             </ul>
           </div>
-          <div className="bg-gray-100 rounded-3xl aspect-square"></div>
+          <div className="bg-gray-100 rounded-[50px] rounded-tr-[100px] rounded-bl-[100px] aspect-square"></div>
         </div>
 
         {/* Features Section */}

@@ -79,7 +79,7 @@ export default function Footer() {
 
                     {/* Bottom Section */}
                     <div className="border-t border-[#6E4B3A] mt-20 pt-10 flex flex-col md:flex-row justify-between items-center text-[#6E4B3A] text-sm">
-                        <div className="flex gap-4 mb-4 md:mb-0">
+                        <div className="flex flex-col sm:flex-row text-center gap-4 mb-4 md:mb-0">
                             <a href="/terms-of-service" className="hover:text-white">Servicevoorwaarden</a>
                             <a href="/terms-of-use" className="hover:text-white">Gebruiksvoorwaarden</a>
                             <a href="/privacy-policy" className="hover:text-white">Privacybeleid</a>

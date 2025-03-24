@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { IoMdPricetags } from "react-icons/io";
 import { RiArrowRightUpLine } from "react-icons/ri";
 import Claims from './components/Claims';
+import Faq from './components/Faq';
 interface ShopifyProduct {
   id: string;
   handle: string;
@@ -162,6 +163,7 @@ export default function Home() {
           )}
         </div>
         <Claims />
+        <Faq />
       </div>
     </div>
   );

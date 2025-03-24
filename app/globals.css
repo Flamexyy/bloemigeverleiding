@@ -49,3 +49,10 @@ html {
 .scrollbar-thin::-webkit-scrollbar-thumb:hover {
   background: #9ca3af;
 }
+@media (max-width: 375px) {
+  .banner-resp {
+    span {
+      font-size: 0.8rem;
+    }
+  }
+}

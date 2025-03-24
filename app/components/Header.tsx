@@ -66,7 +66,7 @@ export default function Header() {
                             <Image 
                                 src="/logo-wide.svg" 
                                 alt="Logo" 
-                                width={200} 
+                                width={180} 
                                 height={100} 
                                 className="object-contain"
                             />
@@ -98,7 +98,7 @@ export default function Header() {
                         </ul>
                     </nav>
 
-                    <div className='w-[200px] flex gap-1 items-center justify-end text-xl md:text-2xl'>
+                    <div className='sm:w-[200px] flex gap-1 items-center justify-end text-xl md:text-2xl'>
                         <button 
                             onClick={() => setIsCartOpen(true)}
                             className="p-2 hover:bg-accent rounded-full transition-colors relative"
