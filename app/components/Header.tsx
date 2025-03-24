@@ -13,7 +13,6 @@ import { HiMiniChevronRight } from "react-icons/hi2";
 import { useLiked } from '../context/LikedContext';
 import { AiOutlineHeart } from "react-icons/ai";
 import { LuUser } from "react-icons/lu";
-import { IoMdHeart } from "react-icons/io";
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
@@ -102,7 +101,12 @@ export default function Header() {
                                 isLikedActive ? 'bg-accent' : 'hover:bg-accent'
                             }`}
                         >
-                            <IoMdHeart className="text-2xl" />
+                            <AiOutlineHeart />
+                            {likedCount > 0 && (
+                                <span className="absolute -top-0 -right-0 bg-text text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                                    {likedCount}
+                                </span>
+                            )}
                         </Link>
                         <button 
                             onClick={() => setIsCartOpen(true)}
@@ -209,7 +213,7 @@ export default function Header() {
                                         }`}
                                     >
                                         <div className="flex items-center gap-3">
-                                            <IoMdHeart className="text-xl" />
+                                            <AiOutlineHeart className="text-xl" />
                                             <span className="font-medium">Favorieten</span>
                                         </div>
                                         <HiMiniChevronRight className="text-xl opacity-50" />
