@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect } from 'react';
-import { LuUser } from "react-icons/lu";
 import CartMenu from './CartMenu';
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { usePathname, useRouter } from 'next/navigation';
@@ -13,13 +12,14 @@ import Image from 'next/image';
 import { HiMiniChevronRight } from "react-icons/hi2";
 import { useLiked } from '../context/LikedContext';
 import { AiOutlineHeart } from "react-icons/ai";
+import { LuUser } from "react-icons/lu";
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
     const [isCartOpen, setIsCartOpen] = useState(false);
     const pathname = usePathname();
     const router = useRouter();
-    const { user, logout } = useAuth();
+    const { user } = useAuth();
     const { itemCount } = useCart();
     const { likedCount } = useLiked();
 
@@ -48,31 +48,18 @@ export default function Header() {
         };
     }, [isOpen]);
 
-    const handleProfileClick = () => {
-        if (user) {
-            router.push('/profile');
-        } else {
-            router.push('/login');
-        }
-    };
-
-    const handleLogout = () => {
-        logout();
-        router.push('/');
-    };
-
     return (
         <>
             <header className='bg-white text-text'>
                 <div className='max-w-[1600px] mx-auto flex items-center justify-between p-4 lg:px-6'>
                     <Link href="/">
-                            <Image 
-                                src="/logo-wide.svg" 
-                                alt="Logo" 
-                                width={180} 
-                                height={100} 
-                                className="object-contain"
-                            />
+                        <Image 
+                            src="/logo-wide.svg" 
+                            alt="Logo" 
+                            width={180} 
+                            height={100} 
+                            className="object-contain"
+                        />
                     </Link>
 
                     {/* Desktop Nav */}
@@ -124,13 +111,7 @@ export default function Header() {
                                 </span>
                             )}
                         </button>
-                        <button 
-                            onClick={handleProfileClick}
-                            className="p-2 hover:bg-accent rounded-full transition-colors"
-                        >
-                            <LuUser />
-                        </button>
-                        {/* Menu Text + Hamburger */}
+                        {/* Menu Hamburger */}
                         <div className="flex items-center gap-2 md:hidden">
                             <button 
                                 onClick={() => setIsOpen(!isOpen)}
@@ -162,131 +143,125 @@ export default function Header() {
             }`}>
                 <div className="h-full flex flex-col">
                     {/* Header */}
-                    <div className="flex justify-between items-center p-4 border-b border-text/20">
-                        <div className="flex items-center gap-2">
-                            <h2 className="text-xl font-bold text-text">Menu</h2>
-                        </div>
+                    <div className="w-full flex items-center justify-between p-4 border-b border-text/20 text-text">
+                        <span className='text-xl font-bold'>Menu</span>
                         <button 
                             onClick={() => setIsOpen(false)}
-                            className="hover:bg-accent text-text rounded-full transition-colors"
+                            className="p-2 hover:bg-accent rounded-full transition-colors"
                         >
-                            <IoClose className="text-4xl p-2" />
+                            <IoClose className="text-2xl" />
                         </button>
                     </div>
 
-                    {/* Menu Content */}
-                    <div className="flex-1 overflow-y-auto p-4">
-                        <nav className="mb-8">
-                            <div>
-                                <Link 
-                                    href="/" 
-                                    onClick={() => setIsOpen(false)}
-                                    className={`flex items-center justify-between w-full p-4 ${
-                                        isActive('/') 
-                                        ? 'text-text' 
-                                        : 'text-'
-                                    }`}
-                                >
-                                    <div className="flex items-center">
-                                        <RiHome5Line className="text-xl mr-3" />
-                                        <span className="font-medium">Home</span>
-                                    </div>
-                                    <HiMiniChevronRight className="text-lg" />
-                                </Link>
-                                <Link 
-                                    href="/shop" 
-                                    onClick={() => setIsOpen(false)}
-                                    className={`flex items-center justify-between w-full p-4 ${
-                                        isActive('/shop') 
-                                        ? 'text-text' 
-                                        : 'text-text/50'
-                                    }`}
-                                >
-                                    <div className="flex items-center">
-                                        <RiShoppingBag3Line className="text-xl mr-3" />
-                                        <span className="font-medium">Shop</span>
-                                    </div>
-                                    <HiMiniChevronRight className="text-lg" />
-                                </Link>
-                                <Link 
-                                    href="/about" 
-                                    onClick={() => setIsOpen(false)}
-                                    className={`flex items-center justify-between w-full p-4 ${
-                                        isActive('/about') 
-                                        ? 'text-text' 
-                                        : 'text-text/50'
-                                    }`}
-                                >
-                                    <div className="flex items-center">
-                                        <RiInformationLine className="text-xl mr-3" />
-                                        <span className="font-medium">Over ons</span>
-                                    </div>
-                                    <HiMiniChevronRight className="text-lg" />
-                                </Link>
-                                <Link 
-                                    href="/contact" 
-                                    onClick={() => setIsOpen(false)}
-                                    className={`flex items-center justify-between w-full p-4 ${
-                                        isActive('/contact') 
-                                        ? 'text-text' 
-                                        : 'text-text/50'
-                                    }`}
-                                >
-                                    <div className="flex items-center">
-                                        <RiCustomerService2Line className="text-xl mr-3" />
-                                        <span className="font-medium">Contact</span>
-                                    </div>
-                                    <HiMiniChevronRight className="text-lg" />
-                                </Link>
-                            </div>
+                    {/* Navigation */}
+                    <div className="flex-1 overflow-y-auto">
+                        <nav className="p-4">
+                            <ul className="space-y-2">
+                                <li>
+                                    <Link 
+                                        href="/"
+                                        onClick={() => setIsOpen(false)}
+                                        className={`flex items-center justify-between p-3 rounded-xl transition-colors text-text ${
+                                            isActive('/') ? 'bg-accent' : 'hover:bg-accent'
+                                        }`}
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <RiHome5Line className="text-xl" />
+                                            <span className="font-medium">Home</span>
+                                        </div>
+                                        <HiMiniChevronRight className="text-xl opacity-50" />
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link 
+                                        href="/shop"
+                                        onClick={() => setIsOpen(false)}
+                                        className={`flex items-center justify-between p-3 rounded-xl transition-colors text-text ${
+                                            isActive('/shop') ? 'bg-accent' : 'hover:bg-accent'
+                                        }`}
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <RiShoppingBag3Line className="text-xl" />
+                                            <span className="font-medium">Shop</span>
+                                        </div>
+                                        <HiMiniChevronRight className="text-xl opacity-50" />
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link 
+                                        href="/liked"
+                                        onClick={() => setIsOpen(false)}
+                                        className={`flex items-center justify-between p-3 rounded-xl transition-colors text-text ${
+                                            isActive('/liked') ? 'bg-accent' : 'hover:bg-accent'
+                                        }`}
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <AiOutlineHeart className="text-xl" />
+                                            <span className="font-medium">Favorieten</span>
+                                        </div>
+                                        <HiMiniChevronRight className="text-xl opacity-50" />
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link 
+                                        href="/about"
+                                        onClick={() => setIsOpen(false)}
+                                        className={`flex items-center justify-between p-3 rounded-xl transition-colors text-text ${
+                                            isActive('/about') ? 'bg-accent' : 'hover:bg-accent'
+                                        }`}
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <RiInformationLine className="text-xl" />
+                                            <span className="font-medium">About</span>
+                                        </div>
+                                        <HiMiniChevronRight className="text-xl opacity-50" />
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link 
+                                        href="/contact"
+                                        onClick={() => setIsOpen(false)}
+                                        className={`flex items-center justify-between p-3 rounded-xl transition-colors text-text ${
+                                            isActive('/contact') ? 'bg-accent' : 'hover:bg-accent'
+                                        }`}
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <RiCustomerService2Line className="text-xl" />
+                                            <span className="font-medium">Contact</span>
+                                        </div>
+                                        <HiMiniChevronRight className="text-xl opacity-50" />
+                                    </Link>
+                                </li>
+                            </ul>
                         </nav>
+                    </div>
 
-                        {user ? (
-                            <div className="mt-8">
-                                <div className="px-4 mb-6">
-                                    <div className="flex items-center gap-3">
-                                        <div className="min-w-12 min-h-12 bg-black text-white rounded-full flex items-center justify-center shrink-0">
-                                            <LuUser className="text-xl" />
-                                        </div>
-                                        <div className="min-w-0">
-                                            <h3 className="text-lg font-bold truncate">
-                                                {user.firstName} {user.lastName}
-                                            </h3>
-                                            <p className="text-gray-600 truncate">
-                                                {user.email}
-                                            </p>
-                                        </div>
-                                    </div>
+                    {/* Footer */}
+                    <div className="p-4 border-t border-[#EBEBEB]">
+                        <Link 
+                            href={user ? "/profile" : "/login"}
+                            onClick={() => setIsOpen(false)}
+                            className="flex items-center justify-between p-3"
+                        >
+                            <div className="flex items-center gap-3">
+                                <div className="w-12 h-12 bg-accent text-text rounded-full flex items-center justify-center">
+                                    {user ? (
+                                        <LuUser className="text-xl" />
+                                    ) : (
+                                        <MdOutlineShoppingBag className="text-xl" />
+                                    )}
                                 </div>
-                                <button
-                                    onClick={handleLogout}
-                                    className="w-full py-4 px-4 bg-black text-white font-bold rounded-xl hover:bg-black/90 transition-colors text-center"
-                                >
-                                    Sign Out
-                                </button>
-                            </div>
-                        ) : (
-                            <div className="mt-8 text-text">
-                                <div className="px-4 mb-6">
-                                    <div className="flex items-center gap-3">
-                                        <div className="w-12 h-12 bg-accent text-text rounded-full flex items-center justify-center">
-                                            <LuUser className="text-xl" />
-                                        </div>
-                                        <div>
-                                            <h3 className="text-lg font-bold">Account</h3>
-                                            <p className="text-gray-600">Sign in to your account</p>
-                                        </div>
-                                    </div>
+                                <div>
+                                    <h3 className="text-lg font-bold text-text">
+                                        {user ? (user.firstName || 'Account') : 'Account'}
+                                    </h3>
+                                    <p className="text-gray-600">
+                                        {user ? 'Bekijk je profiel' : 'Log in op je account'}
+                                    </p>
                                 </div>
-                                <Link 
-                                    href="/login"
-                                    onClick={() => setIsOpen(false)}
-                                    className="block w-full py-4 px-4 bg-accent text-text font-bold rounded-[50px] hover:bg-accent/70 transition-colors text-center"
-                                >
-                                    Sign In
-                                </Link>
                             </div>
-                        )}
+                            <HiMiniChevronRight className="text-xl opacity-50" />
+                        </Link>
                     </div>
                 </div>
             </div>
