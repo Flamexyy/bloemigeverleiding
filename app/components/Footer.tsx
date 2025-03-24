@@ -1,5 +1,7 @@
 import Image from 'next/image';
-import logo from '../../public/Logo_NIKE.svg';
+import { FaInstagram } from "react-icons/fa6";
+import { FaTiktok } from "react-icons/fa6";
+import { FaFacebook } from "react-icons/fa6";
 
 export default function Footer() {
     return (
@@ -31,7 +33,7 @@ export default function Footer() {
             
             {/* Main Footer */}
             <div className="bg-cream text-[#6E4B3A]">
-                <div className="max-w-[1600px] mx-auto px-4 lg:px-8 pt-20 pb-10">
+                <div className="max-w-[1600px] mx-auto px-4 lg:px-8 py-20">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
                         {/* Logo and Description */}
                         <div className="space-y-6">
@@ -69,10 +71,9 @@ export default function Footer() {
                         <div>
                             <h3 className="text-lg mb-6 font-bold">VOLG ONS</h3>
                             <ul className="space-y-4 text-[#6E4B3A] text-sm">
-                                <li><a href="#" className="hover:text-white">Mobile App</a></li>
-                                <li><a href="#" className="hover:text-white">Membership</a></li>
-                                <li><a href="#" className="hover:text-white">Newsletter</a></li>
-                                <li><a href="#" className="hover:text-white">Student Discount</a></li>
+                                <li className='flex items-center gap-2 hover:text-white'><FaInstagram /><a href="https://www.instagram.com/bloemigeverleiding" target="_blank">Instagram</a></li>
+                                <li className='flex items-center gap-2 hover:text-white'><FaTiktok /><a href="https://www.instagram.com/bloemigeverleiding" target="_blank">Tiktok</a></li>
+                                <li className='flex items-center gap-2 hover:text-white'><FaFacebook /><a href="https://www.instagram.com/bloemigeverleiding" target="_blank">Facebook</a></li>
                             </ul>
                             
                         </div>
