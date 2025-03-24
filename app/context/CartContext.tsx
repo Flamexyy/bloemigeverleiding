@@ -12,6 +12,7 @@ interface CartItem {
   size?: string;
   handle: string;
   compareAtPrice: string | null;
+  quantityAvailable: number;
 }
 
 interface CartContextType {

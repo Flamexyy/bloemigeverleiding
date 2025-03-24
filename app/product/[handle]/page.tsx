@@ -66,7 +66,8 @@ export default function ProductPage({ params }: ProductPageProps) {
       compareAtPrice: selectedVariant.compareAtPrice?.amount && 
         parseFloat(selectedVariant.compareAtPrice.amount) > parseFloat(selectedVariant.price.amount)
         ? selectedVariant.compareAtPrice.amount
-        : null
+        : null,
+      quantityAvailable: selectedVariant.quantityAvailable
     };
 
     try {
@@ -122,7 +123,10 @@ export default function ProductPage({ params }: ProductPageProps) {
   };
 
   const handleQuantityChange = (delta: number) => {
-    setQuantity(prev => Math.max(1, Math.min(10, prev + delta)));
+    const newQuantity = quantity + delta;
+    if (selectedVariant && newQuantity >= 1 && newQuantity <= selectedVariant.quantityAvailable) {
+      setQuantity(newQuantity);
+    }
   };
 
   const handleFavoriteToggle = () => {

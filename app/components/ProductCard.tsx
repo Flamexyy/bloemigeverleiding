@@ -18,6 +18,7 @@ interface ProductCardProps {
     imageUrl: string;
     availableForSale: boolean;
     variantId: string;
+    quantityAvailable: number;
   };
 }
 
@@ -48,7 +49,8 @@ export default function ProductCard({ product }: ProductCardProps) {
       handle: product.handle,
       compareAtPrice: product.compareAtPrice && parseFloat(product.compareAtPrice) > priceAsNumber 
         ? product.compareAtPrice 
-        : null
+        : null,
+      quantityAvailable: product.quantityAvailable
     });
     setIsCartOpen(true);
   };

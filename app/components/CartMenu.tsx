@@ -151,15 +151,20 @@ export default function CartMenu({ isOpen, onClose }: CartMenuProps) {
                           </button>
                           <span className="w-8 text-center">{item.quantity}</span>
                           <button
-                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="px-3 py-1 hover:bg-accent/50 transition-colors rounded-r-full"
+                            onClick={() => updateQuantity(item.id, Math.min(item.quantityAvailable, item.quantity + 1))}
+                            className={`px-3 py-1 transition-colors rounded-r-full ${
+                              item.quantity >= item.quantityAvailable 
+                                ? 'opacity-50 cursor-not-allowed' 
+                                : 'hover:bg-accent/50'
+                            }`}
+                            disabled={item.quantity >= item.quantityAvailable}
                           >
                             +
                           </button>
                         </div>
                         <button
                           onClick={() => removeFromCart(item.id)}
-                          className="text-sm text-red-500 hover:text-red-600 mt-2"
+                          className="text-sm text-red-500 hover:text-red-600 mt-2 hover:underline"
                         >
                           Verwijderen
                         </button>
