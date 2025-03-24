@@ -4,6 +4,8 @@ import { useCart } from '../context/CartContext';
 import { IoClose } from "react-icons/io5";
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import Image from 'next/image';
 
 interface CartMenuProps {
   isOpen: boolean;
@@ -94,42 +96,66 @@ export default function CartMenu({ isOpen, onClose }: CartMenuProps) {
               <div className="space-y-4">
                 {items.map(item => (
                   <div key={item.id} className="flex gap-4 pb-4 border-b">
-                    <div className="w-20 h-20 bg-accent rounded-xl shrink-0">
-                      <img 
+                    <Link 
+                      href={`/product/${item.handle}`}
+                      onClick={onClose}
+                      className="w-20 h-20 bg-accent rounded-xl shrink-0 relative overflow-hidden hover:opacity-80 transition-opacity"
+                    >
+                      <Image 
                         src={item.imageUrl} 
                         alt={item.title}
-                        className="w-full h-full object-cover rounded-xl"
+                        fill
+                        className="object-cover"
                       />
-                    </div>
+                    </Link>
                     <div className="flex-1 text-text">
-                      <h3 className="font-bold">{item.title}</h3>
-                      {item.size && (
-                        <p className="text-sm opacity-50">Size: {item.size}</p>
-                      )}
-                      <div className="flex justify-between items-center mt-2">
-                        <div className="flex items-center gap-2">
-                          <button 
-                            onClick={() => updateQuantity(item.id, Math.max(1, item.quantity - 1))}
-                            className="w-6 h-6 bg-cream rounded-lg hover:bg-cream/70 transition-colors"
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <Link 
+                            href={`/product/${item.handle}`}
+                            onClick={onClose}
+                            className="hover:text-text/70 transition-colors"
+                          >
+                            <h3 className="font-bold">{item.title}</h3>
+                          </Link>
+                          {item.size && (
+                            <p className="text-sm opacity-50">Maat: {item.size}</p>
+                          )}
+                        </div>
+                        <div className="text-right">
+                          {item.compareAtPrice && parseFloat(item.compareAtPrice) > item.price && (
+                            <p className="text-sm line-through text-text/50">
+                              €{(parseFloat(item.compareAtPrice) * item.quantity).toFixed(2)}
+                            </p>
+                          )}
+                          <p className={`font-bold ${item.compareAtPrice ? 'text-red-500' : ''}`}>
+                            €{(item.price * item.quantity).toFixed(2)}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="mt-2">
+                        <div className="flex items-center border rounded-full w-fit">
+                          <button
+                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                            className="px-3 py-1 hover:bg-accent/10 rounded-l-full"
                           >
                             -
                           </button>
-                          <span>{item.quantity}</span>
-                          <button 
+                          <span className="px-3">{item.quantity}</span>
+                          <button
                             onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                            className="w-6 h-6 bg-cream rounded-lg hover:bg-cream/70 transition-colors"
+                            className="px-3 py-1 hover:bg-accent/10 rounded-r-full"
                           >
                             +
                           </button>
                         </div>
-                        <p className="font-bold">€{(item.price * item.quantity).toFixed(2)}</p>
+                        <button
+                          onClick={() => removeFromCart(item.id)}
+                          className="text-sm text-red-500 hover:text-red-600 mt-2"
+                        >
+                          Verwijderen
+                        </button>
                       </div>
-                      <button 
-                        onClick={() => removeFromCart(item.id)}
-                        className="text-red-400 text-sm hover:underline mt-2"
-                      >
-                        Verwijderen
-                      </button>
                     </div>
                   </div>
                 ))}

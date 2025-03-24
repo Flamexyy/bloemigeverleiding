@@ -32,7 +32,10 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   const priceAsNumber = typeof product.price === 'string' ? parseFloat(product.price) : product.price;
 
-  const handleAddToCart = () => {
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();  // Prevent navigation
+    e.stopPropagation(); // Stop event bubbling
+    
     if (!product.availableForSale) return;
 
     addToCart({
@@ -46,7 +49,10 @@ export default function ProductCard({ product }: ProductCardProps) {
     setIsCartOpen(true);
   };
 
-  const handleFavoriteToggle = () => {
+  const handleFavoriteToggle = (e: React.MouseEvent) => {
+    e.preventDefault();  // Prevent navigation
+    e.stopPropagation(); // Stop event bubbling
+
     if (isLiked(product.id)) {
       removeLiked(product.id);
     } else {

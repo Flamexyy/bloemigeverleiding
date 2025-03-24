@@ -10,6 +10,8 @@ interface CartItem {
   quantity: number;
   imageUrl: string;
   size?: string;
+  handle: string;
+  compareAtPrice?: string;
 }
 
 interface CartContextType {
