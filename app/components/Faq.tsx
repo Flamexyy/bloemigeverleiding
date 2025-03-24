@@ -33,9 +33,9 @@ export default function Faq() {
         <div className="p-4 lg:p-8 w-full pt-20">
             <h2 className='text-text font-bold text-center mb-10 text-3xl'>Veel gestelde vragen</h2>
             {faqData.map((item, index) => (
-                <button key={index} className="w-full text-left faq-item mb-4 bg-accent text-text rounded-[25px]">
+                <button key={index} className="w-full text-left faq-item mb-3 bg-accent text-text rounded-[25px]">
                     <div
-                        className="faq-question flex justify-between items-center cursor-pointer p-8 font-bold text-xl"
+                        className="faq-question flex justify-between items-center cursor-pointer p-6 sm:p-8 font-bold text-xl"
                         onClick={() => toggleFaq(index)}
                     >
                         <span>{item.question}</span>

@@ -145,7 +145,10 @@ export default function ProductPage({ params }: ProductPageProps) {
     if (isLiked(product.id)) {
       removeLiked(product.id);
     } else {
-      addToLiked(item);
+      addToLiked({
+        ...item,
+        quantityAvailable: selectedVariant.quantityAvailable || 1
+      });
     }
   };
 

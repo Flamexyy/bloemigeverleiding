@@ -18,7 +18,7 @@ interface ProductCardProps {
     imageUrl: string;
     availableForSale: boolean;
     variantId: string;
-    quantityAvailable: number;
+    quantityAvailable?: number;
   };
 }
 
@@ -56,8 +56,8 @@ export default function ProductCard({ product }: ProductCardProps) {
   };
 
   const handleFavoriteToggle = (e: React.MouseEvent) => {
-    e.preventDefault();  // Prevent navigation
-    e.stopPropagation(); // Stop event bubbling
+    e.preventDefault();
+    e.stopPropagation();
 
     if (isLiked(product.id)) {
       removeLiked(product.id);
@@ -69,7 +69,8 @@ export default function ProductCard({ product }: ProductCardProps) {
         imageUrl: product.imageUrl,
         handle: product.handle,
         variantId: product.variantId,
-        availableForSale: product.availableForSale
+        availableForSale: product.availableForSale,
+        quantityAvailable: product.quantityAvailable || 1
       });
     }
   };

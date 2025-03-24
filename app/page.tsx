@@ -16,6 +16,7 @@ interface ShopifyProduct {
   imageUrl: string;
   availableForSale: boolean;
   variantId: string;
+  quantityAvailable?: number;
 }
 
 export default function Home() {
@@ -28,7 +29,11 @@ export default function Home() {
       try {
         setLoading(true);
         const data = await getProducts();
-        setProducts(data);
+        const formattedProducts = data.map((product: ShopifyProduct) => ({
+          ...product,
+          quantityAvailable: product.quantityAvailable || 1
+        }));
+        setProducts(formattedProducts);
       } catch (err) {
         console.error('Error:', err);
         setError(err instanceof Error ? err.message : 'Failed to fetch products');

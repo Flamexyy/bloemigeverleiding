@@ -10,6 +10,7 @@ export interface LikedProduct {
   handle: string;
   variantId: string;
   availableForSale: boolean;
+  quantityAvailable: number;
 }
 
 interface LikedContextType {

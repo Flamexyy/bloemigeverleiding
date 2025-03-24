@@ -17,6 +17,7 @@ interface ShopifyProduct {
   availableForSale: boolean;
   variantId: string;
   colors?: string[];
+  quantityAvailable: number;
 }
 
 interface Filters {
