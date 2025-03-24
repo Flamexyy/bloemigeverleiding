@@ -91,7 +91,9 @@ export default function Header() {
                     <div className='sm:w-[200px] flex gap-1 items-center justify-end text-xl md:text-2xl'>
                         <Link 
                             href="/liked"
-                            className="p-2 hover:bg-accent rounded-full transition-colors relative"
+                            className={`p-2 rounded-full transition-colors relative ${
+                                isActive('/liked') ? 'bg-accent' : 'hover:bg-accent'
+                            }`}
                         >
                             <AiOutlineHeart />
                             {likedCount > 0 && (
@@ -111,6 +113,15 @@ export default function Header() {
                                 </span>
                             )}
                         </button>
+                        {/* Account Icon - Desktop Only */}
+                        <Link 
+                            href={user ? "/profile" : "/login"}
+                            className={`hidden md:block p-2 rounded-full transition-colors ${
+                                isActive('/profile') || isActive('/login') ? 'bg-accent' : 'hover:bg-accent'
+                            }`}
+                        >
+                            <LuUser />
+                        </Link>
                         {/* Menu Hamburger */}
                         <div className="flex items-center gap-2 md:hidden">
                             <button 
