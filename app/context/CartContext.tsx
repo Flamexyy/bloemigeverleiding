@@ -63,13 +63,26 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setItems(currentItems => {
       const existingItem = currentItems.find(item => item.id === newItem.id);
       if (existingItem) {
+        // Calculate new quantity and check against limit
+        const newQuantity = existingItem.quantity + newItem.quantity;
+        if (newQuantity > existingItem.quantityAvailable) {
+          // If would exceed limit, set to max available
+          return currentItems.map(item =>
+            item.id === newItem.id
+              ? { ...item, quantity: item.quantityAvailable }
+              : item
+          );
+        }
+        // If within limit, update normally
         return currentItems.map(item =>
           item.id === newItem.id
-            ? { ...item, quantity: item.quantity + newItem.quantity }
+            ? { ...item, quantity: newQuantity }
             : item
         );
       }
-      return [...currentItems, newItem];
+      // For new items, ensure quantity doesn't exceed available
+      const safeQuantity = Math.min(newItem.quantity, newItem.quantityAvailable);
+      return [...currentItems, { ...newItem, quantity: safeQuantity }];
     });
   };
 
