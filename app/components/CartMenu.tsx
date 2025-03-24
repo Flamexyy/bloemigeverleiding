@@ -122,15 +122,23 @@ export default function CartMenu({ isOpen, onClose }: CartMenuProps) {
                             <p className="text-sm opacity-50">Maat: {item.size}</p>
                           )}
                         </div>
-                        <div className="text-right">
-                          {item.compareAtPrice && parseFloat(item.compareAtPrice) > item.price && (
-                            <p className="text-sm line-through text-text/50">
-                              €{(parseFloat(item.compareAtPrice) * item.quantity).toFixed(2)}
-                            </p>
-                          )}
-                          <p className={`font-bold ${item.compareAtPrice ? 'text-red-500' : ''}`}>
-                            €{(item.price * item.quantity).toFixed(2)}
-                          </p>
+                        <div className="text-right flex flex-col items-end">
+                          <div className="flex items-center gap-2">
+                            {item.compareAtPrice && parseFloat(item.compareAtPrice) > item.price ? (
+                              <>
+                                <p className="text-sm text-text line-through">
+                                  €{(parseFloat(item.compareAtPrice) * item.quantity).toFixed(2)}
+                                </p>
+                                <p className="text-red-400 font-bold">
+                                  €{(item.price * item.quantity).toFixed(2)}
+                                </p>
+                              </>
+                            ) : (
+                              <p className="font-bold">
+                                €{(item.price * item.quantity).toFixed(2)}
+                              </p>
+                            )}
+                          </div>
                         </div>
                       </div>
                       <div className="mt-2">
@@ -165,8 +173,28 @@ export default function CartMenu({ isOpen, onClose }: CartMenuProps) {
 
           {/* Footer */}
           {items.length > 0 && (
-            <div className="border-t border-text/20 p-4 space-y-4 text-text">
+            <div className="border-t border-text/20 p-4 space-y-2 text-text">
               <div className="flex justify-between items-center">
+                <span>Subtotaal:</span>
+                <div className="flex items-center gap-2">
+                  {items.some(item => item.compareAtPrice) ? (
+                    <>
+                      <span className="text-sm text-text line-through">
+                        €{items.reduce((sum, item) => {
+                          if (item.compareAtPrice) {
+                            return sum + parseFloat(item.compareAtPrice) * item.quantity;
+                          }
+                          return sum + item.price * item.quantity;
+                        }, 0).toFixed(2)}
+                      </span>
+                      <span className="font-medium text-red-400">€{total.toFixed(2)}</span>
+                    </>
+                  ) : (
+                    <span className="font-medium">€{total.toFixed(2)}</span>
+                  )}
+                </div>
+              </div>
+              <div className="flex justify-between items-center pt-2 border-t border-text/20">
                 <span className="text-lg">Totaal:</span>
                 <span className="text-xl font-bold">€{total.toFixed(2)}</span>
               </div>
