@@ -32,13 +32,13 @@ export default function Footer() {
             </div> */}
             
             {/* Main Footer */}
-            <div className="bg-cream text-[#6E4B3A]">
+            <div className="bg-cream text-text">
                 <div className="max-w-[1600px] mx-auto px-4 lg:px-8 py-20">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
                         {/* Logo and Description */}
                         <div className="space-y-6">
                             <Image src="/logo-footer.svg" alt="Bloemige Verleiding Logo" width={120} height={120} />
-                            <p className="text-[#6E4B3A] text-sm leading-loose">
+                            <p className="text-text text-sm leading-loose">
                                 We deliver innovative products, experiences and services 
                                 to inspire our customers. Free shipping for Members.
                             </p>
@@ -47,7 +47,7 @@ export default function Footer() {
                         {/* Quick Links */}
                         <div>
                             <h3 className="text-lg mb-6 font-bold">ONTVANG HULP</h3>
-                            <ul className="space-y-4 text-[#6E4B3A] text-sm">
+                            <ul className="space-y-4 text-text text-sm">
                                 <li><a href="#" className="hover:text-white">Order Status</a></li>
                                 <li><a href="#" className="hover:text-white">Shipping & Delivery</a></li>
                                 <li><a href="#" className="hover:text-white">Returns</a></li>
@@ -59,7 +59,7 @@ export default function Footer() {
                         {/* About */}
                         <div>
                             <h3 className="text-lg mb-6 font-bold">OVER ONS</h3>
-                            <ul className="space-y-4 text-[#6E4B3A] text-sm">
+                            <ul className="space-y-4 text-text text-sm">
                                 <li><a href="#" className="hover:text-white">News</a></li>
                                 <li><a href="#" className="hover:text-white">Careers</a></li>
                                 <li><a href="#" className="hover:text-white">Investors</a></li>
@@ -70,33 +70,31 @@ export default function Footer() {
                         {/* Join Us */}
                         <div>
                             <h3 className="text-lg mb-6 font-bold">VOLG ONS</h3>
-                            <ul className="space-y-4 text-[#6E4B3A] text-sm">
+                            <ul className="space-y-4 text-text text-sm">
                                 <li className='flex items-center gap-2 hover:text-white'><FaInstagram /><a href="https://www.instagram.com/bloemigeverleiding" target="_blank">Instagram</a></li>
                                 <li className='flex items-center gap-2 hover:text-white'><FaTiktok /><a href="https://www.instagram.com/bloemigeverleiding" target="_blank">Tiktok</a></li>
                                 <li className='flex items-center gap-2 hover:text-white'><FaFacebook /><a href="https://www.instagram.com/bloemigeverleiding" target="_blank">Facebook</a></li>
                             </ul>
-                            
                         </div>
 
                         <div>
                             <h3 className="text-lg mb-6 font-bold">RECHTELIJK</h3>
-                            <ul className="space-y-4 text-[#6E4B3A] text-sm">
+                            <ul className="space-y-4 text-text text-sm">
                                 <li><a href="/terms-of-service" className="hover:text-white">Servicevoorwaarden</a></li>
                                 <li><a href="/terms-of-use" className="hover:text-white">Gebruiksvoorwaarden</a></li>
                                 <li><a href="/privacy-policy" className="hover:text-white">Privacybeleid</a></li>
                             </ul>
                         </div>
                     </div>
-
                 </div>
-                    {/* Bottom Section */}
-                    <div className="border-t bg-text border-[#6E4B3A] p-4 flex flex-col md:flex-row justify-between items-center text-cream text-sm">
-                       
-                        <div className='w-full flex flex-col md:flex-row justify-between gap-2 md:gap-20 mx-auto max-w-[1600px]'>
-                            <p>© {new Date().getFullYear()} Bloemigeverleiding. Alle Rechten Voorbehouden</p>
-                            <span>Developed and designed by <a href='https://enhancedigital.nl' target='_blank' className='hover:underline'>Enhancedigital.nl</a></span>
-                        </div>
+
+                {/* Bottom Section */}
+                <div className="border-t bg-text border-text p-4 px-4 lg:px-8 flex flex-col md:flex-row justify-between items-center text-cream text-sm">
+                    <div className='w-full flex flex-col md:flex-row justify-between gap-2 md:gap-20 mx-auto max-w-[1600px]'>
+                        <p>© {new Date().getFullYear()} Bloemigeverleiding. Alle Rechten Voorbehouden</p>
+                        <span>Developed and designed by <a href='https://enhancedigital.nl' target='_blank' className='hover:underline'>Enhancedigital.nl</a></span>
                     </div>
+                </div>
             </div>
         </footer>
     );

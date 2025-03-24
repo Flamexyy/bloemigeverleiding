@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { LuUser } from "react-icons/lu";
 import { useAuth } from '../../context/AuthContext';
+import { IoArrowBack } from "react-icons/io5";
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -46,11 +47,19 @@ export default function Login() {
 
   return (
     <div className="w-full max-w-[400px] text-text">
+      <Link 
+        href="/"
+        className="inline-flex items-center gap-2 text-text/70 hover:text-text mb-8"
+      >
+        <IoArrowBack />
+        Terug naar de webshop
+      </Link>
+
       <div className="text-center mb-8">
         <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
-          <LuUser className="text-2xl" />
+          <LuUser className="text-2xl text-text" />
         </div>
-        <h1 className="text-3xl font-bold">LOGIN</h1>
+        <h1 className="text-3xl font-bold">INLOGGEN</h1>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -60,29 +69,29 @@ export default function Login() {
           </div>
         )}
         <div className="space-y-2">
-          <label htmlFor="email" className="block font-bold">
-            EMAIL
+          <label htmlFor="email" className="block font-bold text-text">
+            E-MAILADRES
           </label>
           <input
             type="email"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3 border rounded-xl"
+            className="w-full p-3 border border-text/20 rounded-xl text-text focus:outline-none focus:border-text"
             required
           />
         </div>
 
         <div className="space-y-2">
           <div className="flex justify-between items-center">
-            <label htmlFor="password" className="block font-bold">
-              PASSWORD
+            <label htmlFor="password" className="block font-bold text-text">
+              WACHTWOORD
             </label>
             <Link 
               href="/forgot-password" 
-              className="text-sm text-gray-500 hover:text-gray-700"
+              className="text-sm text-text/70 hover:text-text"
             >
-              Forgot Password?
+              Wachtwoord vergeten?
             </Link>
           </div>
           <input
@@ -90,7 +99,7 @@ export default function Login() {
             id="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full p-3 border rounded-xl"
+            className="w-full p-3 border border-text/20 rounded-xl text-text focus:outline-none focus:border-text"
             required
           />
         </div>
@@ -98,21 +107,21 @@ export default function Login() {
         <button
           type="submit"
           disabled={isLoading}
-          className={`w-full bg-zinc-900 text-white rounded-xl p-3 hover:bg-zinc-800 transition-colors ${
+          className={`w-full bg-accent text-text rounded-xl p-3 hover:bg-accent/70 transition-colors ${
             isLoading ? 'opacity-50 cursor-not-allowed' : ''
           }`}
         >
-          {isLoading ? 'Logging in...' : 'Login'}
+          {isLoading ? 'Even geduld...' : 'Inloggen'}
         </button>
       </form>
 
       <div className="mt-6 text-center">
-        <p className="text-gray-500">Don't have an account?</p>
+        <p className="text-text/70">Nog geen account?</p>
         <Link 
           href="/register" 
-          className="font-bold hover:opacity-70 transition-opacity"
+          className="font-bold text-text hover:opacity-70 transition-opacity"
         >
-          Create Account
+          Account aanmaken
         </Link>
       </div>
     </div>

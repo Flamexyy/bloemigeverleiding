@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { LuUser } from "react-icons/lu";
+import { IoArrowBack } from "react-icons/io5";
 
 export default function Register() {
   const router = useRouter();
@@ -64,11 +65,19 @@ export default function Register() {
 
   return (
     <div className="w-full max-w-[400px] text-text">
+      <Link 
+        href="/"
+        className="inline-flex items-center gap-2 text-text/70 hover:text-text mb-8"
+      >
+        <IoArrowBack />
+        Terug naar de webshop
+      </Link>
+
       <div className="text-center mb-8">
         <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
-          <LuUser className="text-2xl" />
+          <LuUser className="text-2xl text-text" />
         </div>
-        <h1 className="text-3xl font-bold">CREATE ACCOUNT</h1>
+        <h1 className="text-3xl font-bold">ACCOUNT AANMAKEN</h1>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-4">
@@ -79,72 +88,72 @@ export default function Register() {
         )}
         <div className="grid grid-cols-2 gap-4">
           <div className="space-y-2">
-            <label htmlFor="firstName" className="block font-bold">
-              FIRST NAME
+            <label htmlFor="firstName" className="block font-bold text-text">
+              VOORNAAM
             </label>
             <input
               type="text"
               id="firstName"
               value={formData.firstName}
               onChange={handleChange}
-              className="w-full p-3 border rounded-xl"
+              className="w-full p-3 border border-text/20 rounded-xl text-text focus:outline-none focus:border-text"
               required
             />
           </div>
 
           <div className="space-y-2">
-            <label htmlFor="lastName" className="block font-bold">
-              LAST NAME
+            <label htmlFor="lastName" className="block font-bold text-text">
+              ACHTERNAAM
             </label>
             <input
               type="text"
               id="lastName"
               value={formData.lastName}
               onChange={handleChange}
-              className="w-full p-3 border rounded-xl"
+              className="w-full p-3 border border-text/20 rounded-xl text-text focus:outline-none focus:border-text"
               required
             />
           </div>
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="email" className="block font-bold">
-            EMAIL
+          <label htmlFor="email" className="block font-bold text-text">
+            E-MAILADRES
           </label>
           <input
             type="email"
             id="email"
             value={formData.email}
             onChange={handleChange}
-            className="w-full p-3 border rounded-xl"
+            className="w-full p-3 border border-text/20 rounded-xl text-text focus:outline-none focus:border-text"
             required
           />
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="password" className="block font-bold">
-            PASSWORD
+          <label htmlFor="password" className="block font-bold text-text">
+            WACHTWOORD
           </label>
           <input
             type="password"
             id="password"
             value={formData.password}
             onChange={handleChange}
-            className="w-full p-3 border rounded-xl"
+            className="w-full p-3 border border-text/20 rounded-xl text-text focus:outline-none focus:border-text"
             required
           />
         </div>
 
         <div className="space-y-2">
-          <label htmlFor="confirmPassword" className="block font-bold">
-            CONFIRM PASSWORD
+          <label htmlFor="confirmPassword" className="block font-bold text-text">
+            BEVESTIG WACHTWOORD
           </label>
           <input
             type="password"
             id="confirmPassword"
             value={formData.confirmPassword}
             onChange={handleChange}
-            className="w-full p-3 border rounded-xl"
+            className="w-full p-3 border border-text/20 rounded-xl text-text focus:outline-none focus:border-text"
             required
           />
         </div>
@@ -152,21 +161,21 @@ export default function Register() {
         <button
           type="submit"
           disabled={isLoading}
-          className={`w-full bg-zinc-900 text-white rounded-xl p-3 hover:bg-zinc-800 transition-colors ${
+          className={`w-full bg-accent text-text rounded-xl p-3 hover:bg-accent/70 transition-colors ${
             isLoading ? 'opacity-50 cursor-not-allowed' : ''
           }`}
         >
-          {isLoading ? 'Creating Account...' : 'Create Account'}
+          {isLoading ? 'Account aanmaken...' : 'Account aanmaken'}
         </button>
       </form>
 
       <div className="mt-6 text-center">
-        <p className="text-gray-500">Already have an account?</p>
+        <p className="text-text/70">Heb je al een account?</p>
         <Link 
           href="/login" 
-          className="font-bold hover:opacity-70 transition-opacity"
+          className="font-bold text-text hover:opacity-70 transition-opacity"
         >
-          Login
+          Inloggen
         </Link>
       </div>
     </div>

@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { LuUser } from "react-icons/lu";
+import { IoArrowBack } from "react-icons/io5";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -27,27 +28,35 @@ export default function ForgotPassword() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Failed to send reset email');
+        throw new Error(data.message || 'Kon geen reset link versturen');
       }
 
       setSuccess(true);
       setEmail('');
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Failed to send reset email');
+      setError(error instanceof Error ? error.message : 'Kon geen reset link versturen');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="w-full max-w-[400px]">
+    <div className="w-full max-w-[400px] text-text">
+      <Link 
+        href="/"
+        className="inline-flex items-center gap-2 text-text/70 hover:text-text mb-8"
+      >
+        <IoArrowBack />
+        Terug naar de webshop
+      </Link>
+
       <div className="text-center mb-8">
-        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <LuUser className="text-2xl" />
+        <div className="w-16 h-16 bg-accent rounded-full flex items-center justify-center mx-auto mb-4">
+          <LuUser className="text-2xl text-text" />
         </div>
-        <h1 className="text-3xl font-bold">FORGOT PASSWORD</h1>
-        <p className="text-gray-500 mt-2">
-          Enter your email address and we'll send you a link to reset your password.
+        <h1 className="text-3xl font-bold">WACHTWOORD VERGETEN</h1>
+        <p className="text-text/70 mt-2">
+          Vul je e-mailadres in en we sturen je een link om je wachtwoord te resetten.
         </p>
       </div>
 
@@ -58,20 +67,20 @@ export default function ForgotPassword() {
           </div>
         )}
         {success && (
-          <div className="bg-green-50 text-green-400 p-3 rounded-xl text-center">
-            Reset link has been sent to your email address.
+          <div className="bg-green-50 text-green-500 p-3 rounded-xl text-center">
+            Reset link is verstuurd naar je e-mailadres.
           </div>
         )}
         <div className="space-y-2">
-          <label htmlFor="email" className="block font-bold">
-            EMAIL
+          <label htmlFor="email" className="block font-bold text-text">
+            E-MAILADRES
           </label>
           <input
             type="email"
             id="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3 border rounded-xl"
+            className="w-full p-3 border border-text/20 rounded-xl text-text focus:outline-none focus:border-text"
             required
           />
         </div>
@@ -79,21 +88,21 @@ export default function ForgotPassword() {
         <button
           type="submit"
           disabled={isLoading}
-          className={`w-full bg-zinc-900 text-white rounded-xl p-3 hover:bg-zinc-800 transition-colors ${
+          className={`w-full bg-accent text-text rounded-xl p-3 hover:bg-accent/70 transition-colors ${
             isLoading ? 'opacity-50 cursor-not-allowed' : ''
           }`}
         >
-          {isLoading ? 'Sending...' : 'Send Reset Link'}
+          {isLoading ? 'Link versturen...' : 'Verstuur reset link'}
         </button>
       </form>
 
       <div className="mt-6 text-center">
-        <p className="text-gray-500">Remember your password?</p>
+        <p className="text-text/70">Wachtwoord herinnerd?</p>
         <Link 
           href="/login" 
-          className="font-bold hover:opacity-70 transition-opacity"
+          className="font-bold text-text hover:opacity-70 transition-opacity"
         >
-          Back to Login
+          Terug naar inloggen
         </Link>
       </div>
     </div>

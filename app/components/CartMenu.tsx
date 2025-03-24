@@ -127,15 +127,15 @@ export default function CartMenu({ isOpen, onClose }: CartMenuProps) {
                             {item.compareAtPrice ? (
                               <>
                                 <p className="text-sm text-text line-through">
-                                  €{parseFloat(item.compareAtPrice).toFixed(2)}
+                                  €{(parseFloat(item.compareAtPrice) * item.quantity).toFixed(2)}
                                 </p>
                                 <p className="text-red-400 font-bold">
-                                  €{item.price.toFixed(2)}
+                                  €{(item.price * item.quantity).toFixed(2)}
                                 </p>
                               </>
                             ) : (
                               <p className="font-bold">
-                                €{item.price.toFixed(2)}
+                                €{(item.price * item.quantity).toFixed(2)}
                               </p>
                             )}
                           </div>
