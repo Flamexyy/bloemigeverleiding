@@ -13,6 +13,7 @@ import { HiMiniChevronRight } from "react-icons/hi2";
 import { useLiked } from '../context/LikedContext';
 import { AiOutlineHeart } from "react-icons/ai";
 import { LuUser } from "react-icons/lu";
+import { IoMdHeart } from "react-icons/io";
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
@@ -24,6 +25,10 @@ export default function Header() {
     const { items } = useLiked();
 
     const likedCount = items.length;
+
+    // Check if current path is shop-related (includes /shop or /product/)
+    const isShopActive = pathname === '/shop' || pathname.startsWith('/product/');
+    const isLikedActive = pathname === '/liked';
 
     const isActive = (path: string) => {
         if (path === '/' && pathname === '/') return true;
@@ -73,7 +78,7 @@ export default function Header() {
                                 </Link>
                             </li>
                             <li>
-                                <Link href="/shop" className={`transition-opacity duration-200 ${isActive('/shop') ? 'opacity-100' : 'opacity-50 hover:opacity-75'}`}>
+                                <Link href="/shop" className={`transition-opacity duration-200 ${isShopActive ? 'opacity-100' : 'opacity-50 hover:opacity-75'}`}>
                                     SHOP
                                 </Link>
                             </li>
@@ -94,15 +99,10 @@ export default function Header() {
                         <Link 
                             href="/liked"
                             className={`p-2 rounded-full transition-colors relative ${
-                                isActive('/liked') ? 'bg-accent' : 'hover:bg-accent'
+                                isLikedActive ? 'bg-accent' : 'hover:bg-accent'
                             }`}
                         >
-                            <AiOutlineHeart />
-                            {likedCount > 0 && (
-                                <span className="absolute -top-0 -right-0 bg-text text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                                    {likedCount}
-                                </span>
-                            )}
+                            <IoMdHeart className="text-2xl" />
                         </Link>
                         <button 
                             onClick={() => setIsCartOpen(true)}
@@ -190,7 +190,7 @@ export default function Header() {
                                         href="/shop"
                                         onClick={() => setIsOpen(false)}
                                         className={`flex items-center justify-between p-3 rounded-xl transition-colors text-text ${
-                                            isActive('/shop') ? 'bg-accent' : 'hover:bg-accent'
+                                            isShopActive ? 'bg-accent' : 'hover:bg-accent'
                                         }`}
                                     >
                                         <div className="flex items-center gap-3">
@@ -205,11 +205,11 @@ export default function Header() {
                                         href="/liked"
                                         onClick={() => setIsOpen(false)}
                                         className={`flex items-center justify-between p-3 rounded-xl transition-colors text-text ${
-                                            isActive('/liked') ? 'bg-accent' : 'hover:bg-accent'
+                                            isLikedActive ? 'bg-accent' : 'hover:bg-accent'
                                         }`}
                                     >
                                         <div className="flex items-center gap-3">
-                                            <AiOutlineHeart className="text-xl" />
+                                            <IoMdHeart className="text-xl" />
                                             <span className="font-medium">Favorieten</span>
                                         </div>
                                         <HiMiniChevronRight className="text-xl opacity-50" />
