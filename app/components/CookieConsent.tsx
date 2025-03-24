@@ -90,9 +90,9 @@ export default function CookieConsent() {
     <>
       {/* Cookie Consent Banner */}
       <div className={`fixed bottom-0 left-0 right-0 bg-white border-t border-text/20 z-[60] transform transition-all duration-300 ${
-        showDetails ? 'h-[100dvh] md:h-auto md:max-h-[75vh]' : ''
+        showDetails ? 'h-[100dvh] md:h-[600px]' : ''
       }`}>
-        <div className={`max-w-[1600px] mx-auto ${showDetails ? 'h-full md:h-auto' : ''}`}>
+        <div className={`max-w-[1600px] mx-auto ${showDetails ? 'h-full' : ''}`}>
           {!showDetails ? (
             // Simple View
             <div className="p-3 md:p-6">
@@ -132,9 +132,9 @@ export default function CookieConsent() {
             </div>
           ) : (
             // Detailed View
-            <div className="flex flex-col h-full md:h-auto">
+            <div className="flex flex-col h-full">
               {/* Scrollable Content */}
-              <div className="flex-1 overflow-y-auto p-4 md:p-8">
+              <div className="flex-1 overflow-y-auto p-4 md:p-8" style={{ maxHeight: 'calc(100% - 80px)' }}>
                 <div className="space-y-4 md:space-y-6">
                   <div className="flex justify-between items-start gap-4">
                     <div className="min-w-0">
