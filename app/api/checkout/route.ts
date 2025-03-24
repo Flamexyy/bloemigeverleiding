@@ -1,8 +1,13 @@
 import { NextResponse } from 'next/server';
 
+interface CartItem {
+  variantId: string;
+  quantity: number;
+}
+
 export async function POST(request: Request) {
   try {
-    const { items } = await request.json();
+    const { items } = await request.json() as { items: CartItem[] };
     console.log('Received items:', items);
 
     if (!items || items.length === 0) {
@@ -56,7 +61,7 @@ export async function POST(request: Request) {
     }
 
     // Clean up variant IDs and prepare cart lines
-    const lines = items.map(item => {
+    const lines = items.map((item: CartItem) => {
       // Remove any existing 'gid://' prefix if present
       const cleanVariantId = item.variantId.replace('gid://shopify/ProductVariant/', '');
       
