@@ -232,6 +232,7 @@ export async function getProducts() {
                         amount
                       }
                       availableForSale
+                      quantityAvailable
                     }
                   }
                 }
@@ -252,6 +253,7 @@ export async function getProducts() {
       imageUrl: edge.node.images.edges[0]?.node.originalSrc || '',
       availableForSale: edge.node.variants.edges[0].node.availableForSale,
       variantId: edge.node.variants.edges[0].node.id,
+      quantityAvailable: edge.node.variants.edges[0].node.quantityAvailable || 1
     }));
   } catch (error) {
     console.error("Error fetching products:", error);

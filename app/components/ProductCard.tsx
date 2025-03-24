@@ -50,7 +50,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       compareAtPrice: product.compareAtPrice && parseFloat(product.compareAtPrice) > priceAsNumber 
         ? product.compareAtPrice 
         : null,
-      quantityAvailable: product.quantityAvailable
+      quantityAvailable: product.quantityAvailable || 1
     });
     setIsCartOpen(true);
   };
