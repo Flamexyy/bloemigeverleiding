@@ -1,5 +1,6 @@
 'use client';
 import { createContext, useContext, useState, useEffect } from 'react';
+import Cookies from 'js-cookie';
 
 interface CartItem {
   id: string;
@@ -24,20 +25,35 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+const CART_COOKIE_NAME = 'shopCart';
+const COOKIE_EXPIRY = 30; // days
+
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
 
-  // Load cart from localStorage on mount
+  // Load cart from cookies on mount
   useEffect(() => {
-    const savedCart = localStorage.getItem('cart');
+    const savedCart = Cookies.get(CART_COOKIE_NAME);
     if (savedCart) {
-      setItems(JSON.parse(savedCart));
+      try {
+        setItems(JSON.parse(savedCart));
+      } catch (error) {
+        console.error('Error parsing cart cookie:', error);
+        Cookies.remove(CART_COOKIE_NAME);
+      }
     }
   }, []);
 
-  // Save cart to localStorage whenever it changes
+  // Save cart to cookies whenever it changes
   useEffect(() => {
-    localStorage.setItem('cart', JSON.stringify(items));
+    if (items.length > 0) {
+      Cookies.set(CART_COOKIE_NAME, JSON.stringify(items), {
+        expires: COOKIE_EXPIRY,
+        sameSite: 'lax'
+      });
+    } else {
+      Cookies.remove(CART_COOKIE_NAME);
+    }
   }, [items]);
 
   const addToCart = (newItem: CartItem) => {
@@ -68,6 +84,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const clearCart = () => {
     setItems([]);
+    Cookies.remove(CART_COOKIE_NAME);
   };
 
   const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
