@@ -244,61 +244,50 @@ export default function Profile() {
 
   return (
     <ProtectedRoute>
-      <div className="max-w-[1600px] mx-auto py-6">
-        <div className="flex flex-col lg:flex-row gap-8 py-6 xl:py-10 px-4 lg:px-8">
+      <div className="max-w-[1600px] mx-auto p-4 lg:px-8 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
           {/* Left Side - Navigation */}
           <div className="lg:w-[300px]">
-            <div className="sticky top-[100px]">
-              <div className="p-6 border rounded-2xl mb-6">
-                <div className="flex items-center gap-4 pb-4 border-b">
-                  <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center shrink-0">
-                    <LuUser className="text-2xl" />
-                  </div>
-                  <div className="min-w-0">
-                    <h2 className="text-xl font-bold truncate">{user?.firstName} {user?.lastName}</h2>
-                    <p className="opacity-50 truncate">{user?.email}</p>
-                  </div>
+            <div className="sticky top-24">
+              {/* Profile Header */}
+              <div className="flex items-center gap-4 mb-4">
+                <div className="min-w-16 h-16 bg-accent rounded-full flex items-center justify-center">
+                  <LuUser className="text-2xl text-text" />
                 </div>
-                
-                <div className="pt-4 space-y-2">
-                  <button
-                    onClick={() => setActiveTab('settings')}
-                    className="w-full bg-zinc-900 text-white rounded-xl p-3 hover:bg-zinc-800 transition-colors"
-                  >
-                    Edit Profile
-                  </button>
-                  <button
-                    onClick={logout}
-                    className="w-full border border-gray-200 rounded-xl p-3 hover:bg-gray-50 transition-colors"
-                  >
-                    Logout
-                  </button>
+                <div className="min-w-0">
+                  <h2 className="text-xl font-bold text-text truncate">
+                    {user?.firstName} {user?.lastName}
+                  </h2>
+                  <p className="text-gray-600 truncate">
+                    {user?.email}
+                  </p>
                 </div>
               </div>
 
+              {/* Navigation */}
               <nav className="space-y-2">
                 <button 
                   onClick={() => setActiveTab('orders')}
-                  className={`w-full flex items-center justify-between p-4 rounded-xl transition-colors ${
-                    activeTab === 'orders' ? 'bg-gray-100' : 'hover:bg-gray-50'
+                  className={`w-full flex items-center justify-between p-4 rounded-xl transition-colors text-text ${
+                    activeTab === 'orders' ? 'bg-accent' : 'hover:bg-accent/50'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <CgShoppingBag className="text-xl" />
-                    <span>Orders</span>
+                    <span>Bestellingen</span>
                   </div>
                   <BiChevronRight className="text-xl" />
                 </button>
 
                 <button
                   onClick={() => setActiveTab('settings')}
-                  className={`w-full flex items-center justify-between p-4 rounded-xl transition-colors ${
-                    activeTab === 'settings' ? 'bg-gray-100' : 'hover:bg-gray-50'
+                  className={`w-full flex items-center justify-between p-4 rounded-xl transition-colors text-text ${
+                    activeTab === 'settings' ? 'bg-accent' : 'hover:bg-accent/50'
                   }`}
                 >
                   <div className="flex items-center gap-3">
                     <IoSettingsOutline className="text-xl" />
-                    <span>Settings</span>
+                    <span>Instellingen</span>
                   </div>
                   <BiChevronRight className="text-xl" />
                 </button>
@@ -310,50 +299,50 @@ export default function Profile() {
           <div className="flex-1">
             {activeTab === 'orders' && (
               <div className="space-y-4 flex flex-col gap-6">
-                <h1 className="text-3xl font-bold">My Orders</h1>
+                <h1 className="text-3xl font-bold text-text">Mijn Bestellingen</h1>
                 
                 {ordersLoading ? (
                   // Loading state
                   <div className="space-y-4">
                     {[1, 2].map((i) => (
-                      <div key={i} className="border rounded-2xl p-6 space-y-6 animate-pulse">
-                        <div className="h-6 bg-gray-200 rounded w-1/4"></div>
-                        <div className="h-20 bg-gray-200 rounded"></div>
+                      <div key={i} className="border border-text/20 rounded-2xl p-6 space-y-6 animate-pulse">
+                        <div className="h-6 bg-accent rounded w-1/4"></div>
+                        <div className="h-20 bg-accent rounded"></div>
                       </div>
                     ))}
                   </div>
                 ) : ordersError ? (
                   // Error state
-                  <div className="text-center py-12 border rounded-2xl">
+                  <div className="text-center py-12 border rounded-2xl border-text/20">
                     <p className="text-red-400 mb-4">{ordersError}</p>
                     <button
                       onClick={() => window.location.reload()}
-                      className="px-6 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors"
+                      className="px-6 py-2 bg-accent text-text rounded-lg hover:bg-accent/70 transition-colors"
                     >
-                      Try Again
+                      Probeer Opnieuw
                     </button>
                   </div>
                 ) : orders.length === 0 ? (
                   // Empty state
-                  <div className="text-center py-12 border rounded-2xl">
+                  <div className="text-center py-12 border rounded-2xl border-text/20">
                     <div className="flex justify-center mb-4">
-                      <LuPackage className="text-4xl text-gray-400" />
+                      <LuPackage className="text-4xl text-text/50" />
                     </div>
-                    <h3 className="text-xl font-medium mb-2">No orders yet</h3>
-                    <p className="text-gray-500 mb-6">
-                      When you place an order, it will appear here.
+                    <h3 className="text-xl font-medium text-text mb-2">Nog geen bestellingen</h3>
+                    <p className="text-gray-600 mb-6">
+                      Wanneer je een bestelling plaatst, verschijnt deze hier.
                     </p>
                   </div>
                 ) : (
                   // Orders list
                   <div className="space-y-4">
                     {orders.map((order) => (
-                      <div key={order.id} className="border rounded-2xl p-6 space-y-6">
+                      <div key={order.id} className="border border-text/20 rounded-2xl p-6 space-y-6">
                         <div className="flex justify-between items-start">
                           <div>
-                            <h3 className="font-bold">Order #{order.orderNumber}</h3>
+                            <h3 className="font-bold">Bestelling #{order.orderNumber}</h3>
                             <p className="text-sm opacity-50">
-                              Placed on {formatDate(order.createdAt)}
+                              Geplaatst op {formatDate(order.createdAt)}
                             </p>
                           </div>
                           <span className={`px-3 py-1 rounded-lg text-sm ${
@@ -402,7 +391,7 @@ export default function Profile() {
                         ))}
 
                         <div className="flex justify-between items-center pt-4 border-t">
-                          <span className="font-bold">Total</span>
+                          <span className="font-bold">Totaal</span>
                           <span className="font-bold">
                             {new Intl.NumberFormat('en-US', {
                               style: 'currency',
@@ -419,9 +408,9 @@ export default function Profile() {
 
             {activeTab === 'settings' && (
               <div className="space-y-4 flex flex-col gap-6">
-                <h1 className="text-3xl font-bold">Account Settings</h1>
+                <h1 className="text-3xl font-bold text-text">Account Instellingen</h1>
                 
-                <div className="border rounded-2xl p-6 space-y-6">
+                <div className="border border-text/20 rounded-2xl p-6 space-y-6">
                   {updateError && (
                     <div className="bg-red-50 text-red-400 p-4 rounded-xl">
                       {updateError}
@@ -430,55 +419,55 @@ export default function Profile() {
                   
                   {updateSuccess && (
                     <div className="bg-green-50 text-green-500 p-4 rounded-xl">
-                      Profile updated successfully!
+                      Profiel succesvol bijgewerkt!
                     </div>
                   )}
 
                   <div className="space-y-4">
-                    <h3 className="font-bold">Personal Information</h3>
+                    <h3 className="font-bold text-text">Persoonlijke Informatie</h3>
                     <div className="grid md:grid-cols-2 gap-4">
                       <div className="space-y-2">
-                        <label htmlFor="firstName" className="block font-bold text-sm">
-                          FIRST NAME
+                        <label htmlFor="firstName" className="block font-bold text-sm text-text">
+                          VOORNAAM
                         </label>
                         <input 
-                          type="text" 
+                          type="text"
                           id="firstName"
                           value={formData.firstName}
                           onChange={handleChange}
-                          className="w-full border rounded-xl p-3"
-                          placeholder="Enter your first name"
+                          className="w-full border border-text/20 rounded-xl p-3 text-text focus:outline-none focus:border-text"
+                          required
                         />
                       </div>
                       <div className="space-y-2">
-                        <label htmlFor="lastName" className="block font-bold text-sm">
-                          LAST NAME
+                        <label htmlFor="lastName" className="block font-bold text-sm text-text">
+                          ACHTERNAAM
                         </label>
                         <input 
-                          type="text" 
+                          type="text"
                           id="lastName"
                           value={formData.lastName}
                           onChange={handleChange}
-                          className="w-full border rounded-xl p-3"
-                          placeholder="Enter your last name"
+                          className="w-full border border-text/20 rounded-xl p-3 text-text focus:outline-none focus:border-text"
+                          required
                         />
                       </div>
                       <div className="space-y-2">
-                        <label htmlFor="email" className="block font-bold text-sm">
-                          EMAIL
+                        <label htmlFor="email" className="block font-bold text-sm text-text">
+                          E-MAILADRES
                         </label>
                         <input 
-                          type="email" 
+                          type="email"
                           id="email"
                           value={formData.email}
                           onChange={handleChange}
-                          className="w-full border rounded-xl p-3"
-                          placeholder="Enter your email"
+                          className="w-full border border-text/20 rounded-xl p-3 text-text focus:outline-none focus:border-text"
+                          required
                         />
                       </div>
                       <div className="space-y-2">
-                        <label htmlFor="phone" className="block font-bold text-sm">
-                          PHONE (OPTIONAL)
+                        <label htmlFor="phone" className="block font-bold text-sm text-text">
+                          TELEFOONNUMMER (OPTIONEEL)
                         </label>
                         <input 
                           type="tel"
@@ -486,7 +475,7 @@ export default function Profile() {
                           value={formData.phone}
                           onChange={handleChange}
                           placeholder="06 1234 5678"
-                          className="w-full border rounded-xl p-3"
+                          className="w-full border border-text/20 rounded-xl p-3 text-text focus:outline-none focus:border-text placeholder:text-text/50"
                           pattern="[0-9\s]*"
                         />
                       </div>
@@ -496,20 +485,20 @@ export default function Profile() {
                   <button 
                     onClick={handleSaveChanges}
                     disabled={isLoading}
-                    className={`w-full bg-zinc-900 text-white rounded-xl p-3 hover:bg-zinc-800 transition-colors ${
+                    className={`w-full bg-accent text-text rounded-xl p-3 hover:bg-accent/70 transition-colors ${
                       isLoading ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
                   >
                     {isLoading ? (
                       <div className="flex items-center justify-center gap-2">
-                        <div className="w-4 h-4 rounded-full bg-white/30 animate-pulse" />
-                        <div className="w-16 h-4 bg-white/30 rounded animate-pulse" />
+                        <div className="w-4 h-4 rounded-full bg-text/30 animate-pulse" />
+                        <div className="w-16 h-4 bg-text/30 rounded animate-pulse" />
                       </div>
-                    ) : 'Save Changes'}
+                    ) : 'Wijzigingen Opslaan'}
                   </button>
                 </div>
 
-                <div className="border rounded-2xl p-6 space-y-6">
+                <div className="border border-text/20 rounded-2xl p-6 space-y-6">
                   {passwordError && (
                     <div className="bg-red-50 text-red-400 p-4 rounded-xl">
                       {passwordError}
@@ -518,37 +507,37 @@ export default function Profile() {
                   
                   {passwordSuccess && (
                     <div className="bg-green-50 text-green-500 p-4 rounded-xl">
-                      Password updated successfully! You will be logged out in a moment...
+                      Wachtwoord succesvol bijgewerkt! Je wordt zo uitgelogd...
                     </div>
                   )}
 
                   <div className="space-y-4">
-                    <h3 className="font-bold">Change Password</h3>
+                    <h3 className="font-bold text-text">Wachtwoord Wijzigen</h3>
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <label htmlFor="newPassword" className="block font-bold text-sm">
-                          NEW PASSWORD
+                        <label htmlFor="newPassword" className="block font-bold text-sm text-text">
+                          NIEUW WACHTWOORD
                         </label>
                         <input 
                           type="password" 
                           id="newPassword"
                           value={passwordData.newPassword}
                           onChange={handlePasswordChange}
-                          className="w-full border rounded-xl p-3"
+                          className="w-full border border-text/20 rounded-xl p-3 text-text focus:outline-none focus:border-text"
                           minLength={8}
                           required
                         />
                       </div>
                       <div className="space-y-2">
-                        <label htmlFor="confirmPassword" className="block font-bold text-sm">
-                          CONFIRM NEW PASSWORD
+                        <label htmlFor="confirmPassword" className="block font-bold text-sm text-text">
+                          BEVESTIG NIEUW WACHTWOORD
                         </label>
                         <input 
                           type="password" 
                           id="confirmPassword"
                           value={passwordData.confirmPassword}
                           onChange={handlePasswordChange}
-                          className="w-full border rounded-xl p-3"
+                          className="w-full border border-text/20 rounded-xl p-3 text-text focus:outline-none focus:border-text"
                           minLength={8}
                           required
                         />
@@ -559,16 +548,11 @@ export default function Profile() {
                   <button 
                     onClick={handleUpdatePassword}
                     disabled={isPasswordLoading}
-                    className={`w-full bg-zinc-900 text-white rounded-xl p-3 hover:bg-zinc-800 transition-colors ${
+                    className={`w-full bg-accent text-text rounded-xl p-3 hover:bg-accent/70 transition-colors ${
                       isPasswordLoading ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
                   >
-                    {isPasswordLoading ? (
-                      <div className="flex items-center justify-center gap-2">
-                        <div className="w-4 h-4 rounded-full bg-white/30 animate-pulse" />
-                        <div className="w-24 h-4 bg-white/30 rounded animate-pulse" />
-                      </div>
-                    ) : 'Update Password'}
+                    {isPasswordLoading ? 'Bijwerken...' : 'Wachtwoord Bijwerken'}
                   </button>
                 </div>
               </div>
