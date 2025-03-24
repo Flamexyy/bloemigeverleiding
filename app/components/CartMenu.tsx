@@ -124,18 +124,18 @@ export default function CartMenu({ isOpen, onClose }: CartMenuProps) {
                         </div>
                         <div className="text-right flex flex-col items-end">
                           <div className="flex items-center gap-2">
-                            {item.compareAtPrice && parseFloat(item.compareAtPrice) > item.price ? (
+                            {item.compareAtPrice ? (
                               <>
                                 <p className="text-sm text-text line-through">
-                                  €{(parseFloat(item.compareAtPrice) * item.quantity).toFixed(2)}
+                                  €{parseFloat(item.compareAtPrice).toFixed(2)}
                                 </p>
                                 <p className="text-red-400 font-bold">
-                                  €{(item.price * item.quantity).toFixed(2)}
+                                  €{item.price.toFixed(2)}
                                 </p>
                               </>
                             ) : (
                               <p className="font-bold">
-                                €{(item.price * item.quantity).toFixed(2)}
+                                €{item.price.toFixed(2)}
                               </p>
                             )}
                           </div>
@@ -173,31 +173,44 @@ export default function CartMenu({ isOpen, onClose }: CartMenuProps) {
 
           {/* Footer */}
           {items.length > 0 && (
-            <div className="border-t border-text/20 p-4 space-y-2 text-text">
-              <div className="flex justify-between items-center">
-                <span>Subtotaal:</span>
-                <div className="flex items-center gap-2">
-                  {items.some(item => item.compareAtPrice) ? (
-                    <>
-                      <span className="text-sm text-text line-through">
-                        €{items.reduce((sum, item) => {
-                          if (item.compareAtPrice) {
-                            return sum + parseFloat(item.compareAtPrice) * item.quantity;
-                          }
-                          return sum + item.price * item.quantity;
-                        }, 0).toFixed(2)}
-                      </span>
-                      <span className="font-medium text-red-400">€{total.toFixed(2)}</span>
-                    </>
-                  ) : (
-                    <span className="font-medium">€{total.toFixed(2)}</span>
-                  )}
+            <div className="border-t border-text/20 p-4 space-y-4 text-text">
+              {/* First Section - Original Price and Discount */}
+              <div className="space-y-2">
+                <div className="flex justify-between items-center">
+                  <span>Subtotaal:</span>
+                  <span className="font-medium">
+                    €{items.reduce((sum, item) => {
+                      const originalPrice = item.compareAtPrice ? parseFloat(item.compareAtPrice) : item.price;
+                      return sum + (originalPrice * item.quantity);
+                    }, 0).toFixed(2)}
+                  </span>
                 </div>
+
+                {items.some(item => item.compareAtPrice) && (
+                  <div className="flex justify-between items-center text-red-500">
+                    <span>Korting:</span>
+                    <span className="font-medium">
+                      -€{items.reduce((sum, item) => {
+                        if (item.compareAtPrice) {
+                          return sum + (parseFloat(item.compareAtPrice) - item.price) * item.quantity;
+                        }
+                        return sum;
+                      }, 0).toFixed(2)}
+                    </span>
+                  </div>
+                )}
               </div>
-              <div className="flex justify-between items-center pt-2 border-t border-text/20">
-                <span className="text-lg">Totaal:</span>
-                <span className="text-xl font-bold">€{total.toFixed(2)}</span>
+
+              {/* Second Section - Final Total */}
+              <div className="pt-3 border-t border-text/20">
+                <div className="flex justify-between items-center">
+                  <span className="text-lg font-medium">Totaal:</span>
+                  <span className="text-xl font-bold">€{total.toFixed(2)}</span>
+                </div>
+                <p className="text-sm text-text/70 text-right mt-1">Inclusief BTW</p>
               </div>
+
+              {/* Checkout Button */}
               <button 
                 onClick={handleCheckout}
                 disabled={isLoading}

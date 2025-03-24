@@ -33,8 +33,8 @@ export default function ProductCard({ product }: ProductCardProps) {
   const priceAsNumber = typeof product.price === 'string' ? parseFloat(product.price) : product.price;
 
   const handleAddToCart = (e: React.MouseEvent) => {
-    e.preventDefault();  // Prevent navigation
-    e.stopPropagation(); // Stop event bubbling
+    e.preventDefault();
+    e.stopPropagation();
     
     if (!product.availableForSale) return;
 
@@ -44,7 +44,11 @@ export default function ProductCard({ product }: ProductCardProps) {
       title: product.title,
       price: priceAsNumber,
       imageUrl: product.imageUrl,
-      quantity: 1
+      quantity: 1,
+      handle: product.handle,
+      compareAtPrice: product.compareAtPrice && parseFloat(product.compareAtPrice) > priceAsNumber 
+        ? product.compareAtPrice 
+        : null
     });
     setIsCartOpen(true);
   };

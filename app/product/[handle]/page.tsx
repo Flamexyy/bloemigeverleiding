@@ -61,7 +61,12 @@ export default function ProductPage({ params }: ProductPageProps) {
       price: parseFloat(selectedVariant.price.amount),
       imageUrl: product.images.edges[0]?.node.originalSrc,
       quantity: quantity,
-      size: selectedVariant.title !== 'Default Title' ? selectedVariant.title : undefined
+      size: selectedVariant.title !== 'Default Title' ? selectedVariant.title : undefined,
+      handle: product.handle,
+      compareAtPrice: selectedVariant.compareAtPrice?.amount && 
+        parseFloat(selectedVariant.compareAtPrice.amount) > parseFloat(selectedVariant.price.amount)
+        ? selectedVariant.compareAtPrice.amount
+        : null
     };
 
     try {

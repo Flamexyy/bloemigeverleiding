@@ -243,10 +243,6 @@ export async function getProducts() {
       variables: {},
     });
 
-    if (!response?.products?.edges) {
-      throw new Error('Invalid response structure from Shopify');
-    }
-
     return response.products.edges.map((edge: any) => ({
       id: edge.node.id,
       handle: edge.node.handle,
@@ -264,77 +260,72 @@ export async function getProducts() {
 }
 
 export async function getProduct(handle: string) {
-  try {
-    const response = await shopifyFetch({
-      query: `
-        query getProduct($handle: String!) {
-          productByHandle(handle: $handle) {
-            id
-            title
-            handle
-            description
-            priceRange {
-              minVariantPrice {
-                amount
-              }
-              maxVariantPrice {
-                amount
-              }
-            }
-            compareAtPriceRange {
-              minVariantPrice {
-                amount
-              }
-              maxVariantPrice {
-                amount
-              }
-            }
-            options {
-              name
-              values
-            }
-            variants(first: 20) {
-              edges {
-                node {
-                  id
-                  selectedOptions {
-                    name
-                    value
-                  }
-                  price {
-                    amount
-                    currencyCode
-                  }
-                  compareAtPrice {
-                    amount
-                    currencyCode
-                  }
-                  availableForSale
-                  quantityAvailable
-                }
-              }
-            }
-            images(first: 20) {
-              edges {
-                node {
-                  originalSrc
-                  altText
-                }
-              }
+  const query = `
+    query getProduct($handle: String!) {
+      product(handle: $handle) {
+        id
+        title
+        handle
+        description
+        images(first: 10) {
+          edges {
+            node {
+              originalSrc
+              altText
             }
           }
         }
-      `,
-      variables: {
-        handle: handle,
-      },
+        variants(first: 10) {
+          edges {
+            node {
+              id
+              title
+              price {
+                amount
+              }
+              compareAtPrice {
+                amount
+              }
+              availableForSale
+              quantityAvailable
+            }
+          }
+        }
+        priceRange {
+          minVariantPrice {
+            amount
+          }
+          maxVariantPrice {
+            amount
+          }
+        }
+        compareAtPriceRange {
+          minVariantPrice {
+            amount
+          }
+          maxVariantPrice {
+            amount
+          }
+        }
+      }
+    }
+  `;
+
+  const variables = {
+    handle: handle,
+  };
+
+  try {
+    const response = await shopifyFetch({
+      query,
+      variables,
     });
 
-    if (!response?.productByHandle) {
+    if (!response?.product) {
       throw new Error('Product not found');
     }
 
-    return response.productByHandle;
+    return response.product;
   } catch (error) {
     console.error("Error fetching product:", error);
     throw error;
