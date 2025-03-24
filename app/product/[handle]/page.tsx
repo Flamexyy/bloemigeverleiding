@@ -189,14 +189,14 @@ export default function ProductPage({ params }: ProductPageProps) {
                 <div className="absolute bottom-4 right-4 flex gap-2">
                   <button 
                     onClick={prevImage}
-                    className="bg-white/90 hover:bg-white rounded-full p-2 transition-colors shadow-lg"
+                    className="bg-cream/80 hover:bg-cream rounded-full p-2 transition-colors text-text"
                     aria-label="Previous image"
                   >
                     <BiChevronLeft className="text-xl" />
                   </button>
                   <button 
                     onClick={nextImage}
-                    className="bg-white/90 hover:bg-white rounded-full p-2 transition-colors shadow-lg"
+                    className="bg-cream/80 hover:bg-cream rounded-full p-2 transition-colors text-text"
                     aria-label="Next image"
                   >
                     <BiChevronRight className="text-xl" />
@@ -229,14 +229,14 @@ export default function ProductPage({ params }: ProductPageProps) {
                 <div className="absolute bottom-4 right-4 flex gap-2">
                   <button 
                     onClick={prevImage}
-                    className="bg-white/90 hover:bg-white rounded-full p-2 transition-colors shadow-lg"
+                    className="bg-white/90 hover:bg-white rounded-full p-2 transition-colors"
                     aria-label="Previous image"
                   >
                     <BiChevronLeft className="text-xl" />
                   </button>
                   <button 
                     onClick={nextImage}
-                    className="bg-white/90 hover:bg-white rounded-full p-2 transition-colors shadow-lg"
+                    className="bg-white/90 hover:bg-white rounded-full p-2 transition-colors"
                     aria-label="Next image"
                   >
                     <BiChevronRight className="text-xl" />
@@ -274,37 +274,25 @@ export default function ProductPage({ params }: ProductPageProps) {
         <div className="flex-1 lg:max-w-[400px] space-y-4">
           <div>
             <h1 className="text-3xl font-bold uppercase">{product.title}</h1>
-            <p className="text-xl font-bold mt-1">€{parseFloat(product.priceRange.minVariantPrice.amount).toFixed(2)}</p>
+            <p className="text-xl font-bold mt-1 text-text">€{parseFloat(product.priceRange.minVariantPrice.amount).toFixed(2)}</p>
+          </div>
+
+          <div className="space-y-2">
+            <p className="opacity-70 text-md leading-relaxed">{product.description}</p>
           </div>
 
           <button
             onClick={handleAddToCart}
             disabled={isOutOfStock}
-            className={`w-full rounded-lg p-3 flex items-center justify-center gap-2 transition-colors text-sm
+            className={`w-full rounded-[50px] p-3 flex items-center justify-center gap-2 transition-colors text-sm
               ${isOutOfStock 
-                ? 'bg-gray-200 text-gray-500 cursor-not-allowed' 
-                : 'bg-zinc-900 text-white hover:bg-zinc-800 cursor-pointer'
+                ? 'bg-accent/50 text-text/70 cursor-not-allowed' 
+                : 'bg-accent text-text hover:bg-accent/70 cursor-pointer'
               }`}
           >
             <MdOutlineShoppingBag className="text-lg" />
-            {isOutOfStock ? 'OUT OF STOCK' : 'ADD TO CART'}
+            {isOutOfStock ? 'Uitverkocht' : 'Toevoegen aan winkelwagen'}
           </button>
-
-          <div className="space-y-2">
-            <h3 className="text-sm font-bold">PRODUCT DESCRIPTION</h3>
-            <p className="opacity-70 text-sm leading-relaxed">{product.description}</p>
-          </div>
-
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-0.5">
-              <h4 className="text-sm font-bold">FREE DELIVERY</h4>
-              <p className="opacity-50 text-xs">2-4 BUSINESS DAYS</p>
-            </div>
-            <div className="space-y-0.5">
-              <h4 className="text-sm font-bold">RETURNS</h4>
-              <p className="opacity-50 text-xs">30 DAYS FREE RETURNS</p>
-            </div>
-          </div>
         </div>
       </div>
       <CartMenu 
