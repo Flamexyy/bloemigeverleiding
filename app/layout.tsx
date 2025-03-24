@@ -5,6 +5,7 @@ import RootLayoutWrapper from "./components/RootLayoutWrapper";
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
 import CookieConsent from './components/CookieConsent';
+import { LikedProvider } from './context/LikedContext';
 
 const gabarito = Gabarito({
   subsets: ["latin"],
@@ -40,9 +41,11 @@ export default function RootLayout({
       <body className={`${gabarito.variable} ${courgette.variable} ${pacifico.variable} font-sans antialiased min-h-screen flex flex-col pt-20`}>
         <AuthProvider>
           <CartProvider>
-            <RootLayoutWrapper>
-              {children}
-            </RootLayoutWrapper>
+            <LikedProvider>
+              <RootLayoutWrapper>
+                {children}
+              </RootLayoutWrapper>
+            </LikedProvider>
           </CartProvider>
         </AuthProvider>
         <CookieConsent />

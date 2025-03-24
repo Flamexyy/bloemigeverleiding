@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { useCart } from '../context/CartContext';
 import { useState } from 'react';
 import CartMenu from './CartMenu';
+import { useLiked } from '../context/LikedContext';
 
 interface ProductCardProps {
   product: {
@@ -22,8 +23,8 @@ interface ProductCardProps {
 
 export default function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
+  const { isLiked, addToLiked, removeFromLiked } = useLiked();
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [liked, setLiked] = useState(false);
 
   if (!product) {
     return null;
@@ -50,6 +51,15 @@ export default function ProductCard({ product }: ProductCardProps) {
     }
   };
 
+  const handleLikeClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (isLiked(product.id)) {
+      removeFromLiked(product.id);
+    } else {
+      addToLiked(product);
+    }
+  };
+
   const isOnSale = product.compareAtPrice && parseFloat(product.compareAtPrice) > parseFloat(product.price);
 
   return (
@@ -71,13 +81,10 @@ export default function ProductCard({ product }: ProductCardProps) {
             </div>
           )}
           <button 
-            onClick={(e) => {
-              e.preventDefault();
-              setLiked(!liked);
-            }}
+            onClick={handleLikeClick}
             className="absolute top-3 right-3 text-2xl text-text bg-cream p-2 rounded-full hover:bg-white"
           >
-            {liked ? <AiFillHeart /> : <AiOutlineHeart />}
+            {isLiked(product.id) ? <AiFillHeart /> : <AiOutlineHeart />}
           </button>
           {!product.availableForSale ? (
             <div className='absolute bottom-3 right-3 px-4 py-2 bg-cream text-text rounded-[100px] text-sm'>

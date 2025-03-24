@@ -11,6 +11,8 @@ import { RiHome5Line, RiShoppingBag3Line, RiInformationLine, RiCustomerService2L
 import Link from 'next/link';
 import Image from 'next/image';
 import { HiMiniChevronRight } from "react-icons/hi2";
+import { useLiked } from '../context/LikedContext';
+import { AiOutlineHeart } from "react-icons/ai";
 
 export default function Header() {
     const [isOpen, setIsOpen] = useState(false);
@@ -19,6 +21,7 @@ export default function Header() {
     const router = useRouter();
     const { user, logout } = useAuth();
     const { itemCount } = useCart();
+    const { likedCount } = useLiked();
 
     const isActive = (path: string) => {
         if (path === '/' && pathname === '/') return true;
@@ -99,6 +102,17 @@ export default function Header() {
                     </nav>
 
                     <div className='sm:w-[200px] flex gap-1 items-center justify-end text-xl md:text-2xl'>
+                        <Link 
+                            href="/liked"
+                            className="p-2 hover:bg-accent rounded-full transition-colors relative"
+                        >
+                            <AiOutlineHeart />
+                            {likedCount > 0 && (
+                                <span className="absolute -top-0 -right-0 bg-text text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                                    {likedCount}
+                                </span>
+                            )}
+                        </Link>
                         <button 
                             onClick={() => setIsCartOpen(true)}
                             className="p-2 hover:bg-accent rounded-full transition-colors relative"
