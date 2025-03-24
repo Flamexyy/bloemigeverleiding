@@ -35,7 +35,7 @@ export default function Footer() {
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
                         {/* Logo and Description */}
                         <div className="space-y-6">
-                            <Image src="/logo-footer.svg" alt="Bloemige Verleiding Logo" width={150} height={50} />
+                            <Image src="/logo-footer.svg" alt="Bloemige Verleiding Logo" width={120} height={120} />
                             <p className="text-[#6E4B3A] text-sm leading-loose">
                                 We deliver innovative products, experiences and services 
                                 to inspire our customers. Free shipping for Members.
@@ -44,7 +44,7 @@ export default function Footer() {
 
                         {/* Quick Links */}
                         <div>
-                            <h3 className="text-lg mb-6 font-bold">GET HELP</h3>
+                            <h3 className="text-lg mb-6 font-bold">ONTVANG HULP</h3>
                             <ul className="space-y-4 text-[#6E4B3A] text-sm">
                                 <li><a href="#" className="hover:text-white">Order Status</a></li>
                                 <li><a href="#" className="hover:text-white">Shipping & Delivery</a></li>
@@ -56,7 +56,7 @@ export default function Footer() {
 
                         {/* About */}
                         <div>
-                            <h3 className="text-lg mb-6 font-bold">ABOUT US</h3>
+                            <h3 className="text-lg mb-6 font-bold">OVER ONS</h3>
                             <ul className="space-y-4 text-[#6E4B3A] text-sm">
                                 <li><a href="#" className="hover:text-white">News</a></li>
                                 <li><a href="#" className="hover:text-white">Careers</a></li>
@@ -67,26 +67,35 @@ export default function Footer() {
 
                         {/* Join Us */}
                         <div>
-                            <h3 className="text-lg mb-6 font-bold">JOIN US</h3>
+                            <h3 className="text-lg mb-6 font-bold">VOLG ONS</h3>
                             <ul className="space-y-4 text-[#6E4B3A] text-sm">
                                 <li><a href="#" className="hover:text-white">Mobile App</a></li>
                                 <li><a href="#" className="hover:text-white">Membership</a></li>
                                 <li><a href="#" className="hover:text-white">Newsletter</a></li>
                                 <li><a href="#" className="hover:text-white">Student Discount</a></li>
                             </ul>
+                            
+                        </div>
+
+                        <div>
+                            <h3 className="text-lg mb-6 font-bold">RECHTELIJK</h3>
+                            <ul className="space-y-4 text-[#6E4B3A] text-sm">
+                                <li><a href="/terms-of-service" className="hover:text-white">Servicevoorwaarden</a></li>
+                                <li><a href="/terms-of-use" className="hover:text-white">Gebruiksvoorwaarden</a></li>
+                                <li><a href="/privacy-policy" className="hover:text-white">Privacybeleid</a></li>
+                            </ul>
                         </div>
                     </div>
 
-                    {/* Bottom Section */}
-                    <div className="border-t border-[#6E4B3A] mt-20 pt-10 flex flex-col md:flex-row justify-between items-center text-[#6E4B3A] text-sm">
-                        <div className="flex flex-col sm:flex-row text-center gap-4 mb-4 md:mb-0">
-                            <a href="/terms-of-service" className="hover:text-white">Servicevoorwaarden</a>
-                            <a href="/terms-of-use" className="hover:text-white">Gebruiksvoorwaarden</a>
-                            <a href="/privacy-policy" className="hover:text-white">Privacybeleid</a>
-                        </div>
-                        <p>© {new Date().getFullYear()} Bloemigeverleiding. Alle Rechten Voorbehouden</p>
-                    </div>
                 </div>
+                    {/* Bottom Section */}
+                    <div className="border-t bg-text border-[#6E4B3A] p-4 flex flex-col md:flex-row justify-between items-center text-cream text-sm">
+                       
+                        <div className='w-full flex flex-col md:flex-row justify-between gap-2 md:gap-20 mx-auto max-w-[1600px]'>
+                            <p>© {new Date().getFullYear()} Bloemigeverleiding. Alle Rechten Voorbehouden</p>
+                            <span>Developed and designed by <a href='https://enhancedigital.nl' target='_blank' className='hover:underline'>Enhancedigital.nl</a></span>
+                        </div>
+                    </div>
             </div>
         </footer>
     );

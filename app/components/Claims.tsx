@@ -2,23 +2,24 @@ import React from 'react';
 import { FaShippingFast } from "react-icons/fa";
 import { HiOutlinePercentBadge } from "react-icons/hi2";
 import { RiArrowRightUpLine } from "react-icons/ri";
+import { LuClock4 } from "react-icons/lu";
 import Link from 'next/link';
 
 export default function Claims() {
     return (
         <div className='grid grid-cols-1 md:grid-cols-3 gap-3 p-4 lg:p-8 w-full'>
            <div className='bg-accent text-text w-full rounded-[25px] p-8 pb-5 flex flex-col items-start'>
-                <h2 className='text-2xl mb-4 font-bold'>Gratis verzending <br />vanaf 50$</h2>
+                <h2 className='text-2xl mb-4 font-bold'>Gratis verzending <br />vanaf €150</h2>
                 <p className='max-w-[90%]'>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                 <div className='flex justify-end w-full'>
                     <FaShippingFast className='text-[7rem] text-[#fecde2]' />
                 </div>
            </div>
            <div className='bg-accent text-text w-full rounded-[25px] p-8 pb-5 flex flex-col items-start'>
-                <h2 className='text-2xl mb-4 font-bold'>15% korting<br />met de code [code] </h2>
+                <h2 className='text-2xl mb-4 font-bold'>Binnen 24<br />uur verzonden</h2>
                 <p className='max-w-[90%]'>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
                 <div className='flex justify-end w-full'>
-                    <HiOutlinePercentBadge className='text-[7rem] text-[#fecde2]' />
+                    <LuClock4 className='text-[7rem] text-[#fecde2]' />
                 </div>
            </div>
            <div 
