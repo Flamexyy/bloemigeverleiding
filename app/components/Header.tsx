@@ -266,11 +266,7 @@ export default function Header() {
                         >
                             <div className="flex items-center gap-3">
                                 <div className="w-12 h-12 bg-accent text-text rounded-full flex items-center justify-center">
-                                    {user ? (
-                                        <LuUser className="text-xl" />
-                                    ) : (
-                                        <MdOutlineShoppingBag className="text-xl" />
-                                    )}
+                                    <LuUser className="text-xl" />
                                 </div>
                                 <div>
                                     <h3 className="text-lg font-bold text-text">
