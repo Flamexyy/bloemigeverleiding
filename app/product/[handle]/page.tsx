@@ -224,10 +224,10 @@ export default function ProductPage({ params }: ProductPageProps) {
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
-                    className={`relative w-[60px] h-[60px] rounded-[15px] overflow-hidden flex-shrink-0 transition-all border-2 ${
+                    className={`relative w-[60px] h-[60px] rounded-[35%] overflow-hidden flex-shrink-0 transition-all ${
                       selectedImage === index 
                         ? 'border-text' 
-                        : 'border-transparent hover:opacity-80'
+                        : 'border-transparent hover:opacity-80 opacity-30'
                     }`}
                   >
                     <Image
@@ -375,10 +375,10 @@ export default function ProductPage({ params }: ProductPageProps) {
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
-                  className={`relative aspect-square rounded-[25px] overflow-hidden transition-all border-2 ${
+                  className={`relative aspect-square rounded-[35%] overflow-hidden transition-all ${
                     selectedImage === index 
                       ? 'border-text' 
-                      : 'border-transparent hover:opacity-80'
+                      : 'border-transparent hover:opacity-80 opacity-30'
                   }`}
                 >
                   <Image
