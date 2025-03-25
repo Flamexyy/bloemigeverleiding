@@ -312,7 +312,17 @@ export default function Profile() {
               <div className="space-y-4 flex flex-col gap-6">
                 <h1 className="text-3xl font-bold text-text">Mijn Bestellingen</h1>
                 
-                {ordersError ? (
+                {ordersLoading ? (
+                  // Loading state
+                  <div className="space-y-4">
+                    {[1, 2].map((i) => (
+                      <div key={i} className="border border-text/20 rounded-2xl p-6 space-y-6 animate-pulse">
+                        <div className="h-6 bg-accent rounded w-1/4"></div>
+                        <div className="h-20 bg-accent rounded"></div>
+                      </div>
+                    ))}
+                  </div>
+                ) : ordersError ? (
                   // Error state
                   <div className="text-center py-12 border rounded-2xl border-text/20">
                     <p className="text-red-400 mb-4">{ordersError}</p>
