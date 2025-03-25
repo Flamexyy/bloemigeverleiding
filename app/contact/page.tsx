@@ -1,154 +1,160 @@
 'use client';
-
 import { useState } from 'react';
+import { MdEmail, MdPhone, MdLocationOn, MdAccessTime } from "react-icons/md";
+import { FaInstagram, FaFacebook, FaTiktok } from "react-icons/fa";
+import Faq from '../components/Faq';
 
 export default function ContactPage() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    subject: '',
-    message: ''
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log(formData);
-  };
-
+  const [activeTab, setActiveTab] = useState('contact');
+  
+  const faqItems = [
+    {
+      question: "Wat zijn jullie verzendkosten?",
+      answer: "Wij bieden gratis verzending aan op alle bestellingen boven €50. Voor bestellingen onder €50 rekenen wij €4,95 verzendkosten binnen Nederland."
+    },
+    {
+      question: "Hoe lang duurt de levering?",
+      answer: "Bestellingen worden doorgaans binnen 1-2 werkdagen verwerkt. De levertijd is 1-3 werkdagen binnen Nederland en 3-5 werkdagen binnen de EU."
+    },
+    {
+      question: "Kan ik mijn bestelling retourneren?",
+      answer: "Ja, je kunt je bestelling binnen 30 dagen na ontvangst retourneren. De artikelen moeten ongebruikt zijn en in de originele verpakking zitten."
+    },
+    {
+      question: "Hoe kan ik de status van mijn bestelling volgen?",
+      answer: "Na verzending ontvang je een e-mail met een track & trace code waarmee je je bestelling kunt volgen."
+    },
+    {
+      question: "Welke betaalmethoden accepteren jullie?",
+      answer: "Wij accepteren iDEAL, PayPal, Mastercard, Visa, American Express en Bancontact."
+    },
+    {
+      question: "Kan ik mijn bestelling wijzigen of annuleren?",
+      answer: "Je kunt je bestelling wijzigen of annuleren binnen 1 uur na het plaatsen. Neem hiervoor contact op met onze klantenservice."
+    }
+  ];
+  
   return (
     <div className="max-w-[1200px] mx-auto px-4 lg:px-8">
-      <div className="py-12 lg:py-20">
+      <div className="py-12 lg:py-16">
         {/* Hero Section */}
         <div className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">Contact Us</h1>
-          <p className="text-gray-600 max-w-2xl mx-auto text-lg">
-            Have a question or feedback? We'd love to hear from you. Send us a message and we'll respond as soon as possible.
+          <h1 className="text-4xl md:text-5xl font-bold mb-6 text-text">Contact</h1>
+          <p className="text-text max-w-2xl mx-auto text-lg">
+            We staan voor je klaar! Heb je vragen of opmerkingen? Neem gerust contact met ons op.
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-12 mb-20">
-          {/* Contact Form */}
-          <div className="order-2 md:order-1">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="name" className="block text-sm font-bold mb-2">Name</label>
-                <input
-                  type="text"
-                  id="name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-colors"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="email" className="block text-sm font-bold mb-2">Email</label>
-                <input
-                  type="email"
-                  id="email"
-                  value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-colors"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="subject" className="block text-sm font-bold mb-2">Subject</label>
-                <input
-                  type="text"
-                  id="subject"
-                  value={formData.subject}
-                  onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-colors"
-                  required
-                />
-              </div>
-              <div>
-                <label htmlFor="message" className="block text-sm font-bold mb-2">Message</label>
-                <textarea
-                  id="message"
-                  value={formData.message}
-                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                  rows={6}
-                  className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-black/5 focus:border-black transition-colors resize-none"
-                  required
-                />
-              </div>
-              <button
-                type="submit"
-                className="w-full bg-black text-white py-4 rounded-xl hover:bg-black/90 transition-colors"
-              >
-                Send Message
-              </button>
-            </form>
-          </div>
-
-          {/* Contact Info */}
-          <div className="order-1 md:order-2 space-y-8">
-            <div className="bg-gray-50 p-8 rounded-3xl">
-              <h2 className="text-2xl font-bold mb-6">Get in Touch</h2>
-              <div className="space-y-6">
-                <div>
-                  <h3 className="font-bold mb-2">Email</h3>
-                  <p className="text-gray-600">support@example.com</p>
-                </div>
-                <div>
-                  <h3 className="font-bold mb-2">Phone</h3>
-                  <p className="text-gray-600">+1 234 567 890</p>
-                </div>
-                <div>
-                  <h3 className="font-bold mb-2">Address</h3>
-                  <p className="text-gray-600">
-                    123 Store Street<br />
-                    City, Country 12345
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-gray-50 p-8 rounded-3xl">
-              <h2 className="text-2xl font-bold mb-6">Business Hours</h2>
-              <div className="space-y-4">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Monday - Friday</span>
-                  <span className="font-bold">9:00 AM - 6:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Saturday</span>
-                  <span className="font-bold">10:00 AM - 4:00 PM</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Sunday</span>
-                  <span className="font-bold">Closed</span>
-                </div>
-              </div>
-            </div>
+        {/* Tabs */}
+        <div className="flex justify-center mb-12">
+          <div className="inline-flex bg-cream rounded-[50px] p-1">
+            <button 
+              onClick={() => setActiveTab('contact')}
+              className={`py-2 px-6 rounded-[50px] text-sm font-medium transition-colors ${
+                activeTab === 'contact' ? 'bg-accent text-text' : 'text-text hover:bg-accent/20'
+              }`}
+            >
+              Contact Info
+            </button>
+            <button 
+              onClick={() => setActiveTab('faq')}
+              className={`py-2 px-6 rounded-[50px] text-sm font-medium transition-colors ${
+                activeTab === 'faq' ? 'bg-accent text-text' : 'text-text hover:bg-accent/20'
+              }`}
+            >
+              Veelgestelde Vragen
+            </button>
           </div>
         </div>
 
-        {/* FAQ Section */}
-        <div className="text-center bg-gray-50 rounded-3xl p-8 md:p-12">
-          <h2 className="text-2xl font-bold mb-12">Frequently Asked Questions</h2>
-          <div className="grid md:grid-cols-2 gap-8 text-left max-w-4xl mx-auto">
-            <div>
-              <h3 className="font-bold mb-2">What are your shipping times?</h3>
-              <p className="text-gray-600">We deliver within 2-4 business days across Europe. Free shipping on orders over €50.</p>
+        {/* Contact Info Tab */}
+        {activeTab === 'contact' && (
+          <div className="grid md:grid-cols-2 gap-12">
+            <div className="space-y-8">
+              <div className="bg-cream rounded-[25px] p-8">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center flex-shrink-0">
+                    <MdEmail className="text-xl text-text" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg mb-2 text-text">E-mail</h3>
+                    <p className="text-text mb-1">Klantenservice:</p>
+                    <p className="text-text font-medium">klantenservice@example.nl</p>
+                    <p className="text-text mt-3 mb-1">Zakelijke vragen:</p>
+                    <p className="text-text font-medium">info@example.nl</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-cream rounded-[25px] p-8">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center flex-shrink-0">
+                    <MdPhone className="text-xl text-text" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg mb-2 text-text">Telefoon</h3>
+                    <p className="text-text mb-1">Klantenservice:</p>
+                    <p className="text-text font-medium">+31 (0)20 123 4567</p>
+                    <p className="text-text text-sm mt-1">Maandag t/m vrijdag: 9:00 - 17:00</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-cream rounded-[25px] p-8">
+                <div className="flex items-start gap-4">
+                  <div className="w-10 h-10 bg-accent rounded-full flex items-center justify-center flex-shrink-0">
+                    <MdLocationOn className="text-xl text-text" />
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-lg mb-2 text-text">Adres</h3>
+                    <p className="text-text">
+                      Winkelstraat 123<br />
+                      1234 AB Amsterdam<br />
+                      Nederland
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              
             </div>
-            <div>
-              <h3 className="font-bold mb-2">What is your return policy?</h3>
-              <p className="text-gray-600">We offer a 30-day return policy. Items must be unused and in original packaging.</p>
-            </div>
-            <div>
-              <h3 className="font-bold mb-2">Do you ship internationally?</h3>
-              <p className="text-gray-600">Yes, we ship to most countries worldwide. Shipping costs vary by location.</p>
-            </div>
-            <div>
-              <h3 className="font-bold mb-2">How can I track my order?</h3>
-              <p className="text-gray-600">Once your order ships, you'll receive a tracking number via email.</p>
+            
+            <div className="space-y-8">
+              
+              <div className="bg-cream rounded-[25px] p-8">
+                <h3 className="font-bold text-lg mb-4 text-text">Volg Ons</h3>
+                <div className="flex gap-4">
+                  <a href="#" className="w-12 h-12 bg-accent rounded-full flex items-center justify-center hover:bg-accent/80 transition-colors">
+                    <FaInstagram className="text-xl text-text" />
+                  </a>
+                  <a href="#" className="w-12 h-12 bg-accent rounded-full flex items-center justify-center hover:bg-accent/80 transition-colors">
+                    <FaFacebook className="text-xl text-text" />
+                  </a>
+                  <a href="#" className="w-12 h-12 bg-accent rounded-full flex items-center justify-center hover:bg-accent/80 transition-colors">
+                    <FaTiktok className="text-xl text-text" />
+                  </a>
+                </div>
+                <p className="mt-4 text-text">
+                  Volg ons op social media voor de nieuwste updates, achter-de-schermen content en exclusieve aanbiedingen!
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        )}
+
+        {/* FAQ Tab */}
+        {activeTab === 'faq' && (
+          <div className="max-w-3xl mx-auto">
+            <div className="space-y-6">
+              {faqItems.map((faq, index) => (
+                <div key={index} className="bg-cream rounded-[25px] p-6">
+                  <h3 className="font-bold text-lg mb-2 text-text">{faq.question}</h3>
+                  <p className="text-text">{faq.answer}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
