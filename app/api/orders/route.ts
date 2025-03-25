@@ -5,26 +5,66 @@ export async function GET(request: Request) {
   try {
     const authHeader = request.headers.get("Authorization");
     const accessToken = authHeader?.replace("Bearer ", "");
-
+    
     if (!accessToken) {
       return NextResponse.json(
         { message: "Please log in to view your orders" },
         { status: 401 }
       );
     }
-
+    
     try {
       const ordersData = await getCustomerOrders(accessToken);
 
       const formattedOrders = ordersData
         .map((order) => {
           try {
+            // Calculate line items with fixed prices from the original order data
+            const lineItems = order.node.lineItems.edges.map((item) => {
+              // Get the ORIGINAL unit price from the order, not the current product price
+              // This ensures the price is fixed at time of purchase
+              const unitPrice = item.node.originalUnitPriceSet?.shopMoney?.amount || 
+                item.node.originalTotalPrice?.amount / item.node.quantity ||
+                "0.00";
+              
+              // Calculate the line total using the original price
+              const lineTotal = (parseFloat(unitPrice) * item.node.quantity).toFixed(2);
+              
+              return {
+                title: item.node.title,
+                quantity: item.node.quantity,
+                variant: {
+                  // Use the original price, not the current product price
+                  price: unitPrice,
+                  compareAtPrice: item.node.variant?.compareAtPrice?.amount || null,
+                },
+                lineTotal: lineTotal,
+                imageUrl: item.node.variant?.image?.url || "",
+              };
+            });
+            
+            // Calculate the total price of all line items
+            const itemsTotal = lineItems.reduce((sum, item) => {
+              return sum + parseFloat(item.lineTotal);
+            }, 0);
+
+            // Calculate shipping as the difference between order total and items total
+            const calculatedShippingPrice = (
+              parseFloat(order.node.totalPriceV2.amount) - itemsTotal
+            ).toFixed(2);
+
+            // Use the calculated shipping price if it's positive, otherwise use 0
+            const displayShippingPrice = parseFloat(calculatedShippingPrice) > 0 
+              ? calculatedShippingPrice 
+              : "0.00";
+            
             return {
               id: order.node.id,
               orderNumber: order.node.orderNumber,
               totalPrice: order.node.totalPriceV2.amount,
               currencyCode: order.node.totalPriceV2.currencyCode,
               createdAt: order.node.processedAt,
+              shippingPrice: displayShippingPrice,
               status: order.node.canceledAt
                 ? "CANCELLED"
                 : order.node.financialStatus === "REFUNDED"
@@ -32,24 +72,14 @@ export async function GET(request: Request) {
                 : order.node.fulfillmentStatus === "FULFILLED"
                 ? "COMPLETED"
                 : order.node.fulfillmentStatus || "UNFULFILLED",
-              lineItems: order.node.lineItems.edges.map((item) => ({
-                title: item.node.title,
-                quantity: item.node.quantity,
-                variant: {
-                  price:
-                    item.node.variant?.price?.amount ||
-                    item.node.originalTotalPrice?.amount ||
-                    "0.00",
-                },
-                imageUrl: item.node.variant?.image?.url || "",
-              })),
+              lineItems: lineItems,
             };
           } catch (error) {
             console.error("Error formatting order:", error, order);
             return null;
           }
         })
-        .filter(Boolean); // Remove any null values from mapping errors
+        .filter(Boolean);
 
       return NextResponse.json({ orders: formattedOrders });
     } catch (error) {

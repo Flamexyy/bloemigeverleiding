@@ -18,6 +18,7 @@ interface LineItem {
     price: string;
     compareAtPrice?: string;
   };
+  lineTotal: string;
   imageUrl?: string;
 }
 
@@ -29,6 +30,7 @@ interface Order {
   createdAt: string;
   status: string;
   lineItems: LineItem[];
+  shippingPrice?: string;
 }
 
 const formatPhoneNumber = (phone: string) => {
@@ -368,39 +370,51 @@ export default function Profile() {
                           </span>
                         </div>
 
-                        {order.lineItems.map((item, index) => (
-                          <div key={index} className="flex gap-4">
-                            <div className="w-20 h-20 bg-accent rounded-xl shrink-0 relative overflow-hidden">
-                              <Image
-                                src={item.imageUrl || '/placeholder.jpg'}
-                                alt={item.title}
-                                fill
-                                className="object-cover"
-                                sizes="80px"
-                              />
-                            </div>
-                            <div className="flex-1">
-                              <h3 className="font-medium text-text">{item.title}</h3>
-                              <p className="text-sm text-text/50">Aantal: {item.quantity}</p>
-                              <div className="flex items-center gap-2">
-                                {item.variant.compareAtPrice && parseFloat(item.variant.compareAtPrice) > parseFloat(item.variant.price) && (
-                                  <span className="text-sm line-through text-text/50">
-                                    €{parseFloat(item.variant.compareAtPrice).toFixed(2)}
+                        {order.lineItems.map((item, index) => {
+                          return (
+                            <div key={index} className="flex gap-4">
+                              <div className="w-20 h-20 bg-accent rounded-xl shrink-0 relative overflow-hidden">
+                                <Image
+                                  src={item.imageUrl || '/placeholder.jpg'}
+                                  alt={item.title}
+                                  fill
+                                  className="object-cover"
+                                  sizes="80px"
+                                />
+                              </div>
+                              <div className="flex-1">
+                                <h3 className="font-medium text-text">{item.title}</h3>
+                                <p className="text-sm text-text/50">Aantal: {item.quantity}</p>
+                                <div className="flex items-center gap-2">
+                                  {item.variant.compareAtPrice && parseFloat(item.variant.compareAtPrice) > parseFloat(item.variant.price) && (
+                                    <span className="text-sm line-through text-text/50">
+                                      €{parseFloat(item.variant.compareAtPrice).toFixed(2)}
+                                    </span>
+                                  )}
+                                  <span className={`font-medium ${
+                                    item.variant.compareAtPrice && parseFloat(item.variant.compareAtPrice) > parseFloat(item.variant.price)
+                                      ? 'text-red-400'
+                                      : 'text-text'
+                                  }`}>
+                                <div className="mt-1 font-medium">
+                                  €{item.lineTotal || (parseFloat(item.variant.price) * item.quantity).toFixed(2)}
+                                </div>
                                   </span>
-                                )}
-                                <span className={`font-medium ${
-                                  item.variant.compareAtPrice && parseFloat(item.variant.compareAtPrice) > parseFloat(item.variant.price)
-                                    ? 'text-red-400'
-                                    : 'text-text'
-                                }`}>
-                                  €{parseFloat(item.variant.price).toFixed(2)}
-                                </span>
+                                </div>
                               </div>
                             </div>
-                          </div>
-                        ))}
+                          );
+                        })}
 
+                        {/* Fix shipping price display */}
                         <div className="pt-4 border-t border-text/20">
+                          {order.shippingPrice && parseFloat(order.shippingPrice) > 0 && (
+                            <div className="flex justify-between text-text mb-2">
+                              <span>Verzendkosten</span>
+                              <span>€{parseFloat(order.shippingPrice).toFixed(2)}</span>
+                            </div>
+                          )}
+                          
                           <div className="flex justify-between text-text">
                             <span>Totaal</span>
                             <span className="font-bold">€{parseFloat(order.totalPrice).toFixed(2)}</span>
