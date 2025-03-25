@@ -14,7 +14,7 @@ interface ProductCardProps {
     handle: string;
     title: string;
     price: string | number;
-    compareAtPrice?: string;
+    compareAtPrice?: string | number | null;
     imageUrl: string;
     availableForSale: boolean;
     variantId: string;
@@ -47,8 +47,8 @@ export default function ProductCard({ product }: ProductCardProps) {
       imageUrl: product.imageUrl,
       quantity: 1,
       handle: product.handle,
-      compareAtPrice: product.compareAtPrice && parseFloat(product.compareAtPrice) > priceAsNumber 
-        ? product.compareAtPrice 
+      compareAtPrice: product.compareAtPrice && parseFloat(product.compareAtPrice.toString()) > priceAsNumber 
+        ? product.compareAtPrice.toString() 
         : null,
       quantityAvailable: product.quantityAvailable || 1
     });
@@ -62,6 +62,12 @@ export default function ProductCard({ product }: ProductCardProps) {
     if (isLiked(product.id)) {
       removeLiked(product.id);
     } else {
+      const compareAtPriceNumber = product.compareAtPrice 
+        ? (typeof product.compareAtPrice === 'string' 
+            ? parseFloat(product.compareAtPrice) 
+            : product.compareAtPrice)
+        : null;
+
       addToLiked({
         id: product.id,
         title: product.title,
@@ -70,12 +76,18 @@ export default function ProductCard({ product }: ProductCardProps) {
         handle: product.handle,
         variantId: product.variantId,
         availableForSale: product.availableForSale,
-        quantityAvailable: product.quantityAvailable || 1
+        quantityAvailable: product.quantityAvailable || 1,
+        compareAtPrice: compareAtPriceNumber && compareAtPriceNumber > priceAsNumber 
+          ? compareAtPriceNumber 
+          : null
       });
     }
   };
 
-  const isOnSale = product.compareAtPrice && parseFloat(product.compareAtPrice) > priceAsNumber;
+  const isOnSale = product.compareAtPrice && 
+    (typeof product.compareAtPrice === 'string' 
+      ? parseFloat(product.compareAtPrice) 
+      : product.compareAtPrice) > priceAsNumber;
 
   return (
     <>
@@ -117,13 +129,19 @@ export default function ProductCard({ product }: ProductCardProps) {
             <div className="flex items-center gap-2">
               {isOnSale ? (
                 <>
-                  <span className="text-red-400 font-bold text-lg">€{priceAsNumber.toFixed(2)}</span>
-                  <span className="text-text line-through text-sm">
-                    €{parseFloat(product.compareAtPrice!).toFixed(2)}
-                  </span>
+                  <p className="text-base font-bold text-red-400">
+                    €{priceAsNumber.toFixed(2)}
+                  </p>
+                  <p className="text-sm text-text line-through">
+                    €{(typeof product.compareAtPrice === 'string' 
+                      ? parseFloat(product.compareAtPrice) 
+                      : product.compareAtPrice || 0).toFixed(2)}
+                  </p>
                 </>
               ) : (
-                <span className="text-text font-bold text-lg">€{priceAsNumber.toFixed(2)}</span>
+                <p className="text-base font-bold text-text">
+                  €{priceAsNumber.toFixed(2)}
+                </p>
               )}
             </div>
           </div>

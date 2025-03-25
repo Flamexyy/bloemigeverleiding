@@ -11,6 +11,7 @@ export interface LikedProduct {
   variantId: string;
   availableForSale: boolean;
   quantityAvailable: number;
+  compareAtPrice?: number | null;
 }
 
 interface LikedContextType {

@@ -153,7 +153,11 @@ export default function ProductPage({ params }: ProductPageProps) {
       imageUrl: product.images.edges[0]?.node.originalSrc,
       handle: product.handle,
       variantId: selectedVariant.id,
-      availableForSale: selectedVariant.availableForSale
+      availableForSale: selectedVariant.availableForSale,
+      compareAtPrice: product.compareAtPriceRange?.maxVariantPrice?.amount && 
+        parseFloat(product.compareAtPriceRange.maxVariantPrice.amount) > parseFloat(product.priceRange.minVariantPrice.amount)
+        ? parseFloat(product.compareAtPriceRange.maxVariantPrice.amount)
+        : null
     };
 
     if (isLiked(product.id)) {
@@ -168,7 +172,7 @@ export default function ProductPage({ params }: ProductPageProps) {
 
   if (!product) return (
     <div className="max-w-[1200px] mx-auto">
-      <div className="flex flex-col lg:flex-row gap-6 py-6 xl:py-10 px-4 lg:px-8 justify-center">
+      <div className="flex flex-col md:flex-row gap-6 py-6 xl:py-10 px-4 lg:px-8 justify-center">
         {/* Image Skeleton */}
         <div className="flex-1 lg:max-w-[600px]">
           <div className="aspect-square bg-gray-200 rounded-lg animate-pulse" />
@@ -206,7 +210,7 @@ export default function ProductPage({ params }: ProductPageProps) {
 
   return (
     <div className="max-w-[1200px] mx-auto">
-      <div className="flex flex-col lg:flex-row gap-6 py-6 xl:py-10 px-4 lg:px-8 justify-center">
+      <div className="flex flex-col md:flex-row gap-6 py-6 xl:py-10 px-4 lg:px-8 justify-center">
         {/* Images Section */}
         <div className="flex-1 lg:max-w-[600px]">
           {/* Desktop Layout */}
@@ -413,9 +417,9 @@ export default function ProductPage({ params }: ProductPageProps) {
               {/* Add to Cart Button */}
               <button
                 onClick={handleAddToCart}
-                disabled={isOutOfStock || (getCartItemQuantity(selectedVariant.id) + quantity > selectedVariant?.quantityAvailable)}
+                disabled={isOutOfStock || !selectedVariant || (getCartItemQuantity(selectedVariant?.id) + quantity > selectedVariant?.quantityAvailable)}
                 className={`flex-1 rounded-[50px] p-3 flex items-center justify-center gap-2 transition-colors text-sm
-                  ${isOutOfStock || (getCartItemQuantity(selectedVariant.id) + quantity > selectedVariant?.quantityAvailable)
+                  ${isOutOfStock || !selectedVariant || (getCartItemQuantity(selectedVariant?.id) + quantity > selectedVariant?.quantityAvailable)
                     ? 'bg-accent/50 text-text/70 cursor-not-allowed' 
                     : 'bg-accent text-text hover:bg-accent/70 cursor-pointer'
                   }`}
