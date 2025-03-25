@@ -1,10 +1,16 @@
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
   images: {
     remotePatterns: [
       {
         protocol: "https",
         hostname: "cdn.shopify.com",
       },
+    ],
+    domains: [
+      'cdn.shopify.com',
+      // Add any other domains you need for Image component
     ],
   },
   eslint: {
@@ -16,3 +22,5 @@ module.exports = {
     NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN: process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN,
   },
 };
+
+module.exports = nextConfig;
