@@ -6,6 +6,7 @@ import { RiFilterOffLine, RiFilterLine } from "react-icons/ri";
 import { IoClose } from "react-icons/io5";
 import ProductCard from '../components/ProductCard';
 import { getProducts } from '../utils/shopify';
+import { ProductCardSkeleton } from '../components/SkeletonLoader';
 
 interface ShopifyProduct {
   id: string;
@@ -281,15 +282,9 @@ export default function Shop() {
 
             {/* Product Grid */}
             {loading ? (
-              <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-6'>
-                {[...Array(8)].map((_, index) => (
-                  <div key={index} className="animate-pulse mb-4">
-                    <div className="aspect-square bg-gray-100 rounded-lg mb-4" />
-                    <div className="flex flex-col gap-2">
-                      <div className="h-5 bg-gray-100 rounded-lg w-3/4" />
-                      <div className="h-5 bg-gray-100 rounded-lg w-1/4" />
-                    </div>
-                  </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {Array.from({ length: 8 }).map((_, index) => (
+                  <ProductCardSkeleton key={index} />
                 ))}
               </div>
             ) : (

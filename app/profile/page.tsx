@@ -9,6 +9,7 @@ import { useAuth } from '../context/AuthContext';
 import { LuPackage } from "react-icons/lu";
 import Image from 'next/image';
 import { TbLogout } from "react-icons/tb";
+import { OrderSkeleton } from '../components/SkeletonLoader';
 
 interface LineItem {
   title: string;
@@ -313,13 +314,9 @@ export default function Profile() {
                 <h1 className="text-3xl font-bold text-text">Mijn Bestellingen</h1>
                 
                 {ordersLoading ? (
-                  // Loading state
                   <div className="space-y-4">
                     {[1, 2].map((i) => (
-                      <div key={i} className="border border-text/20 rounded-2xl p-6 space-y-6 animate-pulse">
-                        <div className="h-6 bg-accent rounded w-1/4"></div>
-                        <div className="h-20 bg-accent rounded"></div>
-                      </div>
+                      <OrderSkeleton key={i} />
                     ))}
                   </div>
                 ) : ordersError ? (

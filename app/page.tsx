@@ -8,6 +8,8 @@ import { IoMdPricetags } from "react-icons/io";
 import { RiArrowRightUpLine } from "react-icons/ri";
 import Claims from './components/Claims';
 import Faq from './components/Faq';
+import { ProductCardSkeleton } from './components/SkeletonLoader';
+
 interface ShopifyProduct {
   id: string;
   handle: string;
@@ -110,14 +112,8 @@ export default function Home() {
 
           {loading && (
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-              {[...Array(4)].map((_, index) => (
-                <div key={index} className="animate-pulse">
-                  <div className="aspect-square bg-gray-200 rounded-3xl mb-4" />
-                  <div className="space-y-2">
-                    <div className="h-6 bg-gray-200 rounded-lg w-3/4" />
-                    <div className="h-6 bg-gray-200 rounded-lg w-1/4" />
-                  </div>
-                </div>
+              {Array.from({ length: 4 }).map((_, index) => (
+                <ProductCardSkeleton key={index} />
               ))}
             </div>
           )}
