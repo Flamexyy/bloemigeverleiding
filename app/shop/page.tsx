@@ -263,9 +263,19 @@ export default function Shop() {
                       resetButton.classList.add('animate-spin-reverse');
                       setTimeout(() => {
                         resetButton.classList.remove('animate-spin-reverse');
-                      }, 300); // Reduced from 500ms to 300ms for faster animation
+                      }, 300);
                     }
+                    
+                    // Reset all filters
                     handleResetFilters();
+                    
+                    // Also trigger the reset in the filter component
+                    setShouldResetFilters(true);
+                    
+                    // Reset after a short delay to allow the component to process
+                    setTimeout(() => {
+                      setShouldResetFilters(false);
+                    }, 100);
                   }}
                   className="flex items-center justify-center w-10 h-[40px] bg-cream rounded-[25px] hover:bg-cream/70 transition-colors"
                 >

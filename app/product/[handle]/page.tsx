@@ -173,35 +173,57 @@ export default function ProductPage({ params }: ProductPageProps) {
   if (!product) return (
     <div className="max-w-[1200px] mx-auto">
       <div className="flex flex-col md:flex-row gap-6 py-6 xl:py-10 px-4 lg:px-8 justify-center">
-        {/* Image Skeleton */}
+        {/* Images Section Skeleton */}
         <div className="flex-1 lg:max-w-[600px]">
-          <div className="aspect-square bg-gray-200 rounded-lg animate-pulse" />
+          {/* Main Image Skeleton */}
+          <div className="w-full aspect-square bg-accent/30 rounded-[25px] animate-pulse mb-4"></div>
+          
+          {/* Thumbnail Skeletons */}
+          <div className="flex gap-2 overflow-x-auto pb-2">
+            {[...Array(4)].map((_, i) => (
+              <div 
+                key={i} 
+                className="w-[60px] h-[60px] bg-accent/30 rounded-[15px] flex-shrink-0 animate-pulse"
+              ></div>
+            ))}
+          </div>
         </div>
-        
+
         {/* Product Info Skeleton */}
-        <div className="flex-1 lg:max-w-[400px] space-y-4">
-          <div>
-            <div className="h-8 bg-gray-200 rounded-lg w-3/4 animate-pulse" />
-            <div className="h-6 bg-gray-200 rounded-lg w-1/4 mt-2 animate-pulse" />
-            <div className="h-4 bg-gray-200 rounded-lg w-1/3 mt-2 animate-pulse" />
+        <div className="flex-1 lg:max-w-[400px] space-y-6">
+          {/* Title and Price */}
+          <div className="space-y-3">
+            <div className="h-8 bg-accent/30 rounded-[25px] w-3/4 animate-pulse"></div>
+            <div className="h-6 bg-accent/30 rounded-[25px] w-1/4 animate-pulse"></div>
           </div>
           
-          <div className="h-12 bg-gray-200 rounded-lg animate-pulse" />
-          
+          {/* Description */}
           <div className="space-y-2">
-            <div className="h-4 bg-gray-200 rounded-lg w-1/3 animate-pulse" />
-            <div className="h-20 bg-gray-200 rounded-lg animate-pulse" />
+            <div className="h-4 bg-accent/30 rounded-[25px] w-full animate-pulse"></div>
+            <div className="h-4 bg-accent/30 rounded-[25px] w-full animate-pulse"></div>
+            <div className="h-4 bg-accent/30 rounded-[25px] w-2/3 animate-pulse"></div>
           </div>
           
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <div className="h-4 bg-gray-200 rounded-lg w-2/3 animate-pulse" />
-              <div className="h-3 bg-gray-200 rounded-lg w-1/2 animate-pulse" />
+          {/* Variant Selection */}
+          <div className="space-y-3">
+            <div className="h-5 bg-accent/30 rounded-[25px] w-1/4 animate-pulse"></div>
+            <div className="flex gap-2">
+              {[...Array(3)].map((_, i) => (
+                <div 
+                  key={i} 
+                  className="h-10 bg-accent/30 rounded-[50px] w-16 animate-pulse"
+                ></div>
+              ))}
             </div>
-            <div className="space-y-1">
-              <div className="h-4 bg-gray-200 rounded-lg w-2/3 animate-pulse" />
-              <div className="h-3 bg-gray-200 rounded-lg w-1/2 animate-pulse" />
+          </div>
+          
+          {/* Add to Cart Section */}
+          <div className="space-y-4">
+            <div className="flex items-center gap-4">
+              <div className="h-12 bg-accent/30 rounded-[50px] w-32 animate-pulse"></div>
+              <div className="h-12 bg-accent/30 rounded-[50px] w-full animate-pulse"></div>
             </div>
+            <div className="h-12 bg-accent/30 rounded-[50px] w-full animate-pulse"></div>
           </div>
         </div>
       </div>
