@@ -98,7 +98,7 @@ export default function Header() {
                         </ul>
                     </nav>
 
-                    <div className='sm:w-[150px] flex gap-1 items-center justify-end text-xl md:text-2xl'>
+                    <div className='sm:w-[150px] flex gap-1 items-center justify-end text-2xl'>
                         <Link 
                             href="/liked"
                             className={`p-2 rounded-full transition-colors relative ${
