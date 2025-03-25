@@ -26,6 +26,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const { addToCart } = useCart();
   const { isLiked, addToLiked, removeLiked } = useLiked();
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
 
   if (!product) {
     return null;
@@ -90,29 +91,28 @@ export default function ProductCard({ product }: ProductCardProps) {
       : product.compareAtPrice) > priceAsNumber;
 
   return (
-    <>
-      <Link href={`/product/${product.handle}`} className='group block mb-10'>
-        <div className="relative w-full aspect-square rounded-[30px] overflow-hidden bg-[#F5F5F5]">
-          {product.imageUrl ? (
-            <Image 
-              src={product.imageUrl}
-              alt={product.title}
-              fill
-              className="object-cover group-hover:scale-105 transition-transform duration-500"
-              sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-              priority
-            />
-          ) : (
-            <div className="w-full h-full flex items-center justify-center">
-              <span className="text-[#666666]">No image</span>
-            </div>
-          )}
-          <button 
+    <div className="flex flex-col mb-6">
+      {/* Clickable image */}
+      <Link href={`/product/${product.handle}`} className="block">
+        <div 
+          className="relative aspect-square rounded-[25px] overflow-hidden mb-4 cursor-pointer"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
+          <Image
+            src={product.imageUrl}
+            alt={product.title}
+            fill
+            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+            className={`object-cover transition-transform duration-500 ${isHovered ? 'scale-110' : 'scale-100'}`}
+          />
+          <button
             onClick={handleFavoriteToggle}
             className="absolute top-3 right-3 text-2xl text-text bg-cream p-2 rounded-full hover:bg-white"
           >
             {isLiked(product.id) ? <IoMdHeart /> : <IoMdHeartEmpty />}
           </button>
+          
           {!product.availableForSale ? (
             <div className='absolute bottom-3 right-3 px-4 py-2 bg-cream text-text rounded-[100px] text-sm'>
               Uitverkocht
@@ -123,42 +123,43 @@ export default function ProductCard({ product }: ProductCardProps) {
             </div>
           )}
         </div>
-        <div className='flex justify-between flex-col text-center items-center mt-3'>
-          <div className='flex flex-col sm:flex-wrap items-center mb-4'>
-            <h2 className='font-medium text-[#333333] truncate'>{product.title}</h2>
-            <div className="flex items-center gap-2">
-              {isOnSale ? (
-                <>
-                  <p className="text-base font-bold text-red-400">
-                    €{priceAsNumber.toFixed(2)}
-                  </p>
-                  <p className="text-sm text-text line-through">
-                    €{(typeof product.compareAtPrice === 'string' 
-                      ? parseFloat(product.compareAtPrice) 
-                      : product.compareAtPrice || 0).toFixed(2)}
-                  </p>
-                </>
-              ) : (
-                <p className="text-base font-bold text-text">
-                  €{priceAsNumber.toFixed(2)}
-                </p>
-              )}
-            </div>
-          </div>
-          {product.availableForSale && (
-            <button 
-              onClick={handleAddToCart}
-              className='w-full sm:w-fit flex items-center justify-center px-5 p-3 bg-accent text-text hover:bg-gray-100 rounded-[100px] transition-all duration-300'
-            >
-              <MdOutlineShoppingBag className="text-xl mr-2" />Toevoegen
-            </button>
-          )}
-        </div>
       </Link>
-      <CartMenu 
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-      />
-    </>
+      
+      {/* Clickable title */}
+      <Link href={`/product/${product.handle}`} className="text-center mb-2">
+        <h3 className="font-medium text-text hover:underline cursor-pointer">{product.title}</h3>
+      </Link>
+      
+      {/* Non-clickable price */}
+      <div className="text-center mb-4">
+        <div className="flex items-center justify-center gap-2">
+          {product.compareAtPrice && parseFloat(product.compareAtPrice.toString()) > priceAsNumber && (
+            <span className="text-sm line-through text-text/50">
+              €{parseFloat(product.compareAtPrice.toString()).toFixed(2)}
+            </span>
+          )}
+          <span className={`font-medium ${
+            product.compareAtPrice && parseFloat(product.compareAtPrice.toString()) > priceAsNumber
+              ? 'text-red-400'
+              : 'text-text'
+          }`}>
+            €{priceAsNumber.toFixed(2)}
+          </span>
+        </div>
+      </div>
+      
+      {/* Add to cart button */}
+      <button
+        onClick={handleAddToCart}
+        disabled={!product.availableForSale}
+        className={`w-full py-3 rounded-[100px] transition-colors ${
+          product.availableForSale
+            ? 'bg-accent text-text hover:bg-accent/70'
+            : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+        }`}
+      >
+        {product.availableForSale ? 'In winkelwagen' : 'Uitverkocht'}
+      </button>
+    </div>
   );
 }
