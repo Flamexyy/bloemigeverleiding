@@ -8,6 +8,8 @@ import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
 import CartMenu from '@/app/components/CartMenu';
 import { IoMdAdd, IoMdRemove, IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useLiked } from '@/app/context/LikedContext';
+import { Carousel } from 'react-responsive-carousel';
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
 interface ProductPageProps {
   params: {
@@ -19,8 +21,6 @@ export default function ProductPage({ params }: ProductPageProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [product, setProduct] = useState<any>(null);
   const [isOutOfStock, setIsOutOfStock] = useState(false);
-  const [touchStart, setTouchStart] = useState(0);
-  const [touchEnd, setTouchEnd] = useState(0);
   const { addToCart, getCartItemQuantity, setIsOpen: setCartIsOpen } = useCart();
   const { handle } = params;
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -97,69 +97,6 @@ export default function ProductPage({ params }: ProductPageProps) {
     }
   };
 
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchStart(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0].clientX);
-  };
-
-  const handleTouchEnd = () => {
-    if (!product) return;
-    
-    const minSwipeDistance = 50;
-    const swipeDistance = touchStart - touchEnd;
-    
-    if (Math.abs(swipeDistance) > minSwipeDistance) {
-      if (swipeDistance > 0) {
-        // Swiped left - next image
-        const nextIndex = selectedImage === product.images.edges.length - 1 ? 0 : selectedImage + 1;
-        
-        // Add animation class to the image container
-        const imageContainer = document.getElementById('main-image-container');
-        if (imageContainer) {
-          imageContainer.classList.add('animate-slide-left');
-          setTimeout(() => {
-            setSelectedImage(nextIndex);
-            imageContainer.classList.remove('animate-slide-left');
-          }, 150);
-        } else {
-          setSelectedImage(nextIndex);
-        }
-      } else {
-        // Swiped right - previous image
-        const prevIndex = selectedImage === 0 ? product.images.edges.length - 1 : selectedImage - 1;
-        
-        // Add animation class to the image container
-        const imageContainer = document.getElementById('main-image-container');
-        if (imageContainer) {
-          imageContainer.classList.add('animate-slide-right');
-          setTimeout(() => {
-            setSelectedImage(prevIndex);
-            imageContainer.classList.remove('animate-slide-right');
-          }, 150);
-        } else {
-          setSelectedImage(prevIndex);
-        }
-      }
-    }
-  };
-
-  const nextImage = () => {
-    if (!product) return;
-    setSelectedImage(prev => 
-      prev === product.images.edges.length - 1 ? 0 : prev + 1
-    );
-  };
-
-  const prevImage = () => {
-    if (!product) return;
-    setSelectedImage(prev => 
-      prev === 0 ? product.images.edges.length - 1 : prev - 1
-    );
-  };
-
   const handleQuantityChange = (delta: number) => {
     if (!selectedVariant) return;
     
@@ -197,6 +134,20 @@ export default function ProductPage({ params }: ProductPageProps) {
         quantityAvailable: selectedVariant.quantityAvailable || 1
       });
     }
+  };
+
+  const nextImage = () => {
+    if (!product) return;
+    setSelectedImage(prev => 
+      prev === product.images.edges.length - 1 ? 0 : prev + 1
+    );
+  };
+
+  const prevImage = () => {
+    if (!product) return;
+    setSelectedImage(prev => 
+      prev === 0 ? product.images.edges.length - 1 : prev - 1
+    );
   };
 
   if (!product) return (
@@ -293,24 +244,49 @@ export default function ProductPage({ params }: ProductPageProps) {
 
             {/* Main Image */}
             <div className="flex-1">
-              <div 
-                id="main-image-container"
-                className="aspect-square relative"
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
-              >
-                <Image
-                  src={product.images.edges[selectedImage].node.originalSrc}
-                  alt={product.images.edges[selectedImage].node.altText || product.title}
-                  fill
-                  sizes="100vw"
-                  className="object-cover rounded-[25px]"
-                  priority
-                />
+              <div className="aspect-square relative rounded-[25px] overflow-hidden">
+                <Carousel
+                  selectedItem={selectedImage}
+                  onChange={setSelectedImage}
+                  showArrows={false}
+                  showStatus={false}
+                  showThumbs={false}
+                  infiniteLoop={true}
+                  emulateTouch={true}
+                  swipeable={true}
+                  renderIndicator={(clickHandler, isSelected, index) => (
+                    <button
+                      key={index}
+                      onClick={clickHandler}
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        isSelected 
+                          ? 'bg-white w-4' 
+                          : 'bg-white/60 hover:bg-white/80'
+                      }`}
+                      style={{
+                        display: 'inline-block',
+                        margin: '0 4px',
+                      }}
+                      aria-label={`Go to image ${index + 1}`}
+                    />
+                  )}
+                >
+                  {product.images.edges.map((image: any, index: number) => (
+                    <div key={index} className="aspect-square relative">
+                      <Image
+                        src={image.node.originalSrc}
+                        alt={image.node.altText || product.title}
+                        fill
+                        sizes="100vw"
+                        className="object-cover"
+                        priority={index === 0}
+                      />
+                    </div>
+                  ))}
+                </Carousel>
                 
                 {/* Navigation Arrows */}
-                <div className="hidden md:flex absolute bottom-4 right-4 gap-2">
+                <div className="hidden md:flex absolute bottom-4 right-4 gap-2 z-10">
                   <button 
                     onClick={prevImage}
                     className="bg-cream/80 hover:bg-cream rounded-full p-2 transition-colors text-text"
@@ -325,22 +301,6 @@ export default function ProductPage({ params }: ProductPageProps) {
                   >
                     <BiChevronRight className="text-xl" />
                   </button>
-                </div>
-                
-                {/* Image indicator dots */}
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1.5">
-                  {product.images.edges.map((_: unknown, index: number) => (
-                    <button
-                      key={index}
-                      onClick={() => setSelectedImage(index)}
-                      className={`w-2 h-2 rounded-full transition-all ${
-                        selectedImage === index 
-                          ? 'bg-white w-4' 
-                          : 'bg-white/60 hover:bg-white/80'
-                      }`}
-                      aria-label={`Go to image ${index + 1}`}
-                    />
-                  ))}
                 </div>
               </div>
             </div>
@@ -350,56 +310,65 @@ export default function ProductPage({ params }: ProductPageProps) {
           <div className="lg:hidden">
             {/* Swipeable Main Image */}
             <div className="relative rounded-[30px] overflow-hidden">
-              <div 
-                className="aspect-square relative"
-                onTouchStart={handleTouchStart}
-                onTouchMove={handleTouchMove}
-                onTouchEnd={handleTouchEnd}
+              <Carousel
+                selectedItem={selectedImage}
+                onChange={setSelectedImage}
+                showArrows={false}
+                showStatus={false}
+                showThumbs={false}
+                infiniteLoop={true}
+                emulateTouch={true}
+                swipeable={true}
+                renderIndicator={(clickHandler, isSelected, index) => (
+                  <button
+                    key={index}
+                    onClick={clickHandler}
+                    className={`w-2 h-2 rounded-full transition-all ${
+                      isSelected 
+                        ? 'bg-white w-4' 
+                        : 'bg-white/60 hover:bg-white/80'
+                    }`}
+                    style={{
+                      display: 'inline-block',
+                      margin: '0 4px',
+                    }}
+                    aria-label={`Go to image ${index + 1}`}
+                  />
+                )}
               >
-                <Image
-                  src={product.images.edges[selectedImage].node.originalSrc}
-                  alt={product.images.edges[selectedImage].node.altText || product.title}
-                  fill
-                  sizes="100vw"
-                  className="object-cover"
-                  priority
-                />
-                
-                {/* Navigation Arrows */}
-                <div className="hidden md:flex absolute bottom-4 right-4 gap-2">
-                  <button 
-                    onClick={prevImage}
-                    className="bg-white/90 hover:bg-white rounded-full p-2 transition-colors"
-                    aria-label="Previous image"
-                  >
-                    <BiChevronLeft className="text-xl" />
-                  </button>
-                  <button 
-                    onClick={nextImage}
-                    className="bg-white/90 hover:bg-white rounded-full p-2 transition-colors"
-                    aria-label="Next image"
-                  >
-                    <BiChevronRight className="text-xl" />
-                  </button>
-                </div>
-                {/* Image Indicator Dots */}
-                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1.5">
-                  {product.images.edges.map((_: unknown, index: number) => (
-                    <button
-                      key={index}
-                      onClick={() => setSelectedImage(index)}
-                      className={`w-2 h-2 rounded-full transition-all ${
-                        selectedImage === index 
-                          ? 'bg-white w-4' 
-                          : 'bg-white/60 hover:bg-white/80'
-                      }`}
-                      aria-label={`Go to image ${index + 1}`}
+                {product.images.edges.map((image: any, index: number) => (
+                  <div key={index} className="aspect-square relative">
+                    <Image
+                      src={image.node.originalSrc}
+                      alt={image.node.altText || product.title}
+                      fill
+                      sizes="100vw"
+                      className="object-cover"
+                      priority={index === 0}
                     />
-                  ))}
-                </div>
+                  </div>
+                ))}
+              </Carousel>
+              
+              {/* Navigation Arrows */}
+              <div className="hidden md:flex absolute bottom-4 right-4 gap-2 z-10">
+                <button 
+                  onClick={prevImage}
+                  className="bg-white/90 hover:bg-white rounded-full p-2 transition-colors"
+                  aria-label="Previous image"
+                >
+                  <BiChevronLeft className="text-xl" />
+                </button>
+                <button 
+                  onClick={nextImage}
+                  className="bg-white/90 hover:bg-white rounded-full p-2 transition-colors"
+                  aria-label="Next image"
+                >
+                  <BiChevronRight className="text-xl" />
+                </button>
               </div>
             </div>
-
+            
             {/* Thumbnails - Bottom Scrollable */}
             <div className="grid grid-cols-5 gap-1 mt-2">
               {product.images.edges.map((image: any, index: number) => (
