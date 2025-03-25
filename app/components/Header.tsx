@@ -66,7 +66,7 @@ export default function Header() {
                         <Image 
                             src="/logo-wide.svg" 
                             alt="Logo" 
-                            width={180} 
+                            width={150} 
                             height={100} 
                             className="object-contain"
                         />
@@ -266,7 +266,8 @@ export default function Header() {
                         >
                             <div className="flex items-center gap-3">
                                 <div className="w-12 h-12 bg-accent text-text rounded-full flex items-center justify-center">
-                                    <LuUser className="text-xl" />
+                                        <LuUser className="text-xl" />
+                                    )}
                                 </div>
                                 <div>
                                     <h3 className="text-lg font-bold text-text">
