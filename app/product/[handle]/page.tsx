@@ -60,7 +60,6 @@ export default function ProductPage({ params }: ProductPageProps) {
 
     // Check if adding this quantity would exceed available stock
     if (totalQuantityAfterAdd > selectedVariant.quantityAvailable) {
-      alert(`Sorry, er zijn nog maar ${selectedVariant.quantityAvailable} items beschikbaar. U heeft er al ${currentQuantityInCart} in uw winkelwagen.`);
       return;
     }
 
@@ -414,9 +413,9 @@ export default function ProductPage({ params }: ProductPageProps) {
               {/* Add to Cart Button */}
               <button
                 onClick={handleAddToCart}
-                disabled={isOutOfStock}
+                disabled={isOutOfStock || (getCartItemQuantity(selectedVariant.id) + quantity > selectedVariant?.quantityAvailable)}
                 className={`flex-1 rounded-[50px] p-3 flex items-center justify-center gap-2 transition-colors text-sm
-                  ${isOutOfStock 
+                  ${isOutOfStock || (getCartItemQuantity(selectedVariant.id) + quantity > selectedVariant?.quantityAvailable)
                     ? 'bg-accent/50 text-text/70 cursor-not-allowed' 
                     : 'bg-accent text-text hover:bg-accent/70 cursor-pointer'
                   }`}
