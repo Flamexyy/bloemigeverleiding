@@ -20,7 +20,7 @@ export default function Header() {
     const pathname = usePathname();
     const router = useRouter();
     const { user } = useAuth();
-    const { itemCount } = useCart();
+    const { itemCount, setIsOpen: setCartIsOpen } = useCart();
     const { items } = useLiked();
 
     const likedCount = items.length;
@@ -53,6 +53,10 @@ export default function Header() {
             document.body.style.overflow = 'unset';
         };
     }, [isOpen]);
+
+    const handleCartClick = () => {
+        setCartIsOpen(true);
+    };
 
     return (
         <>
@@ -109,7 +113,7 @@ export default function Header() {
                             )}
                         </Link>
                         <button 
-                            onClick={() => setIsCartOpen(true)}
+                            onClick={handleCartClick}
                             className="p-2 hover:bg-accent rounded-full transition-colors relative"
                         >
                             <MdOutlineShoppingBag />

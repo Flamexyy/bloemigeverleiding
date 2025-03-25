@@ -23,9 +23,9 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({ product }: ProductCardProps) {
-  const { addToCart } = useCart();
+  const { addToCart, setIsOpen } = useCart();
   const { isLiked, addToLiked, removeLiked } = useLiked();
-  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
 
   if (!product) {
@@ -34,26 +34,39 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   const priceAsNumber = typeof product.price === 'string' ? parseFloat(product.price) : product.price;
 
-  const handleAddToCart = (e: React.MouseEvent) => {
+  const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     
-    if (!product.availableForSale) return;
+    if (!product.availableForSale || isAddingToCart) return;
 
-    addToCart({
-      id: product.id,
-      variantId: product.variantId,
-      title: product.title,
-      price: priceAsNumber,
-      imageUrl: product.imageUrl,
-      quantity: 1,
-      handle: product.handle,
-      compareAtPrice: product.compareAtPrice && parseFloat(product.compareAtPrice.toString()) > priceAsNumber 
-        ? product.compareAtPrice.toString() 
-        : null,
-      quantityAvailable: product.quantityAvailable || 1
-    });
-    setIsCartOpen(true);
+    setIsAddingToCart(true);
+    
+    try {
+      addToCart({
+        id: product.id,
+        variantId: product.variantId,
+        title: product.title,
+        price: priceAsNumber,
+        imageUrl: product.imageUrl,
+        quantity: 1,
+        handle: product.handle,
+        compareAtPrice: product.compareAtPrice && parseFloat(product.compareAtPrice.toString()) > priceAsNumber 
+          ? product.compareAtPrice.toString() 
+          : null,
+        quantityAvailable: product.quantityAvailable || 1
+      });
+      
+      // Short delay to show loading state
+      await new Promise(resolve => setTimeout(resolve, 300));
+      
+      // Open the cart menu
+      setIsOpen(true);
+    } catch (error) {
+      console.error('Error adding to cart:', error);
+    } finally {
+      setIsAddingToCart(false);
+    }
   };
 
   const handleFavoriteToggle = (e: React.MouseEvent) => {
@@ -151,14 +164,19 @@ export default function ProductCard({ product }: ProductCardProps) {
       {/* Add to cart button */}
       <button
         onClick={handleAddToCart}
-        disabled={!product.availableForSale}
+        disabled={!product.availableForSale || isAddingToCart}
         className={`w-full py-3 rounded-[100px] transition-colors ${
           product.availableForSale
             ? 'bg-accent text-text hover:bg-accent/70'
             : 'bg-gray-200 text-gray-500 cursor-not-allowed'
-        }`}
+        } ${isAddingToCart ? 'opacity-70' : ''}`}
       >
-        {product.availableForSale ? 'In winkelwagen' : 'Uitverkocht'}
+        {!product.availableForSale 
+          ? 'Uitverkocht' 
+          : isAddingToCart 
+            ? 'Toevoegen...' 
+            : 'In winkelwagen'
+        }
       </button>
     </div>
   );

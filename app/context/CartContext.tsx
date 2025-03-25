@@ -25,6 +25,8 @@ interface CartContextType {
   itemCount: number;
   createCheckout: () => Promise<string>;
   getCartItemQuantity: (variantId: string) => number;
+  isOpen: boolean;
+  setIsOpen: (isOpen: boolean) => void;
 }
 
 export const CartContext = createContext<CartContextType>({
@@ -36,7 +38,9 @@ export const CartContext = createContext<CartContextType>({
   total: 0,
   itemCount: 0,
   createCheckout: async () => '',
-  getCartItemQuantity: () => 0
+  getCartItemQuantity: () => 0,
+  isOpen: false,
+  setIsOpen: () => {},
 });
 
 const CART_COOKIE_NAME = 'shopCart';
@@ -44,6 +48,7 @@ const COOKIE_EXPIRY = 30; // days
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   // Load cart from cookies on mount
   useEffect(() => {
@@ -180,7 +185,9 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       total,
       itemCount,
       createCheckout,
-      getCartItemQuantity
+      getCartItemQuantity,
+      isOpen,
+      setIsOpen
     }}>
       {children}
     </CartContext.Provider>

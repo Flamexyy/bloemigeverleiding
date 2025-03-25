@@ -7,14 +7,9 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 
-interface CartMenuProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export default function CartMenu({ isOpen, onClose }: CartMenuProps) {
+export default function CartMenu() {
   const router = useRouter();
-  const { items, removeFromCart, updateQuantity, total, createCheckout } = useCart();
+  const { items, removeFromCart, updateQuantity, total, isOpen, setIsOpen } = useCart();
   const [isLoading, setIsLoading] = useState(false);
 
   const handleCheckout = async () => {
@@ -61,15 +56,15 @@ export default function CartMenu({ isOpen, onClose }: CartMenuProps) {
     <>
       {/* Overlay */}
       <div 
-        onClick={onClose}
-        className={`fixed inset-0 bg-black/50 transition-opacity duration-300 ${
-          isOpen ? 'opacity-100 z-50' : 'opacity-0 pointer-events-none'
+        onClick={() => setIsOpen(false)}
+        className={`fixed inset-0 bg-black/50 transition-opacity duration-300 ease-in-out ${
+          isOpen ? 'opacity-100 z-50' : 'opacity-0 pointer-events-none -z-10'
         }`}
       />
 
       {/* Cart Panel */}
       <div 
-        className={`fixed inset-y-0 right-0 w-full md:w-[400px] bg-white transition-transform duration-300 transform z-50 ${
+        className={`fixed inset-y-0 right-0 w-full md:w-[400px] bg-white shadow-xl transition-transform duration-300 ease-in-out transform z-50 ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
@@ -81,7 +76,7 @@ export default function CartMenu({ isOpen, onClose }: CartMenuProps) {
               <h2 className="text-xl font-bold">Winkelwagen ({items.length})</h2>
             </div>
             <button 
-              onClick={onClose}
+              onClick={() => setIsOpen(false)}
               className="hover:bg-accent rounded-full transition-colors"
             >
               <IoClose className="text-4xl p-2" />
@@ -98,7 +93,7 @@ export default function CartMenu({ isOpen, onClose }: CartMenuProps) {
                   <div key={item.id} className="flex gap-4 pb-4 border-b">
                     <Link 
                       href={`/product/${item.handle}`}
-                      onClick={onClose}
+                      onClick={() => setIsOpen(false)}
                       className="w-20 h-20 bg-accent rounded-xl shrink-0 relative overflow-hidden hover:opacity-80 transition-opacity"
                     >
                       <Image 
@@ -113,7 +108,7 @@ export default function CartMenu({ isOpen, onClose }: CartMenuProps) {
                         <div>
                           <Link 
                             href={`/product/${item.handle}`}
-                            onClick={onClose}
+                            onClick={() => setIsOpen(false)}
                             className="hover:text-text/70 transition-colors"
                           >
                             <h3 className="font-bold">{item.title}</h3>
