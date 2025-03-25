@@ -220,14 +220,18 @@ export default function Shop() {
                     placeholder="Zoeken"
                     value={filters.search}
                     onChange={(e) => handleSearch(e.target.value)}
-                    className="w-full bg-cream rounded-lg py-2.5 pl-10 pr-4 text-sm text-text placeholder:text-text focus:outline-none" 
+                    className="w-full bg-cream rounded-[25px] py-2.5 pl-10 pr-4 text-sm text-text placeholder:text-text focus:outline-none" 
                   />
                 </div>
                 <button 
                   onClick={toggleFilter}
-                  className="flex items-center gap-2 bg-cream h-[40px] px-4 rounded-lg hover:bg-cream/70 transition-colors"
+                  className="flex items-center gap-2 bg-cream h-[40px] px-4 rounded-[25px] hover:bg-cream/70 transition-colors"
                 >
-                  <RiFilterLine className="text-[#666666]" />
+                  {showDesktopFilter || showMobileFilter ? (
+                    <RiFilterOffLine className="text-text" />
+                  ) : (
+                    <RiFilterLine className="text-text" />
+                  )}
                   <span className="text-sm font-medium text-text">Filter</span>
                 </button>
               </div>
@@ -237,7 +241,7 @@ export default function Shop() {
                     ...prev, 
                     sort: prev.sort === 'price-asc' ? 'price-desc' : 'price-asc' 
                   }))}
-                  className="flex items-center gap-2 bg-cream h-[40px] px-4 rounded-lg hover:bg-cream/70 transition-colors"
+                  className="flex items-center gap-2 bg-cream h-[40px] px-4 rounded-[25px] hover:bg-cream/70 transition-colors"
                 >
                   <svg 
                     className={`w-4 h-4 transition-transform text-text ${filters.sort === 'price-desc' ? 'rotate-180' : ''}`} 
@@ -252,10 +256,26 @@ export default function Shop() {
                   </span>
                 </button>
                 <button 
-                  onClick={handleResetFilters}
-                  className="flex items-center justify-center w-10 h-[40px] bg-cream rounded-lg hover:bg-cream/70 transition-colors"
+                  onClick={() => {
+                    // Add a class to trigger rotation animation
+                    const resetButton = document.getElementById('reset-button');
+                    if (resetButton) {
+                      resetButton.classList.add('animate-spin-reverse');
+                      setTimeout(() => {
+                        resetButton.classList.remove('animate-spin-reverse');
+                      }, 300); // Reduced from 500ms to 300ms for faster animation
+                    }
+                    handleResetFilters();
+                  }}
+                  className="flex items-center justify-center w-10 h-[40px] bg-cream rounded-[25px] hover:bg-cream/70 transition-colors"
                 >
-                  <svg className="w-5 h-5 text-text" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <svg 
+                    id="reset-button"
+                    className="w-5 h-5 text-text transition-transform duration-300" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
                   </svg>
                 </button>

@@ -184,7 +184,7 @@ export default function ProductFilter({
       {onReset && !isMobile && (
         <button
           onClick={handleReset}
-          className="w-full py-2 px-4 text-sm font-medium text-text hover:text-text transition-colors"
+          className="w-full py-2 px-4 text-sm font-medium text-text transition-colors hover:underline"
         >
           Herstel filters
         </button>

@@ -6,6 +6,20 @@ html {
   background-color: #ffe5f1;
 }
 
+/* Add custom spin animation */
+@keyframes spin-reverse {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+.animate-spin-reverse {
+  animation: spin-reverse 0.5s linear;
+}
+
 /* Custom scrollbar styles */
 .hover\:scrollbar-thin::-webkit-scrollbar {
   width: 4px;
