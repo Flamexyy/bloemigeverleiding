@@ -411,7 +411,7 @@ export default function Profile() {
                           <div className="flex justify-between text-text mb-2">
                             <span>Verzendkosten</span>
                             {parseFloat(order.shippingPrice || "0") > 0 ? (
-                              <span>€{parseFloat(order.shippingPrice).toFixed(2)}</span>
+                              <span>€{parseFloat(order.shippingPrice || "0").toFixed(2)}</span>
                             ) : (
                               <span className="text-text">Gratis verzending</span>
                             )}
