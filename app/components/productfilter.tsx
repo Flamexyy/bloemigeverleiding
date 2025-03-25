@@ -36,11 +36,11 @@ export default function ProductFilter({
   }, [shouldReset]);
 
   const sortOptions = [
-    { value: 'featured', label: 'Featured' },
-    { value: 'price-asc', label: 'Price: Low to High' },
-    { value: 'price-desc', label: 'Price: High to Low' },
-    { value: 'name-asc', label: 'Name: A to Z' },
-    { value: 'name-desc', label: 'Name: Z to A' }
+    { value: 'featured', label: 'Sorteren op' },
+    { value: 'price-asc', label: 'Prijs: Laag naar Hoog' },
+    { value: 'price-desc', label: 'Prijs: Hoog naar Laag' },
+    { value: 'name-asc', label: 'Naam: A tot Z' },
+    { value: 'name-desc', label: 'Naam: Z tot A' }
   ];
 
   const priceRanges = [
@@ -180,7 +180,7 @@ export default function ProductFilter({
         )}
       </div>
 
-      {/* Reset Button - Only show on desktop */}
+      {/* Reset Button */}
       {onReset && !isMobile && (
         <button
           onClick={handleReset}

@@ -174,6 +174,23 @@ export default function Shop() {
     }
   };
 
+  // Update sorting options
+  const sortOptions = {
+    featured: 'Sorteren op',
+    'price-asc': 'Prijs: Laag naar Hoog',
+    'price-desc': 'Prijs: Hoog naar Laag',
+    'name-asc': 'Naam: A tot Z',
+    'name-desc': 'Naam: Z tot A'
+  };
+
+  // Update price ranges (if these are in your ProductFilter component)
+  const priceRanges = [
+    { label: '€0 - €50', value: '0-50' },
+    { label: '€50 - €100', value: '50-100' },
+    { label: '€100 - €150', value: '100-150' },
+    { label: '€150+', value: '150+' }
+  ];
+
   return (
     <div className="max-w-[1600px] mx-auto">
       <div className="flex flex-col xl:flex-row gap-6 p-4 lg:p-6">
@@ -199,7 +216,7 @@ export default function Shop() {
                   <BiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-text" />
                   <input 
                     type="text" 
-                    placeholder="Search" 
+                    placeholder="Zoeken"
                     value={filters.search}
                     onChange={(e) => handleSearch(e.target.value)}
                     className="w-full bg-cream rounded-lg py-2.5 pl-10 pr-4 text-sm text-text placeholder:text-text focus:outline-none" 
@@ -230,7 +247,7 @@ export default function Shop() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
                   </svg>
                   <span className="text-sm font-medium text-text">
-                    {filters.sort === 'price-desc' ? 'Price: High to Low' : 'Price: Low to High'}
+                    {filters.sort === 'price-desc' ? 'Prijs: Hoog naar Laag' : 'Prijs: Laag naar Hoog'}
                   </span>
                 </button>
                 <button 
@@ -254,9 +271,9 @@ export default function Shop() {
                 </div>
               </div>
               <div className="text-sm text-[#666666]">
-                {filters.sort === 'featured' && 'Aanbevolen'}
-                {filters.sort === 'price-asc' && 'Prijs laag naar hoog'}
-                {filters.sort === 'price-desc' && 'Prijs: hoog naar laag'}
+                {filters.sort === 'featured' && 'Sorteren op'}
+                {filters.sort === 'price-asc' && 'Prijs: Laag naar Hoog'}
+                {filters.sort === 'price-desc' && 'Prijs: Hoog naar Laag'}
                 {filters.sort === 'name-asc' && 'Naam: A tot Z'}
                 {filters.sort === 'name-desc' && 'Naam: Z tot A'}
               </div>
@@ -302,15 +319,18 @@ export default function Shop() {
         }`}
       >
         <div className="h-full flex flex-col">
-          <div className="flex justify-between items-center p-4 border-b border-[#EBEBEB]">
-            <h2 className="text-lg font-medium text-[#333333]">Filters</h2>
+          {/* Header */}
+          <div className="flex justify-between items-center p-4 border-b border-text/20">
+            <h2 className="text-lg font-medium text-text">Filters</h2>
             <button 
               onClick={() => setShowMobileFilter(false)}
-              className="p-1 hover:bg-[#F5F5F5] rounded-full transition-colors"
+              className="p-1 hover:bg-accent rounded-full transition-colors"
             >
-              <IoClose className="text-2xl text-[#666666]" />
+              <IoClose className="text-2xl text-text" />
             </button>
           </div>
+
+          {/* Content */}
           <div className="flex-1 overflow-y-auto p-4">
             <ProductFilter 
               onPriceFilter={handlePriceFilter}
@@ -320,19 +340,20 @@ export default function Shop() {
               shouldReset={shouldResetFilters}
             />
           </div>
-          <div className="border-t border-[#EBEBEB] p-4 flex gap-3">
+
+          {/* Footer */}
+          <div className="border-t border-text/20 p-4 flex gap-3">
             <button 
               onClick={() => {
                 handleResetFilters();
-                // The mobile filter component will be updated through props
               }}
-              className="flex-1 py-2.5 px-4 border border-[#EBEBEB] rounded-lg hover:bg-[#F5F5F5] transition-colors text-sm font-medium text-[#333333]"
+              className="flex-1 py-2.5 px-4 border border-text/20 rounded-[100px] hover:bg-accent transition-colors text-sm font-medium text-text"
             >
               Filters verwijderen
             </button>
             <button 
               onClick={() => setShowMobileFilter(false)}
-              className="flex-1 py-2.5 px-4 bg-[#18181B] text-white rounded-lg hover:bg-[#09090B] transition-colors text-sm font-medium"
+              className="flex-1 py-2.5 px-4 bg-accent text-text rounded-[100px] hover:bg-accent/70 transition-colors text-sm font-medium"
             >
               Filters toepassen
             </button>
