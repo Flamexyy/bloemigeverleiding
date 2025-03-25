@@ -1,7 +1,5 @@
 import Image from 'next/image';
-import { FaInstagram } from "react-icons/fa6";
-import { FaTiktok } from "react-icons/fa6";
-import { FaFacebook } from "react-icons/fa6";
+import { FaInstagram, FaTiktok, FaFacebook } from 'react-icons/fa';
 
 export default function Footer() {
     return (
@@ -33,7 +31,7 @@ export default function Footer() {
             
             {/* Main Footer */}
             <div className="bg-cream text-text">
-                <div className="max-w-[1600px] mx-auto px-4 lg:px-8 py-20">
+                <div className="max-w-[1600px] mx-auto px-4 lg:px-8 pt-20 pb-12">
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
                         {/* Logo and Description */}
                         <div className="space-y-6">
@@ -84,6 +82,23 @@ export default function Footer() {
                                 <li><a href="/terms-of-use" className="hover:text-white">Gebruiksvoorwaarden</a></li>
                                 <li><a href="/privacy-policy" className="hover:text-white">Privacybeleid</a></li>
                             </ul>
+                        </div>
+                    </div>
+                    
+                    {/* Payment Methods - Now inside the cream footer */}
+                    <div className="mt-16 pt-10 border-t border-text/10">
+                        <div className="flex flex-col items-center">
+                            <p className="text-sm text-text font-medium mb-6">Veilig betalen met</p>
+                            <div className="flex flex-wrap justify-center gap-4">
+                                <Image src="/Ideal.svg" alt="iDEAL" width={40} height={24} className="h-8 w-auto" />
+                                <Image src="/Visa.svg" alt="Visa" width={40} height={24} className="h-8 w-auto" />
+                                <Image src="/Mastercard.svg" alt="Mastercard" width={40} height={24} className="h-8 w-auto" />
+                                <Image src="/PayPal.svg" alt="PayPal" width={40} height={24} className="h-8 w-auto" />
+                                <Image src="/Maestro.svg" alt="Maestro" width={40} height={24} className="h-8 w-auto" />
+                                <Image src="/Klarna.svg" alt="Klarna" width={40} height={24} className="h-8 w-auto" />
+                                <Image src="/GooglePay.svg" alt="Google Pay" width={40} height={24} className="h-8 w-auto" />
+                                <Image src="/ShopPay.svg" alt="Shop Pay" width={40} height={24} className="h-8 w-auto" />
+                            </div>
                         </div>
                     </div>
                 </div>
