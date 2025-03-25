@@ -427,7 +427,7 @@ export default function ProductPage({ params }: ProductPageProps) {
           {/* Add to Cart Section */}
           <div className="space-y-2 sm:space-y-4">
             {/* Buttons row */}
-            <div className="flex flex-col sm:flex-row items-left gap-2 sm:gap-4">
+            <div className="flex items-left gap-2 sm:gap-4 flex-button">
               {/* Quantity Selector */}
               <div className="w-fit flex items-center rounded-[50px] border-2 border-accent bg-white">
                 <button
