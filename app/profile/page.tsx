@@ -165,7 +165,7 @@ export default function Profile() {
       setUpdateSuccess(true);
     } catch (error) {
       console.error('Update error:', error);
-      setUpdateError(error instanceof Error ? error.message : 'Failed to update profile');
+      setUpdateError(error instanceof Error ? error.message : 'Bijwerken profiel mislukt');
     } finally {
       setIsLoading(false);
     }
@@ -205,11 +205,11 @@ export default function Profile() {
     try {
       // Validate passwords
       if (passwordData.newPassword.length < 8) {
-        throw new Error('Password must be at least 8 characters long');
+        throw new Error('Wachtwoord moet minimaal 8 tekens lang zijn');
       }
 
       if (passwordData.newPassword !== passwordData.confirmPassword) {
-        throw new Error('Passwords do not match');
+        throw new Error('Wachtwoorden komen niet overeen');
       }
 
       const response = await fetch('/api/user/update-password', {
@@ -238,7 +238,7 @@ export default function Profile() {
       }, 1500);
 
     } catch (error) {
-      setPasswordError(error instanceof Error ? error.message : 'Failed to update password');
+      setPasswordError(error instanceof Error ? error.message : 'Wachtwoord bijwerken mislukt');
     } finally {
       setIsPasswordLoading(false);
     }
@@ -499,12 +499,7 @@ export default function Profile() {
                       isLoading ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
                   >
-                    {isLoading ? (
-                      <div className="flex items-center justify-center gap-2">
-                        <div className="w-4 h-4 rounded-full bg-text/30 animate-pulse" />
-                        <div className="w-16 h-4 bg-text/30 rounded animate-pulse" />
-                      </div>
-                    ) : 'Wijzigingen Opslaan'}
+                    {isLoading ? 'Wijzigingen opslaan...' : 'Wijzigingen Opslaan'}
                   </button>
                 </div>
 
