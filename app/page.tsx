@@ -147,7 +147,7 @@ export default function Home() {
               <div className="flex justify-center mt-6">
                 <Link 
                   href="/shop"
-                    className='flex items-center justify-center px-5 p-3 bg-transparent text-text border-2 border-accent hover:bg-accent rounded-[100px] transition-all duration-300'
+                    className='flex items-center justify-center px-10 p-3 bg-transparent text-text border-2 border-accent hover:bg-accent rounded-[100px] transition-all duration-300'
                 >
                   Bekijk alle producten
                 </Link>
