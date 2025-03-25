@@ -45,6 +45,11 @@ export default function Login() {
     }
   };
 
+  // Add this function to validate email
+  const isValidEmail = (email: string) => {
+    return /\S+@\S+\.\S+/.test(email);
+  };
+
   return (
     <div className="w-full max-w-[400px] text-text">
       <Link 
@@ -75,9 +80,12 @@ export default function Login() {
           <input
             type="email"
             id="email"
+            name="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full p-3 border border-text/20 rounded-xl text-text focus:outline-none focus:border-text"
+            className={`w-full p-3 border border-text/20 rounded-xl text-text focus:outline-none focus:border-text
+              ${email && isValidEmail(email) ? 'valid-input' : ''}
+            `}
             required
           />
         </div>

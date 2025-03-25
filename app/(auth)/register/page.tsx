@@ -24,7 +24,7 @@ export default function Register() {
     setIsLoading(true);
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Passwords do not match');
+      setError('Wachtwoorden komen niet overeen');
       setIsLoading(false);
       return;
     }
@@ -47,12 +47,12 @@ export default function Register() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || 'Registration failed');
+        throw new Error(data.message || 'Registratie mislukt');
       }
 
       router.push('/login');
     } catch (error) {
-      setError(error instanceof Error ? error.message : 'Registration failed');
+      setError(error instanceof Error ? error.message : 'Registratie mislukt');
     } finally {
       setIsLoading(false);
     }
@@ -64,6 +64,16 @@ export default function Register() {
       ...formData,
       [name]: type === 'checkbox' ? checked : value
     });
+  };
+
+  // Add this function to check if passwords match
+  const passwordsMatch = () => {
+    return formData.password && formData.confirmPassword && 
+           formData.password === formData.confirmPassword;
+  };
+
+  const passwordsMismatch = () => {
+    return formData.confirmPassword && formData.password !== formData.confirmPassword;
   };
 
   return (
@@ -146,7 +156,9 @@ export default function Register() {
             name="password"
             value={formData.password}
             onChange={handleChange}
-            className="w-full p-3 border border-text/20 rounded-xl text-text focus:outline-none focus:border-text"
+            className={`w-full p-3 border border-text/20 rounded-xl text-text focus:outline-none focus:border-text
+              ${passwordsMatch() ? 'password-match' : ''}
+            `}
             required
           />
         </div>
@@ -161,9 +173,15 @@ export default function Register() {
             name="confirmPassword"
             value={formData.confirmPassword}
             onChange={handleChange}
-            className="w-full p-3 border border-text/20 rounded-xl text-text focus:outline-none focus:border-text"
+            className={`w-full p-3 border border-text/20 rounded-xl text-text focus:outline-none focus:border-text
+              ${passwordsMatch() ? 'password-match' : ''}
+              ${passwordsMismatch() ? 'password-mismatch' : ''}
+            `}
             required
           />
+          {passwordsMismatch() && (
+            <p className="text-red-500 text-sm mt-1">Wachtwoorden komen niet overeen</p>
+          )}
         </div>
 
         <div className="flex items-center mb-4">
