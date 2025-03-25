@@ -168,7 +168,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         className={`w-full py-3 rounded-[100px] transition-colors ${
           product.availableForSale
             ? 'bg-accent text-text hover:bg-accent/70'
-            : 'bg-gray-200 text-gray-500 cursor-not-allowed'
+            : 'bg-accent/40 text-text/40 border border-accent cursor-not-allowed'
         } ${isAddingToCart ? 'opacity-70' : ''}`}
       >
         {!product.availableForSale 
