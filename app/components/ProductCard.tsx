@@ -1,12 +1,13 @@
 'use client';
 import { MdOutlineShoppingBag } from "react-icons/md";
-import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
+import { IoMdHeart, IoMdHeartEmpty, IoMdClose } from "react-icons/io";
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '../context/CartContext';
 import { useState } from 'react';
 import CartMenu from './CartMenu';
 import { useLiked } from '../context/LikedContext';
+import ConfirmationModal from './ConfirmationModal';
 
 interface ProductCardProps {
   product: {
@@ -27,6 +28,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const { isLiked, addToLiked, removeLiked } = useLiked();
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   if (!product) {
     return null;
@@ -72,9 +74,9 @@ export default function ProductCard({ product }: ProductCardProps) {
   const handleFavoriteToggle = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-
+    
     if (isLiked(product.id)) {
-      removeLiked(product.id);
+      setShowConfirmation(true);
     } else {
       const compareAtPriceNumber = product.compareAtPrice 
         ? (typeof product.compareAtPrice === 'string' 
@@ -96,6 +98,11 @@ export default function ProductCard({ product }: ProductCardProps) {
           : null
       });
     }
+  };
+
+  const handleRemoveFromFavorites = () => {
+    removeLiked(product.id);
+    setShowConfirmation(false);
   };
 
   const isOnSale = product.compareAtPrice && 
@@ -178,6 +185,14 @@ export default function ProductCard({ product }: ProductCardProps) {
             : 'In winkelwagen'
         }
       </button>
+
+      <ConfirmationModal
+        isOpen={showConfirmation}
+        onClose={() => setShowConfirmation(false)}
+        onConfirm={handleRemoveFromFavorites}
+        title="Verwijderen uit favorieten"
+        message={`Weet je zeker dat je "${product.title}" uit je favorieten wilt verwijderen?`}
+      />
     </div>
   );
 }
