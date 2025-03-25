@@ -2,64 +2,64 @@ import PolicyLayout from '../components/PolicyLayout';
 
 export default function TermsOfService() {
   return (
-    <PolicyLayout title="TERMS OF SERVICE">
+    <PolicyLayout title="SERVICEVOORWAARDEN">
       <section className="space-y-6">
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold">1. Agreement to Terms</h2>
-          <p>By accessing and using our services, you agree to be bound by these Terms of Service.</p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>You must be at least 18 years old to use our services</li>
-            <li>You must provide accurate and complete information when creating an account</li>
-            <li>You are responsible for maintaining the security of your account</li>
+          <h2 className="text-2xl font-bold text-text">1. Akkoord met Voorwaarden</h2>
+          <p className="text-text">Door gebruik te maken van onze diensten gaat u akkoord met deze Servicevoorwaarden.</p>
+          <ul className="list-disc pl-6 space-y-2 text-text">
+            <li>U moet minimaal 18 jaar oud zijn om gebruik te maken van onze diensten</li>
+            <li>U moet nauwkeurige en volledige informatie verstrekken bij het aanmaken van een account</li>
+            <li>U bent verantwoordelijk voor het handhaven van de beveiliging van uw account</li>
           </ul>
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold">2. Orders and Payments</h2>
-          <p>When placing an order through our platform:</p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>You agree to provide current, complete, and accurate purchase information</li>
-            <li>We reserve the right to refuse any order for any reason</li>
-            <li>Prices are subject to change without notice</li>
-            <li>Payment must be received prior to order fulfillment</li>
+          <h2 className="text-2xl font-bold text-text">2. Bestellingen en Betalingen</h2>
+          <p className="text-text">Bij het plaatsen van een bestelling via ons platform:</p>
+          <ul className="list-disc pl-6 space-y-2 text-text">
+            <li>Gaat u ermee akkoord actuele, volledige en nauwkeurige aankoopinformatie te verstrekken</li>
+            <li>Behouden wij ons het recht voor om bestellingen om welke reden dan ook te weigeren</li>
+            <li>Kunnen prijzen zonder voorafgaande kennisgeving worden gewijzigd</li>
+            <li>Moet de betaling zijn ontvangen voordat de bestelling wordt uitgevoerd</li>
           </ul>
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold">3. Shipping and Delivery</h2>
-          <p>Our shipping and delivery terms:</p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>Delivery times are estimates and not guaranteed</li>
-            <li>Risk of loss and title pass to you upon delivery</li>
-            <li>You are responsible for providing accurate shipping information</li>
-            <li>International orders may be subject to customs duties and taxes</li>
+          <h2 className="text-2xl font-bold text-text">3. Verzending en Levering</h2>
+          <p className="text-text">Onze verzend- en leveringsvoorwaarden:</p>
+          <ul className="list-disc pl-6 space-y-2 text-text">
+            <li>Levertijden zijn schattingen en niet gegarandeerd</li>
+            <li>Risico van verlies en eigendom gaat over op u bij levering</li>
+            <li>U bent verantwoordelijk voor het verstrekken van juiste verzendgegevens</li>
+            <li>Internationale bestellingen kunnen onderhevig zijn aan douanerechten en belastingen</li>
           </ul>
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold">4. Returns and Refunds</h2>
-          <p>Our return policy includes:</p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>30-day return window from the date of delivery</li>
-            <li>Items must be unused and in original packaging</li>
-            <li>Return shipping costs are the responsibility of the customer</li>
-            <li>Refunds will be processed within 14 business days</li>
+          <h2 className="text-2xl font-bold text-text">4. Retourneren en Terugbetalingen</h2>
+          <p className="text-text">Ons retourbeleid omvat:</p>
+          <ul className="list-disc pl-6 space-y-2 text-text">
+            <li>30 dagen retourperiode vanaf de datum van levering</li>
+            <li>Artikelen moeten ongebruikt zijn en in originele verpakking</li>
+            <li>Retourzendingskosten zijn voor rekening van de klant</li>
+            <li>Terugbetalingen worden binnen 14 werkdagen verwerkt</li>
           </ul>
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold">5. Limitation of Liability</h2>
-          <p>We shall not be liable for any indirect, incidental, special, consequential, or punitive damages resulting from your use of our services.</p>
+          <h2 className="text-2xl font-bold text-text">5. Beperking van Aansprakelijkheid</h2>
+          <p className="text-text">Wij zijn niet aansprakelijk voor indirecte, incidentele, bijzondere, gevolgschade of punitieve schade die voortvloeit uit uw gebruik van onze diensten.</p>
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold">6. Changes to Terms</h2>
-          <p>We reserve the right to modify these terms at any time. We will notify users of any material changes via email or through our website.</p>
+          <h2 className="text-2xl font-bold text-text">6. Wijzigingen in Voorwaarden</h2>
+          <p className="text-text">Wij behouden ons het recht voor om deze voorwaarden op elk moment te wijzigen. We zullen gebruikers via e-mail of via onze website op de hoogte stellen van materiële wijzigingen.</p>
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold">7. Contact Information</h2>
-          <p>Questions about the Terms of Service should be sent to us at support@example.com.</p>
+          <h2 className="text-2xl font-bold text-text">7. Contactgegevens</h2>
+          <p className="text-text">Vragen over de Servicevoorwaarden kunnen worden gestuurd naar support@bloemigeverleiding.nl</p>
         </div>
       </section>
     </PolicyLayout>

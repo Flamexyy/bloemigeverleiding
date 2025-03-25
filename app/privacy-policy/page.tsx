@@ -2,32 +2,32 @@ import PolicyLayout from '../components/PolicyLayout';
 
 export default function PrivacyPolicy() {
   return (
-    <PolicyLayout title="PRIVACY POLICY">
+    <PolicyLayout title="PRIVACYBELEID">
       <section className="space-y-6">
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold">1. Information We Collect</h2>
-          <p>We collect information that you provide directly to us when using our services.</p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>Personal information (name, email, address)</li>
-            <li>Payment information</li>
-            <li>Shopping preferences and history</li>
+          <h2 className="text-2xl font-bold text-text">1. Informatie die wij verzamelen</h2>
+          <p className="text-text">Wij verzamelen informatie die u rechtstreeks aan ons verstrekt bij het gebruik van onze diensten.</p>
+          <ul className="list-disc pl-6 space-y-2 text-text">
+            <li>Persoonlijke gegevens (naam, e-mail, adres)</li>
+            <li>Betalingsgegevens</li>
+            <li>Winkelvoorkeuren en -geschiedenis</li>
           </ul>
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold">2. How We Use Your Information</h2>
-          <p>We use the collected information to:</p>
-          <ul className="list-disc pl-6 space-y-2">
-            <li>Process your orders</li>
-            <li>Send order updates</li>
-            <li>Improve our services</li>
-            <li>Communicate about promotions</li>
+          <h2 className="text-2xl font-bold text-text">2. Hoe wij uw informatie gebruiken</h2>
+          <p className="text-text">Wij gebruiken de verzamelde informatie om:</p>
+          <ul className="list-disc pl-6 space-y-2 text-text">
+            <li>Uw bestellingen te verwerken</li>
+            <li>Bestelupdates te versturen</li>
+            <li>Onze diensten te verbeteren</li>
+            <li>Te communiceren over promoties</li>
           </ul>
         </div>
 
         <div className="space-y-4">
-          <h2 className="text-2xl font-bold">3. Information Security</h2>
-          <p>We implement appropriate security measures to protect your personal information.</p>
+          <h2 className="text-2xl font-bold text-text">3. Informatiebeveiliging</h2>
+          <p className="text-text">Wij implementeren passende beveiligingsmaatregelen om uw persoonlijke gegevens te beschermen.</p>
         </div>
 
         {/* Add more sections as needed */}

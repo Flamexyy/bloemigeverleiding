@@ -39,8 +39,8 @@ export default function Footer() {
                         <div className="space-y-6">
                             <Image src="/logo-footer.svg" alt="Bloemige Verleiding Logo" width={120} height={120} />
                             <p className="text-text text-sm leading-loose">
-                                We deliver innovative products, experiences and services 
-                                to inspire our customers. Free shipping for Members.
+                                Wij leveren innovatieve producten, ervaringen en diensten 
+                                om onze klanten te inspireren. Gratis verzending voor leden.
                             </p>
                         </div>
 
@@ -48,11 +48,11 @@ export default function Footer() {
                         <div>
                             <h3 className="text-lg mb-6 font-bold">ONTVANG HULP</h3>
                             <ul className="space-y-4 text-text text-sm">
-                                <li><a href="#" className="hover:text-white">Order Status</a></li>
-                                <li><a href="#" className="hover:text-white">Shipping & Delivery</a></li>
-                                <li><a href="#" className="hover:text-white">Returns</a></li>
-                                <li><a href="#" className="hover:text-white">Payment Options</a></li>
-                                <li><a href="#" className="hover:text-white">Contact Us</a></li>
+                                <li><a href="#" className="hover:text-white">Bestelstatus</a></li>
+                                <li><a href="#" className="hover:text-white">Verzending & Levering</a></li>
+                                <li><a href="#" className="hover:text-white">Retourneren</a></li>
+                                <li><a href="#" className="hover:text-white">Betaalmethoden</a></li>
+                                <li><a href="#" className="hover:text-white">Contact</a></li>
                             </ul>
                         </div>
 
@@ -60,10 +60,10 @@ export default function Footer() {
                         <div>
                             <h3 className="text-lg mb-6 font-bold">OVER ONS</h3>
                             <ul className="space-y-4 text-text text-sm">
-                                <li><a href="#" className="hover:text-white">News</a></li>
-                                <li><a href="#" className="hover:text-white">Careers</a></li>
-                                <li><a href="#" className="hover:text-white">Investors</a></li>
-                                <li><a href="#" className="hover:text-white">Sustainability</a></li>
+                                <li><a href="#" className="hover:text-white">Nieuws</a></li>
+                                <li><a href="#" className="hover:text-white">Vacatures</a></li>
+                                <li><a href="#" className="hover:text-white">Investeerders</a></li>
+                                <li><a href="#" className="hover:text-white">Duurzaamheid</a></li>
                             </ul>
                         </div>
 
@@ -92,7 +92,7 @@ export default function Footer() {
                 <div className="border-t bg-text border-text flex flex-col md:flex-row justify-between items-center text-cream text-sm">
                     <div className='w-full flex flex-col md:flex-row justify-between gap-2 md:gap-20 mx-auto max-w-[1600px] p-4 lg:px-8 px-4'>
                         <p>© {new Date().getFullYear()} Bloemigeverleiding. Alle Rechten Voorbehouden</p>
-                        <span>Developed and designed by <a href='https://enhancedigital.nl' target='_blank' className='hover:underline'>Enhancedigital.nl</a></span>
+                        <span>Ontwikkeld en ontworpen door <a href='https://enhancedigital.nl' target='_blank' className='hover:underline'>Enhancedigital.nl</a></span>
                     </div>
                 </div>
             </div>
