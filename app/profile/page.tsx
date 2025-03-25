@@ -408,12 +408,14 @@ export default function Profile() {
 
                         {/* Fix shipping price display */}
                         <div className="pt-4 border-t border-text/20">
-                          {order.shippingPrice && parseFloat(order.shippingPrice) > 0 && (
-                            <div className="flex justify-between text-text mb-2">
-                              <span>Verzendkosten</span>
+                          <div className="flex justify-between text-text mb-2">
+                            <span>Verzendkosten</span>
+                            {parseFloat(order.shippingPrice || "0") > 0 ? (
                               <span>€{parseFloat(order.shippingPrice).toFixed(2)}</span>
-                            </div>
-                          )}
+                            ) : (
+                              <span className="text-text">Gratis verzending</span>
+                            )}
+                          </div>
                           
                           <div className="flex justify-between text-text">
                             <span>Totaal</span>
