@@ -71,9 +71,9 @@ html {
   }
 }
 
-@media (max-width: 430px) {
+@media (max-width: 375px) {
   .flex-button {
-   display: flex;
-   flex-direction: column;
+    display: flex;
+    flex-direction: column;
   }
 }

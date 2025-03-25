@@ -248,7 +248,7 @@ export default function ProductPage({ params }: ProductPageProps) {
           <div className="hidden lg:flex gap-4">
             {/* Thumbnails - Side */}
             <div className="relative flex flex-col gap-2 h-[500px]">
-              <div className="flex flex-col gap-1 overflow-y-auto overflow-x-hidden pr-2 scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+              <div className="flex flex-col gap-1 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
                 {product.images.edges.map((image: any, index: number) => (
                   <button
                     key={index}
@@ -323,7 +323,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                 />
                 
                 {/* Navigation Arrows */}
-                <div className="absolute bottom-4 right-4 flex gap-2">
+                <div className="hidden md:flex absolute bottom-4 right-4 flex gap-2">
                   <button 
                     onClick={prevImage}
                     className="bg-white/90 hover:bg-white rounded-full p-2 transition-colors"
@@ -343,12 +343,12 @@ export default function ProductPage({ params }: ProductPageProps) {
             </div>
 
             {/* Thumbnails - Bottom Scrollable */}
-            <div className="flex gap-2 mt-2 overflow-x-auto pb-2 px-1 snap-x snap-mandatory scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+            <div className="grid grid-cols-5 gap-1 mt-2">
               {product.images.edges.map((image: any, index: number) => (
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
-                  className={`relative w-[60px] h-[60px] rounded-[15px] overflow-hidden flex-shrink-0 transition-all border-2 ${
+                  className={`relative aspect-square rounded-[25px] overflow-hidden transition-all border-2 ${
                     selectedImage === index 
                       ? 'border-text' 
                       : 'border-transparent hover:opacity-80'
@@ -358,7 +358,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                     src={image.node.originalSrc}
                     alt={image.node.altText || product.title}
                     fill
-                    sizes="60px"
+                    sizes="(max-width: 640px) 20vw, 50px"
                     className="object-cover"
                   />
                 </button>
@@ -460,7 +460,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                   ? 'Uitverkocht' 
                   : isAddingToCart 
                     ? 'Toevoegen...' 
-                    : 'Toevoegen aan winkelwagen'
+                    : 'In winkelwagen'
                 }
               </button>
             </div>
