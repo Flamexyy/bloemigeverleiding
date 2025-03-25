@@ -10,6 +10,7 @@ import { LuPackage } from "react-icons/lu";
 import Image from 'next/image';
 import { TbLogout } from "react-icons/tb";
 import { OrderSkeleton } from '../components/SkeletonLoader';
+import Link from 'next/link';
 
 interface LineItem {
   title: string;
@@ -373,7 +374,10 @@ export default function Profile() {
                         {order.lineItems.map((item, index) => {
                           return (
                             <div key={index} className="flex gap-4">
-                              <div className="w-20 h-20 bg-accent rounded-xl shrink-0 relative overflow-hidden">
+                              <Link 
+                                href={`/product/${item.title.toLowerCase().replace(/\s+/g, '-')}`}
+                                className="w-20 h-20 bg-accent rounded-xl shrink-0 relative overflow-hidden hover:opacity-80 transition-opacity"
+                              >
                                 <Image
                                   src={item.imageUrl || '/placeholder.jpg'}
                                   alt={item.title}
@@ -381,10 +385,17 @@ export default function Profile() {
                                   className="object-cover"
                                   sizes="80px"
                                 />
-                              </div>
-                              <div className="flex-1">
-                                <h3 className="font-medium text-text">{item.title}</h3>
+                              </Link>
+                              <div className="flex justify-between flex-col max-w-fit">
+                                <div>
+                                <Link 
+                                  href={`/product/${item.title.toLowerCase().replace(/\s+/g, '-')}`}
+                                  className="hover:text-text/70 transition-colors hover:underline"
+                                >
+                                  <h3 className="font-medium text-text ">{item.title}</h3>
+                                </Link>
                                 <p className="text-sm text-text/50">Aantal: {item.quantity}</p>
+                                </div>
                                 <div className="flex items-center gap-2">
                                   <span className="font-medium text-text">
                                     €{parseFloat(item.variant.price).toFixed(2)}

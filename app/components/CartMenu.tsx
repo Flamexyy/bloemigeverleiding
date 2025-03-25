@@ -94,7 +94,7 @@ export default function CartMenu() {
                     <Link 
                       href={`/product/${item.handle}`}
                       onClick={() => setIsOpen(false)}
-                      className="w-20 h-20 bg-accent rounded-xl shrink-0 relative overflow-hidden hover:opacity-80 transition-opacity"
+                      className="w-20 h-20 bg-accent rounded-xl shrink-0 relative overflow-hidden hover:opacity-80 transition-opacity mt-1.5"
                     >
                       <Image 
                         src={item.imageUrl} 
