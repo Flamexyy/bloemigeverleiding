@@ -95,7 +95,7 @@ export default function Home() {
           <div className="flex flex-col gap-6 items-start mb-10 text-text">
             <div className='w-full flex justify-between items-start gap-10'>
               <div className='max-w-[800px]'>
-                <h2 className="text-3xl font-bold">Nieuwste producten</h2>
+                <h2 className="text-3xl font-bold">Boeketten</h2>
               </div>
               <Link 
                 href="/shop"
@@ -105,7 +105,7 @@ export default function Home() {
                 <RiArrowRightUpLine className="text-xl group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-transform duration-300" />
               </Link>
             </div>
-            <p className='max-w-[800px]'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius cum natus illum iste aut nemo earum quae minima ad officiis, ipsum autem similique praesentium distinctio laborum quo. Nulla, cupiditate! Dolore.</p>
+            <p className='max-w-[800px]'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo odio quas vitae aspernatur optio quae quidem cumque natus necessitatibus. Natus nisi ipsam commodi libero, obcaecati eligendi iste consequatur eos totam?</p>
           </div>
 
           {loading && (

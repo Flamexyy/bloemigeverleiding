@@ -21,16 +21,10 @@ export default function LikedPage() {
 
   return (
     <div className="max-w-[1600px] mx-auto px-4 lg:px-8 py-8">
-      <div className="flex items-center gap-4 mb-8">
-        <Link 
-          href="/shop"
-          className="text-text hover:text-text/70"
-        >
-          <IoArrowBack className="text-2xl" />
-        </Link>
+      <div className="flex items-center gap-4 mb-4">
         <div>
-          <h1 className="text-3xl font-bold mb-2 text-text">Favorieten</h1>
-          <p className="text-gray-600">
+          <h1 className="text-3xl font-bold text-text">Favorieten</h1>
+          <p className="text-[#666666] text-sm">
             {items.length} {items.length === 1 ? 'item' : 'items'}
           </p>
         </div>

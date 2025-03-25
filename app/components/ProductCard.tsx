@@ -139,7 +139,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       </Link>
       
       {/* Clickable title */}
-      <Link href={`/product/${product.handle}`} className="text-center mb-2">
+      <Link href={`/product/${product.handle}`} className="text-center">
         <h3 className="font-medium text-text hover:underline cursor-pointer">{product.title}</h3>
       </Link>
       

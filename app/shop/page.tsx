@@ -197,7 +197,7 @@ export default function Shop() {
       <div className="flex flex-col xl:flex-row gap-6 p-4 lg:p-6">
         {showDesktopFilter && (
           <div className="hidden xl:block w-[200px] shrink-0">
-            <div className="sticky top-[100px]">
+            <div className="sticky top-[110px]">
               <ProductFilter
                 onPriceFilter={handlePriceFilter}
                 onSortChange={handleSortChange}
@@ -294,19 +294,22 @@ export default function Shop() {
 
             {/* Products Header */}
             <div className="flex items-center justify-between">
-              <div>
-                <h1 className="text-xl font-medium text-text">Producten</h1>
-                <div className="flex items-center gap-2 mt-1">
-                  <span className="text-sm text-[#666666]">Resultaten</span>
-                  <span className="text-sm text-[#666666]">({filteredProducts.length})</span>
+              <div className='w-full'>
+                <div className="flex items-center gap-2">
+                  <div className='flex w-full justify-between items-center'>
+                    <div>
+                      <span className="text-sm text-[#666666]">Resultaten </span>
+                      <span className="text-sm text-[#666666]">({filteredProducts.length})</span>
+                    </div> 
+                    <div className="text-sm text-[#666666]">
+                      {filters.sort === 'featured' && 'Sorteren op'}
+                      {filters.sort === 'price-asc' && 'Prijs: Laag naar Hoog'}
+                      {filters.sort === 'price-desc' && 'Prijs: Hoog naar Laag'}
+                      {filters.sort === 'name-asc' && 'Naam: A tot Z'}
+                      {filters.sort === 'name-desc' && 'Naam: Z tot A'}
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div className="text-sm text-[#666666]">
-                {filters.sort === 'featured' && 'Sorteren op'}
-                {filters.sort === 'price-asc' && 'Prijs: Laag naar Hoog'}
-                {filters.sort === 'price-desc' && 'Prijs: Hoog naar Laag'}
-                {filters.sort === 'name-asc' && 'Naam: A tot Z'}
-                {filters.sort === 'name-desc' && 'Naam: Z tot A'}
               </div>
             </div>
 
@@ -346,10 +349,10 @@ export default function Shop() {
         <div className="h-full flex flex-col">
           {/* Header */}
           <div className="flex justify-between items-center p-4 border-b border-text/20">
-            <h2 className="text-lg font-medium text-text">Filters</h2>
+            <h2 className="text-xl font-medium text-text">Filters</h2>
             <button 
               onClick={() => setShowMobileFilter(false)}
-              className="p-1 hover:bg-accent rounded-full transition-colors"
+              className="p-2 hover:bg-accent rounded-full transition-colors"
             >
               <IoClose className="text-2xl text-text" />
             </button>
@@ -372,13 +375,13 @@ export default function Shop() {
               onClick={() => {
                 handleResetFilters();
               }}
-              className="flex-1 py-2.5 px-4 border border-text/20 rounded-[100px] hover:bg-accent transition-colors text-sm font-medium text-text"
+              className="flex-1 py-2.5 px-4 border border-text/20 rounded-[100px] hover:bg-accent transition-colors text-md font-medium text-text"
             >
               Filters verwijderen
             </button>
             <button 
               onClick={() => setShowMobileFilter(false)}
-              className="flex-1 py-2.5 px-4 bg-accent text-text rounded-[100px] hover:bg-accent/70 transition-colors text-sm font-medium"
+              className="flex-1 py-2.5 px-4 bg-accent text-text rounded-[100px] hover:bg-accent/70 transition-colors text-md font-medium"
             >
               Filters toepassen
             </button>

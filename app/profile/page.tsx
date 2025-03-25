@@ -254,7 +254,7 @@ export default function Profile() {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left Side - Navigation */}
           <div className="lg:w-[300px]">
-            <div className="sticky top-24 space-y-6">
+            <div className="sticky top-[110px] space-y-6">
               {/* Profile Header */}
               <div className="flex items-center gap-4 mb-4">
                 <div className="min-w-16 h-16 bg-accent rounded-full flex items-center justify-center">
@@ -314,7 +314,7 @@ export default function Profile() {
           <div className="flex-1">
             {activeTab === 'orders' && (
               <div className="space-y-4 flex flex-col gap-6">
-                <h1 className="text-3xl font-bold text-text">Mijn Bestellingen</h1>
+                <h2 className="text-3xl font-bold text-text">Mijn Bestellingen</h2>
                 
                 {ordersLoading ? (
                   <div className="space-y-4">
@@ -431,7 +431,7 @@ export default function Profile() {
 
             {activeTab === 'settings' && (
               <div className="space-y-4 flex flex-col gap-6">
-                <h1 className="text-3xl font-bold text-text">Account Instellingen</h1>
+                <h2 className="text-3xl font-bold text-text">Account Instellingen</h2>
                 
                 <div className="border border-text/20 rounded-2xl p-6 space-y-6">
                   {updateError && (

@@ -133,7 +133,7 @@ export default function ProductFilter({
                     }`} />
                   </div>
                 </div>
-                <span className="text-sm text-text group-hover:text-text">
+                <span className="text-md text-text group-hover:text-text">
                   {option.label}
                 </span>
               </label>
@@ -173,7 +173,7 @@ export default function ProductFilter({
                     </div>
                   )}
                 </div>
-                <span className="text-sm text-text group-hover:text-text">{range.label}</span>
+                <span className="text-md text-text group-hover:text-text">{range.label}</span>
               </label>
             ))}
           </div>
