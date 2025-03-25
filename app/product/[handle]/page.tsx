@@ -329,7 +329,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                 
                 {/* Image indicator dots */}
                 <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1.5">
-                  {product.images.edges.map((_, index: number) => (
+                  {product.images.edges.map((_: unknown, index: number) => (
                     <button
                       key={index}
                       onClick={() => setSelectedImage(index)}
@@ -384,7 +384,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                 </div>
                 {/* Image Indicator Dots */}
                 <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1.5">
-                  {product.images.edges.map((_, index: number) => (
+                  {product.images.edges.map((_: unknown, index: number) => (
                     <button
                       key={index}
                       onClick={() => setSelectedImage(index)}
