@@ -3,8 +3,15 @@ import { createCustomer } from '@/app/utils/shopify';
 
 export async function POST(request: Request) {
   try {
-    const body = await request.json();
-    const customer = await createCustomer(body);
+    const { firstName, lastName, email, password, acceptsMarketing = false } = await request.json();
+
+    const customer = await createCustomer({
+      firstName,
+      lastName,
+      email,
+      password,
+      acceptsMarketing
+    });
     
     const userData = {
       id: customer.id,

@@ -73,6 +73,7 @@ export async function createCustomer(customerData: {
   password: string;
   firstName: string;
   lastName: string;
+  acceptsMarketing?: boolean;
 }) {
   const mutation = `
     mutation customerCreate($input: CustomerCreateInput!) {
@@ -98,7 +99,7 @@ export async function createCustomer(customerData: {
       password: customerData.password,
       firstName: customerData.firstName,
       lastName: customerData.lastName,
-      acceptsMarketing: true,
+      acceptsMarketing: customerData.acceptsMarketing || false,
     },
   };
 

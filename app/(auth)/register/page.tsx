@@ -14,7 +14,8 @@ export default function Register() {
     lastName: '',
     email: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    acceptsMarketing: false
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -38,7 +39,8 @@ export default function Register() {
           email: formData.email,
           password: formData.password,
           firstName: formData.firstName,
-          lastName: formData.lastName
+          lastName: formData.lastName,
+          acceptsMarketing: formData.acceptsMarketing
         }),
       });
 
@@ -57,9 +59,10 @@ export default function Register() {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [e.target.id]: e.target.value
+      [name]: type === 'checkbox' ? checked : value
     });
   };
 
@@ -94,6 +97,7 @@ export default function Register() {
             <input
               type="text"
               id="firstName"
+              name="firstName"
               value={formData.firstName}
               onChange={handleChange}
               className="w-full p-3 border border-text/20 rounded-xl text-text focus:outline-none focus:border-text"
@@ -108,6 +112,7 @@ export default function Register() {
             <input
               type="text"
               id="lastName"
+              name="lastName"
               value={formData.lastName}
               onChange={handleChange}
               className="w-full p-3 border border-text/20 rounded-xl text-text focus:outline-none focus:border-text"
@@ -123,6 +128,7 @@ export default function Register() {
           <input
             type="email"
             id="email"
+            name="email"
             value={formData.email}
             onChange={handleChange}
             className="w-full p-3 border border-text/20 rounded-xl text-text focus:outline-none focus:border-text"
@@ -137,6 +143,7 @@ export default function Register() {
           <input
             type="password"
             id="password"
+            name="password"
             value={formData.password}
             onChange={handleChange}
             className="w-full p-3 border border-text/20 rounded-xl text-text focus:outline-none focus:border-text"
@@ -151,11 +158,26 @@ export default function Register() {
           <input
             type="password"
             id="confirmPassword"
+            name="confirmPassword"
             value={formData.confirmPassword}
             onChange={handleChange}
             className="w-full p-3 border border-text/20 rounded-xl text-text focus:outline-none focus:border-text"
             required
           />
+        </div>
+
+        <div className="flex items-center mb-4">
+          <input
+            type="checkbox"
+            id="acceptsMarketing"
+            name="acceptsMarketing"
+            checked={formData.acceptsMarketing}
+            onChange={handleChange}
+            className="h-4 w-4 text-accent border-text/20 rounded focus:ring-accent"
+          />
+          <label htmlFor="acceptsMarketing" className="ml-2 block text-sm text-text">
+            Schrijf me in voor de nieuwsbrief
+          </label>
         </div>
 
         <button
