@@ -99,10 +99,10 @@ export default function Home() {
               </div>
               <Link 
                 href="/shop"
-                className="min-w-fit flex items-center gap-2 hover:opacity-70 transition-opacity mt-2"
+                className="min-w-fit flex items-center gap-2 transition-opacity mt-2 group"
               >
                 Bekijk alles
-                <RiArrowRightUpLine className="text-xl" />
+                <RiArrowRightUpLine className="text-xl group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-transform duration-300" />
               </Link>
             </div>
             <p className='max-w-[800px]'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius cum natus illum iste aut nemo earum quae minima ad officiis, ipsum autem similique praesentium distinctio laborum quo. Nulla, cupiditate! Dolore.</p>
