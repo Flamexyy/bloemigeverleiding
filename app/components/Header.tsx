@@ -287,10 +287,7 @@ export default function Header() {
                 </div>
             </div>
 
-            <CartMenu 
-                isOpen={isCartOpen}
-                onClose={() => setIsCartOpen(false)}
-            />
+            <CartMenu />
         </>
     );
 }

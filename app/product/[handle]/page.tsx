@@ -453,10 +453,7 @@ export default function ProductPage({ params }: ProductPageProps) {
           </div>
         </div>
       </div>
-      <CartMenu 
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-      />
+      <CartMenu />
     </div>
   );
 } 
