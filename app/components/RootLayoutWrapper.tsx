@@ -2,7 +2,6 @@
 import { usePathname } from 'next/navigation';
 import Header from './Header';
 import Footer from './Footer';
-import { BiChevronRight } from "react-icons/bi";
 import Link from 'next/link';
 
 export default function RootLayoutWrapper({
@@ -23,10 +22,9 @@ export default function RootLayoutWrapper({
               <div className="h-9 flex items-center justify-center banner-resp">
                 <Link 
                   href="/shop" 
-                  className="flex items-center gap-2 text-text text-sm hover:opacity-80 transition-opacity group"
+                  className="flex items-center gap-2 text-text text-sm hover:opacity-80 transition-opacity"
                 >
-                  <span>Gratis verzending bij bestellingen over €150,-</span>
-                  <BiChevronRight className="text-lg transition-transform group-hover:translate-x-0.5" />
+                  <span>Gratis verzending bij bestellingen vanaf €150</span>
                 </Link>
               </div>
             </div>

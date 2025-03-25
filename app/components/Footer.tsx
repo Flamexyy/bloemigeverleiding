@@ -105,7 +105,7 @@ export default function Footer() {
 
                 {/* Bottom Section */}
                 <div className="border-t bg-text border-text flex flex-col md:flex-row justify-between items-center text-cream text-sm">
-                    <div className='w-full flex flex-col md:flex-row justify-between gap-2 md:gap-20 mx-auto max-w-[1600px] p-4 lg:px-8 px-4'>
+                    <div className='w-full flex flex-col text-center md:text-left md:flex-row justify-between gap-2 md:gap-20 mx-auto max-w-[1600px] p-4 lg:px-8 px-4'>
                         <p>© {new Date().getFullYear()} Bloemigeverleiding. Alle Rechten Voorbehouden</p>
                         <span>Developed and designed by <a href='https://enhancedigital.nl' target='_blank' className='hover:underline'>Enhancedigital.nl</a></span>
                     </div>
