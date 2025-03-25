@@ -24,9 +24,20 @@ interface CartContextType {
   total: number;
   itemCount: number;
   createCheckout: () => Promise<string>;
+  getCartItemQuantity: (variantId: string) => number;
 }
 
-const CartContext = createContext<CartContextType | undefined>(undefined);
+export const CartContext = createContext<CartContextType>({
+  items: [],
+  addToCart: () => {},
+  removeFromCart: () => {},
+  updateQuantity: () => {},
+  clearCart: () => {},
+  total: 0,
+  itemCount: 0,
+  createCheckout: async () => '',
+  getCartItemQuantity: () => 0
+});
 
 const CART_COOKIE_NAME = 'shopCart';
 const COOKIE_EXPIRY = 30; // days
@@ -61,25 +72,27 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const addToCart = (newItem: CartItem) => {
     setItems(currentItems => {
-      const existingItem = currentItems.find(item => item.id === newItem.id);
+      const existingItem = currentItems.find(item => item.variantId === newItem.variantId);
+      
       if (existingItem) {
         // Calculate new quantity and check against limit
         const newQuantity = existingItem.quantity + newItem.quantity;
         if (newQuantity > existingItem.quantityAvailable) {
           // If would exceed limit, set to max available
           return currentItems.map(item =>
-            item.id === newItem.id
+            item.variantId === newItem.variantId
               ? { ...item, quantity: item.quantityAvailable }
               : item
           );
         }
         // If within limit, update normally
         return currentItems.map(item =>
-          item.id === newItem.id
+          item.variantId === newItem.variantId
             ? { ...item, quantity: newQuantity }
             : item
         );
       }
+      
       // For new items, ensure quantity doesn't exceed available
       const safeQuantity = Math.min(newItem.quantity, newItem.quantityAvailable);
       return [...currentItems, { ...newItem, quantity: safeQuantity }];
@@ -148,6 +161,15 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   };
 
+  const getCartItemQuantity = (variantId: string) => {
+    return items.reduce((total, item) => {
+      if (item.variantId === variantId) {
+        return total + item.quantity;
+      }
+      return total;
+    }, 0);
+  };
+
   return (
     <CartContext.Provider value={{
       items,
@@ -157,7 +179,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       clearCart,
       total,
       itemCount,
-      createCheckout
+      createCheckout,
+      getCartItemQuantity
     }}>
       {children}
     </CartContext.Provider>

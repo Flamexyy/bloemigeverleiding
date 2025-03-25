@@ -21,7 +21,7 @@ export default function ProductPage({ params }: ProductPageProps) {
   const [isOutOfStock, setIsOutOfStock] = useState(false);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
-  const { addToCart } = useCart();
+  const { addToCart, getCartItemQuantity } = useCart();
   const { handle } = params;
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState<any>(null);
@@ -53,6 +53,16 @@ export default function ProductPage({ params }: ProductPageProps) {
 
   const handleAddToCart = () => {
     if (!selectedVariant || isOutOfStock) return;
+
+    // Get current quantity in cart for this variant
+    const currentQuantityInCart = getCartItemQuantity(selectedVariant.id);
+    const totalQuantityAfterAdd = currentQuantityInCart + quantity;
+
+    // Check if adding this quantity would exceed available stock
+    if (totalQuantityAfterAdd > selectedVariant.quantityAvailable) {
+      alert(`Sorry, er zijn nog maar ${selectedVariant.quantityAvailable} items beschikbaar. U heeft er al ${currentQuantityInCart} in uw winkelwagen.`);
+      return;
+    }
 
     const cartItem = {
       id: selectedVariant.id,
@@ -123,8 +133,13 @@ export default function ProductPage({ params }: ProductPageProps) {
   };
 
   const handleQuantityChange = (delta: number) => {
+    if (!selectedVariant) return;
+    
+    const currentQuantityInCart = getCartItemQuantity(selectedVariant.id);
     const newQuantity = quantity + delta;
-    if (selectedVariant && newQuantity >= 1 && newQuantity <= selectedVariant.quantityAvailable) {
+    const totalQuantity = currentQuantityInCart + newQuantity;
+
+    if (newQuantity >= 1 && totalQuantity <= selectedVariant.quantityAvailable) {
       setQuantity(newQuantity);
     }
   };
