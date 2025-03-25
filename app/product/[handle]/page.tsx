@@ -21,12 +21,13 @@ export default function ProductPage({ params }: ProductPageProps) {
   const [isOutOfStock, setIsOutOfStock] = useState(false);
   const [touchStart, setTouchStart] = useState(0);
   const [touchEnd, setTouchEnd] = useState(0);
-  const { addToCart, getCartItemQuantity } = useCart();
+  const { addToCart, getCartItemQuantity, setIsOpen: setCartIsOpen } = useCart();
   const { handle } = params;
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [selectedVariant, setSelectedVariant] = useState<any>(null);
   const [quantity, setQuantity] = useState(1);
   const { addToLiked, removeLiked, isLiked } = useLiked();
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -51,8 +52,8 @@ export default function ProductPage({ params }: ProductPageProps) {
     }
   }, [product]);
 
-  const handleAddToCart = () => {
-    if (!selectedVariant || isOutOfStock) return;
+  const handleAddToCart = async () => {
+    if (!selectedVariant || isOutOfStock || isAddingToCart) return;
 
     // Get current quantity in cart for this variant
     const currentQuantityInCart = getCartItemQuantity(selectedVariant.id);
@@ -62,6 +63,8 @@ export default function ProductPage({ params }: ProductPageProps) {
     if (totalQuantityAfterAdd > selectedVariant.quantityAvailable) {
       return;
     }
+
+    setIsAddingToCart(true);
 
     const cartItem = {
       id: selectedVariant.id,
@@ -80,11 +83,17 @@ export default function ProductPage({ params }: ProductPageProps) {
     };
 
     try {
-      addToCart(cartItem);
-      setIsCartOpen(true);
+      // Add a small delay to ensure the loading state is visible
+      await new Promise(resolve => setTimeout(resolve, 500));
+      
+      await addToCart(cartItem);
+      // Use the context function to open the cart
+      setCartIsOpen(true);
     } catch (error) {
       console.error('Error adding to cart:', error);
       alert('Failed to add item to cart');
+    } finally {
+      setIsAddingToCart(false);
     }
   };
 
@@ -439,15 +448,20 @@ export default function ProductPage({ params }: ProductPageProps) {
               {/* Add to Cart Button */}
               <button
                 onClick={handleAddToCart}
-                disabled={isOutOfStock || !selectedVariant || (getCartItemQuantity(selectedVariant?.id) + quantity > selectedVariant?.quantityAvailable)}
+                disabled={isOutOfStock || isAddingToCart || !selectedVariant || (getCartItemQuantity(selectedVariant?.id) + quantity > selectedVariant?.quantityAvailable)}
                 className={`flex-1 rounded-[50px] p-3 flex items-center justify-center gap-2 transition-colors text-sm
-                  ${isOutOfStock || !selectedVariant || (getCartItemQuantity(selectedVariant?.id) + quantity > selectedVariant?.quantityAvailable)
+                  ${isOutOfStock || isAddingToCart || !selectedVariant || (getCartItemQuantity(selectedVariant?.id) + quantity > selectedVariant?.quantityAvailable)
                     ? 'bg-accent/50 text-text/70 cursor-not-allowed' 
                     : 'bg-accent text-text hover:bg-accent/70 cursor-pointer'
                   }`}
               >
                 <MdOutlineShoppingBag className="text-lg" />
-                {isOutOfStock ? 'Uitverkocht' : 'Toevoegen aan winkelwagen'}
+                {isOutOfStock 
+                  ? 'Uitverkocht' 
+                  : isAddingToCart 
+                    ? 'Toevoegen...' 
+                    : 'Toevoegen aan winkelwagen'
+                }
               </button>
             </div>
 
