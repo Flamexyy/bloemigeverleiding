@@ -386,19 +386,8 @@ export default function Profile() {
                                 <h3 className="font-medium text-text">{item.title}</h3>
                                 <p className="text-sm text-text/50">Aantal: {item.quantity}</p>
                                 <div className="flex items-center gap-2">
-                                  {item.variant.compareAtPrice && parseFloat(item.variant.compareAtPrice) > parseFloat(item.variant.price) && (
-                                    <span className="text-sm line-through text-text/50">
-                                      €{parseFloat(item.variant.compareAtPrice).toFixed(2)}
-                                    </span>
-                                  )}
-                                  <span className={`font-medium ${
-                                    item.variant.compareAtPrice && parseFloat(item.variant.compareAtPrice) > parseFloat(item.variant.price)
-                                      ? 'text-red-400'
-                                      : 'text-text'
-                                  }`}>
-                                <div className="mt-1 font-medium">
-                                  €{item.lineTotal || (parseFloat(item.variant.price) * item.quantity).toFixed(2)}
-                                </div>
+                                  <span className="font-medium text-text">
+                                    €{parseFloat(item.variant.price).toFixed(2)}
                                   </span>
                                 </div>
                               </div>

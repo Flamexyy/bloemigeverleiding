@@ -21,11 +21,13 @@ export async function GET(request: Request) {
           try {
             // Calculate line items with fixed prices from the original order data
             const lineItems = order.node.lineItems.edges.map((item) => {
-              // Get the ORIGINAL unit price from the order, not the current product price
-              // This ensures the price is fixed at time of purchase
-              const unitPrice = item.node.originalUnitPriceSet?.shopMoney?.amount || 
-                item.node.originalTotalPrice?.amount / item.node.quantity ||
-                "0.00";
+              // Get the original price at time of order
+              const unitPrice = 
+                // Try to get the original price from the line item
+                (item.node.originalTotalPrice?.amount && item.node.quantity > 0)
+                  ? (parseFloat(item.node.originalTotalPrice.amount) / item.node.quantity).toFixed(2)
+                  // Fall back to variant price if original price isn't available
+                  : item.node.variant?.price?.amount || "0.00";
               
               // Calculate the line total using the original price
               const lineTotal = (parseFloat(unitPrice) * item.node.quantity).toFixed(2);
@@ -34,9 +36,7 @@ export async function GET(request: Request) {
                 title: item.node.title,
                 quantity: item.node.quantity,
                 variant: {
-                  // Use the original price, not the current product price
                   price: unitPrice,
-                  compareAtPrice: item.node.variant?.compareAtPrice?.amount || null,
                 },
                 lineTotal: lineTotal,
                 imageUrl: item.node.variant?.image?.url || "",
