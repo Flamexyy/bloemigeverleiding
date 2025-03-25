@@ -161,7 +161,7 @@ export default function Register() {
         <button
           type="submit"
           disabled={isLoading}
-          className={`w-full bg-accent text-text rounded-xl p-3 hover:bg-accent/70 transition-colors ${
+          className={`w-full bg-accent text-text rounded-[25px] p-3 hover:bg-accent/70 transition-colors ${
             isLoading ? 'opacity-50 cursor-not-allowed' : ''
           }`}
         >

@@ -492,7 +492,7 @@ export default function Profile() {
                   <button 
                     onClick={handleSaveChanges}
                     disabled={isLoading}
-                    className={`w-full bg-accent text-text rounded-xl p-3 hover:bg-accent/70 transition-colors ${
+                    className={`w-full bg-accent text-text rounded-[25px] p-3 hover:bg-accent/70 transition-colors ${
                       isLoading ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
                   >
@@ -550,7 +550,7 @@ export default function Profile() {
                   <button 
                     onClick={handleUpdatePassword}
                     disabled={isPasswordLoading}
-                    className={`w-full bg-accent text-text rounded-xl p-3 hover:bg-accent/70 transition-colors ${
+                    className={`w-full bg-accent text-text rounded-[25px] p-3 hover:bg-accent/70 transition-colors ${
                       isPasswordLoading ? 'opacity-50 cursor-not-allowed' : ''
                     }`}
                   >
@@ -560,7 +560,7 @@ export default function Profile() {
 
                 <button 
                   onClick={logout}
-                  className="w-full bg-red-400 text-white rounded-xl p-3 hover:bg-red-500 transition-colors"
+                  className="w-full bg-red-400 text-white rounded-[25px] p-3 hover:bg-red-500 transition-colors"
                 >
                   Uitloggen
                 </button>

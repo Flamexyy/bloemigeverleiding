@@ -4,7 +4,6 @@ import Link from 'next/link';
 import ProductCard from './components/ProductCard';
 import { getProducts } from './utils/shopify';
 import Image from 'next/image';
-import { IoMdPricetags } from "react-icons/io";
 import { RiArrowRightUpLine } from "react-icons/ri";
 import Claims from './components/Claims';
 import Faq from './components/Faq';
@@ -68,9 +67,8 @@ export default function Home() {
           <div className="w-full flex justify-center items-center">
             <Link className="w-fit" href="/shop">
                <button 
-                  className='flex items-center justify-center px-6 p-3 bg-accent text-text hover:bg-gray-100 rounded-[100px] transition-all duration-300'
+                  className='flex items-center justify-center px-8 p-3 bg-accent text-text hover:bg-accent/70 rounded-[100px] transition-all duration-300'
                 >Shop nu
-                  <IoMdPricetags className="text-xl ml-2" />
                 </button>
             </Link>
           </div>
