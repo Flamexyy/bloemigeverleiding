@@ -46,11 +46,11 @@ export default function Footer() {
                         <div>
                             <h3 className="text-lg mb-6 font-bold">ONTVANG HULP</h3>
                             <ul className="space-y-4 text-text text-sm">
-                                <li><a href="#" className="hover:text-white">Bestelstatus</a></li>
-                                <li><a href="#" className="hover:text-white">Verzending & Levering</a></li>
-                                <li><a href="#" className="hover:text-white">Retourneren</a></li>
-                                <li><a href="#" className="hover:text-white">Betaalmethoden</a></li>
-                                <li><a href="#" className="hover:text-white">Contact</a></li>
+                                <li><a href="#" className="hover:text-red-400">Bestelstatus</a></li>
+                                <li><a href="#" className="hover:text-red-400">Verzending & Levering</a></li>
+                                <li><a href="#" className="hover:text-red-400">Retourneren</a></li>
+                                <li><a href="#" className="hover:text-red-400">Betaalmethoden</a></li>
+                                <li><a href="#" className="hover:text-red-400">Contact</a></li>
                             </ul>
                         </div>
 
@@ -58,10 +58,10 @@ export default function Footer() {
                         <div>
                             <h3 className="text-lg mb-6 font-bold">OVER ONS</h3>
                             <ul className="space-y-4 text-text text-sm">
-                                <li><a href="#" className="hover:text-white">Nieuws</a></li>
-                                <li><a href="#" className="hover:text-white">Vacatures</a></li>
-                                <li><a href="#" className="hover:text-white">Investeerders</a></li>
-                                <li><a href="#" className="hover:text-white">Duurzaamheid</a></li>
+                                <li><a href="#" className="hover:text-red-400">Nieuws</a></li>
+                                <li><a href="#" className="hover:text-red-400">Vacatures</a></li>
+                                <li><a href="#" className="hover:text-red-400">Investeerders</a></li>
+                                <li><a href="#" className="hover:text-red-400">Duurzaamheid</a></li>
                             </ul>
                         </div>
 
@@ -69,18 +69,18 @@ export default function Footer() {
                         <div>
                             <h3 className="text-lg mb-6 font-bold">VOLG ONS</h3>
                             <ul className="space-y-4 text-text text-sm">
-                                <li className='flex items-center gap-2 hover:text-white'><FaInstagram /><a href="https://www.instagram.com/bloemigeverleiding" target="_blank">Instagram</a></li>
-                                <li className='flex items-center gap-2 hover:text-white'><FaTiktok /><a href="https://www.instagram.com/bloemigeverleiding" target="_blank">Tiktok</a></li>
-                                <li className='flex items-center gap-2 hover:text-white'><FaFacebook /><a href="https://www.instagram.com/bloemigeverleiding" target="_blank">Facebook</a></li>
+                                <li className='flex items-center gap-2 hover:text-red-400'><FaInstagram /><a href="https://www.instagram.com/bloemigeverleiding" target="_blank">Instagram</a></li>
+                                <li className='flex items-center gap-2 hover:text-red-400'><FaTiktok /><a href="https://www.instagram.com/bloemigeverleiding" target="_blank">Tiktok</a></li>
+                                <li className='flex items-center gap-2 hover:text-red-400'><FaFacebook /><a href="https://www.instagram.com/bloemigeverleiding" target="_blank">Facebook</a></li>
                             </ul>
                         </div>
 
                         <div>
                             <h3 className="text-lg mb-6 font-bold">RECHTELIJK</h3>
                             <ul className="space-y-4 text-text text-sm">
-                                <li><a href="/terms-of-service" className="hover:text-white">Servicevoorwaarden</a></li>
-                                <li><a href="/terms-of-use" className="hover:text-white">Gebruiksvoorwaarden</a></li>
-                                <li><a href="/privacy-policy" className="hover:text-white">Privacybeleid</a></li>
+                                <li><a href="/terms-of-service" className="hover:text-red-400">Servicevoorwaarden</a></li>
+                                <li><a href="/terms-of-use" className="hover:text-red-400">Gebruiksvoorwaarden</a></li>
+                                <li><a href="/privacy-policy" className="hover:text-red-400">Privacybeleid</a></li>
                             </ul>
                         </div>
                     </div>
@@ -107,7 +107,7 @@ export default function Footer() {
                 <div className="border-t bg-text border-text flex flex-col md:flex-row justify-between items-center text-cream text-sm">
                     <div className='w-full flex flex-col md:flex-row justify-between gap-2 md:gap-20 mx-auto max-w-[1600px] p-4 lg:px-8 px-4'>
                         <p>© {new Date().getFullYear()} Bloemigeverleiding. Alle Rechten Voorbehouden</p>
-                        <span>Developed and designed by<a href='https://enhancedigital.nl' target='_blank' className='hover:underline'>Enhancedigital.nl</a></span>
+                        <span>Developed and designed by <a href='https://enhancedigital.nl' target='_blank' className='hover:underline'>Enhancedigital.nl</a></span>
                     </div>
                 </div>
             </div>
