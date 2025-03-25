@@ -77,3 +77,34 @@ html {
     flex-direction: column;
   }
 }
+
+/* Add swipe animations */
+@keyframes slide-left {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-10px);
+    opacity: 0.8;
+  }
+}
+
+@keyframes slide-right {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(10px);
+    opacity: 0.8;
+  }
+}
+
+.animate-slide-left {
+  animation: slide-left 0.15s ease-out;
+}
+
+.animate-slide-right {
+  animation: slide-right 0.15s ease-out;
+}

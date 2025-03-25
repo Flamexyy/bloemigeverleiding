@@ -114,14 +114,34 @@ export default function ProductPage({ params }: ProductPageProps) {
     if (Math.abs(swipeDistance) > minSwipeDistance) {
       if (swipeDistance > 0) {
         // Swiped left - next image
-        setSelectedImage(prev => 
-          prev === product.images.edges.length - 1 ? 0 : prev + 1
-        );
+        const nextIndex = selectedImage === product.images.edges.length - 1 ? 0 : selectedImage + 1;
+        
+        // Add animation class to the image container
+        const imageContainer = document.getElementById('main-image-container');
+        if (imageContainer) {
+          imageContainer.classList.add('animate-slide-left');
+          setTimeout(() => {
+            setSelectedImage(nextIndex);
+            imageContainer.classList.remove('animate-slide-left');
+          }, 150);
+        } else {
+          setSelectedImage(nextIndex);
+        }
       } else {
         // Swiped right - previous image
-        setSelectedImage(prev => 
-          prev === 0 ? product.images.edges.length - 1 : prev - 1
-        );
+        const prevIndex = selectedImage === 0 ? product.images.edges.length - 1 : selectedImage - 1;
+        
+        // Add animation class to the image container
+        const imageContainer = document.getElementById('main-image-container');
+        if (imageContainer) {
+          imageContainer.classList.add('animate-slide-right');
+          setTimeout(() => {
+            setSelectedImage(prevIndex);
+            imageContainer.classList.remove('animate-slide-right');
+          }, 150);
+        } else {
+          setSelectedImage(prevIndex);
+        }
       }
     }
   };
@@ -273,17 +293,24 @@ export default function ProductPage({ params }: ProductPageProps) {
 
             {/* Main Image */}
             <div className="flex-1">
-              <div className="aspect-square relative rounded-[30px] overflow-hidden w-full max-w-[500px]">
+              <div 
+                id="main-image-container"
+                className="aspect-square relative"
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+              >
                 <Image
                   src={product.images.edges[selectedImage].node.originalSrc}
                   alt={product.images.edges[selectedImage].node.altText || product.title}
                   fill
-                  sizes="(max-width: 768px) 100vw, 500px"
-                  className="object-cover"
+                  sizes="100vw"
+                  className="object-cover rounded-[25px]"
                   priority
                 />
+                
                 {/* Navigation Arrows */}
-                <div className="absolute bottom-4 right-4 flex gap-2">
+                <div className="hidden md:flex absolute bottom-4 right-4 gap-2">
                   <button 
                     onClick={prevImage}
                     className="bg-cream/80 hover:bg-cream rounded-full p-2 transition-colors text-text"
@@ -298,6 +325,22 @@ export default function ProductPage({ params }: ProductPageProps) {
                   >
                     <BiChevronRight className="text-xl" />
                   </button>
+                </div>
+                
+                {/* Image indicator dots */}
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1.5">
+                  {product.images.edges.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedImage(index)}
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        selectedImage === index 
+                          ? 'bg-white w-4' 
+                          : 'bg-white/60 hover:bg-white/80'
+                      }`}
+                      aria-label={`Go to image ${index + 1}`}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
@@ -338,6 +381,21 @@ export default function ProductPage({ params }: ProductPageProps) {
                   >
                     <BiChevronRight className="text-xl" />
                   </button>
+                </div>
+                {/* Image Indicator Dots */}
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-1.5">
+                  {product.images.edges.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setSelectedImage(index)}
+                      className={`w-2 h-2 rounded-full transition-all ${
+                        selectedImage === index 
+                          ? 'bg-white w-4' 
+                          : 'bg-white/60 hover:bg-white/80'
+                      }`}
+                      aria-label={`Go to image ${index + 1}`}
+                    />
+                  ))}
                 </div>
               </div>
             </div>
