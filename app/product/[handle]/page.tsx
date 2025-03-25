@@ -370,7 +370,7 @@ export default function ProductPage({ params }: ProductPageProps) {
         {/* Product Info */}
         <div className="flex-1 lg:max-w-[400px] space-y-4">
           <div>
-            <h1 className="text-3xl font-bold uppercase">{product.title}</h1>
+            <h1 className="text-3xl font-bold uppercase text-text">{product.title}</h1>
             <div className="flex items-center gap-2 mt-1">
               {product.priceRange?.maxVariantPrice?.amount && 
                product.priceRange?.minVariantPrice?.amount && 
