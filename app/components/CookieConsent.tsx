@@ -90,9 +90,9 @@ export default function CookieConsent() {
     <>
       {/* Cookie Consent Banner */}
       <div className={`fixed bottom-0 left-0 right-0 bg-white border-t border-text/20 z-[60] transform transition-all duration-300 ${
-        showDetails ? 'h-[100dvh] md:h-auto md:max-h-[75vh]' : ''
+        showDetails ? 'max-lg:h-[100dvh] md:max-h-[600px]' : ''
       }`}>
-        <div className={`max-w-[1600px] mx-auto ${showDetails ? 'h-full md:h-auto' : ''}`}>
+        <div className={`max-w-[1600px] mx-auto h-full flex flex-col`}>
           {!showDetails ? (
             // Simple View
             <div className="p-3 md:p-6">
@@ -131,11 +131,11 @@ export default function CookieConsent() {
               </div>
             </div>
           ) : (
-            // Detailed View
-            <div className="flex flex-col h-full md:h-auto">
-              {/* Scrollable Content */}
-              <div className="flex-1 overflow-y-auto p-4 md:p-8">
-                <div className="space-y-4 md:space-y-6">
+            // Detailed View with flex layout to ensure footer stays at bottom
+            <div className="flex flex-col h-full">
+              {/* Scrollable Content Area */}
+              <div className="flex-1 min-h-0 overflow-y-auto">
+                <div className="p-4 md:p-8 space-y-4 md:space-y-6">
                   <div className="flex justify-between items-start gap-4">
                     <div className="min-w-0">
                       <h2 className="text-lg md:text-xl font-bold mb-2 text-text">Cookie voorkeuren</h2>
@@ -211,8 +211,8 @@ export default function CookieConsent() {
                 </div>
               </div>
 
-              {/* Fixed Footer */}
-              <div className="border-t border-text/20 p-4 bg-white">
+              {/* Footer - Always visible */}
+              <div className="border-t border-text/20 p-4 bg-white mt-auto">
                 <div className="flex flex-col sm:flex-row gap-2">
                   <button
                     onClick={handleDecline}
