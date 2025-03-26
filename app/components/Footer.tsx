@@ -5,29 +5,29 @@ export default function Footer() {
     return (
         <footer className="mt-auto">
             {/* Newsletter Section */}
-            <div className="bg-gray-100">
+            {/* <div className="bg-text text-cream">
                 <div className="max-w-[1600px] mx-auto px-4 lg:px-8 py-12 md:py-20">
                     <div className="max-w-2xl mx-auto text-center space-y-4 md:space-y-6">
                         <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold">Sluit aan bij onze nieuwsbrief</h2>
-                        <p className="text-gray-text/50 text-sm md:text-base">
+                        <p className="text-sm md:text-base">
                             Schrijf je in voor onze nieuwsbrief en ontvang speciale aanbiedingen, gratis giveaways en updates over nieuwe producten.
                         </p>
                         <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
                             <input 
                                 type="email" 
                                 placeholder="Vul uw email in" 
-                                className="flex-1 bg-white rounded-xl px-4 py-3 text-sm md:text-base placeholder:text-text/50 border border-transparent focus:border-black/10 focus:outline-none"
+                                className="flex-1 text-text bg-white rounded-[25px] px-6 py-3 text-sm md:text-base placeholder:text-text/50 border border-text/10 focus:outline-none focus:border-text/30"
                             />
                             <button 
                                 type="submit"
-                                className="bg-zinc-900 text-white px-6 py-3 rounded-xl hover:bg-zinc-800 transition-colors text-sm md:text-base whitespace-nowrap"
+                                className="bg-accent text-text px-6 py-3 rounded-[25px] hover:bg-accent/70 transition-colors text-sm md:text-base whitespace-nowrap font-medium"
                             >
                                 Abonneer
                             </button>
                         </form>
                     </div>
                 </div>
-            </div>
+            </div> */}
             
             {/* Main Footer */}
             <div className="bg-cream text-text">
