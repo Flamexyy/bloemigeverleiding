@@ -190,7 +190,7 @@ export default function ProductPage({ params }: ProductPageProps) {
   };
 
   if (!product) return (
-    <div className="max-w-[1200px] mx-auto">
+    <div className="max-w-[1600px] mx-auto">
       <div className="flex flex-col md:flex-row gap-6 py-6 xl:py-10 px-4 lg:px-8 justify-center">
         {/* Images Section Skeleton */}
         <div className="flex-1 lg:max-w-[600px]">
@@ -250,7 +250,7 @@ export default function ProductPage({ params }: ProductPageProps) {
   );
 
   return (
-    <div className="max-w-[1200px] mx-auto">
+    <div className="max-w-[1600px] mx-auto">
       <div className="flex flex-col md:flex-row gap-6 py-6 xl:py-10 px-4 lg:px-8 justify-center">
         {/* Images Section */}
         <div className="flex-1 lg:max-w-[600px]">
@@ -463,7 +463,7 @@ export default function ProductPage({ params }: ProductPageProps) {
           </div>
 
           <div className="space-y-2">
-            <p className="opacity-70 text-md leading-relaxed">{product.description}</p>
+            <p className="text-text/70 text-md leading-relaxed">{product.description}</p>
           </div>
 
           {/* Variant Selection */}
@@ -586,7 +586,7 @@ export default function ProductPage({ params }: ProductPageProps) {
           </button>
         </div>
         
-        <div className="max-w-3xl">
+        <div className="max-w-[1600px]">
           {activeTab === 'description' && (
             <div className="space-y-4 text-text/70">
               <p>
@@ -693,7 +693,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                 </ul>
               </div>
               
-              <div className="bg-accent/10 p-4 rounded-[15px] mt-4">
+              <div className="bg-accent p-4 rounded-[15px] mt-4">
                 <p className="font-medium text-text">
                   Tip: Sommige bloemen, zoals tulpen, blijven groeien in de vaas. Houd hier rekening mee bij het plaatsen van uw boeket.
                 </p>
@@ -770,7 +770,7 @@ export default function ProductPage({ params }: ProductPageProps) {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 border-b border-text/10 pb-10">
           {relatedProductsLoading ? (
             Array.from({ length: 4 }).map((_, index) => (
               <ProductCardSkeleton key={index} />
@@ -784,7 +784,7 @@ export default function ProductPage({ params }: ProductPageProps) {
       </div>
 
       {/* FAQ Section */}
-      <div className="max-w-[1600px] mx-auto px-4 lg:px-8 py-12 border-t border-text/10">
+      <div className="max-w-[1600px] mx-auto px-4 lg:px-8 py-12 pt-8">
         <div className="flex flex-col gap-6 items-start mb-10 text-text">
           <div className='w-full flex flex-col-reverse md:flex-row justify-between items-start gap-5 md:gap-10'>
             <div className='max-w-[800px]'>
