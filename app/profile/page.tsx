@@ -264,7 +264,7 @@ export default function Profile() {
                   <h2 className="text-xl font-bold text-text truncate">
                     {user?.firstName} {user?.lastName}
                   </h2>
-                  <p className="text-gray-600 truncate">
+                  <p className="text-text/50 truncate">
                     {user?.email}
                   </p>
                 </div>
@@ -340,7 +340,7 @@ export default function Profile() {
                       <LuPackage className="text-4xl text-text/50" />
                     </div>
                     <h3 className="text-xl font-medium text-text mb-2">Nog geen bestellingen</h3>
-                    <p className="text-gray-600 mb-6">
+                    <p className="text-text/50 mb-6">
                       Wanneer je een bestelling plaatst, verschijnt deze hier.
                     </p>
                   </div>
@@ -476,17 +476,20 @@ export default function Profile() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <label htmlFor="email" className="block font-bold text-sm text-text">
-                          E-MAILADRES
+                        <label htmlFor="email" className="block text-sm font-medium text-text/70">
+                          E-mailadres
                         </label>
-                        <input 
+                        <input
                           type="email"
                           id="email"
-                          value={formData.email}
-                          onChange={handleChange}
-                          className="w-full border border-text/20 rounded-xl p-3 text-text focus:outline-none focus:border-text"
-                          required
+                          value={user?.email}
+                          className="w-full p-3 border border-text/10 rounded-xl bg-gray-100 text-text/60 cursor-not-allowed"
+                          disabled
+                          readOnly
                         />
+                        <p className="text-xs text-text/50 mt-1">
+                          Je e-mailadres kan niet worden gewijzigd. Neem contact op met de klantenservice voor hulp.
+                        </p>
                       </div>
                       <div className="space-y-2">
                         <label htmlFor="phone" className="block font-bold text-sm text-text">

@@ -272,7 +272,7 @@ export default function Header() {
                                     <h3 className="text-lg font-bold text-text">
                                         {user ? (user.firstName || 'Account') : 'Account'}
                                     </h3>
-                                    <p className="text-gray-600">
+                                    <p className="text-text/50">
                                         {user ? 'Bekijk je profiel' : 'Log in op je account'}
                                     </p>
                                 </div>

@@ -24,7 +24,7 @@ export default function LikedPage() {
       <div className="flex items-center gap-4 mb-4">
         <div>
           <h1 className="text-3xl font-bold text-text">Favorieten</h1>
-          <p className="text-[#666666] text-sm">
+          <p className="text-text/50 text-sm">
             {items.length} {items.length === 1 ? 'item' : 'items'}
           </p>
         </div>

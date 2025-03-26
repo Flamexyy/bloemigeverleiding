@@ -39,7 +39,7 @@ export default function PriceRangeSlider({
   return (
     <div>
       <div className="flex justify-between">
-        <label htmlFor="price-range" className="text-sm text-gray-600">
+        <label htmlFor="price-range" className="text-sm text-text/50">
           Price Range
         </label>
         <span className="text-sm font-medium">
@@ -85,7 +85,7 @@ export default function PriceRangeSlider({
         />
       </div>
       
-      <div className="flex justify-between text-xs text-gray-500 mt-1">
+      <div className="flex justify-between text-xs text-text/50 mt-1">
         <span>€{min}</span>
         <span>€{max}+</span>
       </div>

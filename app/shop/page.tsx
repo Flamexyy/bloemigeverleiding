@@ -298,10 +298,10 @@ export default function Shop() {
                 <div className="flex items-center gap-2">
                   <div className='flex w-full justify-between items-center'>
                     <div>
-                      <span className="text-sm text-[#666666]">Resultaten </span>
-                      <span className="text-sm text-[#666666]">({filteredProducts.length})</span>
+                      <span className="text-sm text-text/50">Resultaten </span>
+                      <span className="text-sm text-text/50">({filteredProducts.length})</span>
                     </div> 
-                    <div className="text-sm text-[#666666]">
+                    <div className="text-sm text-text/50">
                       {filters.sort === 'featured' && 'Sorteren op'}
                       {filters.sort === 'price-asc' && 'Prijs: Laag naar Hoog'}
                       {filters.sort === 'price-desc' && 'Prijs: Hoog naar Laag'}
@@ -333,7 +333,7 @@ export default function Shop() {
 
             {!loading && filteredProducts.length === 0 && (
               <div className="text-center py-8">
-                <p className="text-sm text-gray-500">Geen producten gevonden</p>
+                <p className="text-sm text-text/50">Geen producten gevonden</p>
               </div>
             )}
           </div>
