@@ -5,12 +5,24 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { name, email, subject, message } = body;
     
+    // Check if required environment variables are set
+    const storeDomain = process.env.SHOPIFY_STORE_DOMAIN;
+    const accessToken = process.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN;
+    
+    if (!storeDomain || !accessToken) {
+      console.error('Missing required environment variables for Shopify API');
+      return NextResponse.json(
+        { error: 'Server configuration error' },
+        { status: 500 }
+      );
+    }
+    
     // Create a draft order or customer note in Shopify
-    const shopifyResponse = await fetch(`https://${process.env.SHOPIFY_STORE_DOMAIN}/admin/api/2023-07/draft_orders.json`, {
+    const shopifyResponse = await fetch(`https://${storeDomain}/admin/api/2023-07/draft_orders.json`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'X-Shopify-Access-Token': process.env.SHOPIFY_ADMIN_API_ACCESS_TOKEN,
+        'X-Shopify-Access-Token': accessToken,
       },
       body: JSON.stringify({
         draft_order: {
