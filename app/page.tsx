@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { RiArrowRightUpLine } from "react-icons/ri";
 import Claims from './components/Claims';
 import Faq from './components/Faq';
+import SocialSection from './components/SocialSection';
 import { ProductCardSkeleton } from './components/SkeletonLoader';
 
 interface ShopifyProduct {
@@ -162,6 +163,7 @@ export default function Home() {
           )}
         </div>
         <Claims />
+        <SocialSection />
         <Faq />
       </div>
     </div>
