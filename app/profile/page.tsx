@@ -388,17 +388,17 @@ export default function Profile() {
                               </Link>
                               <div className="flex justify-between flex-col max-w-fit">
                                 <div>
-                                <Link 
-                                  href={`/product/${item.title.toLowerCase().replace(/\s+/g, '-')}`}
-                                  className="hover:text-text/70 transition-colors hover:underline"
-                                >
-                                  <h3 className="font-medium text-text ">{item.title}</h3>
-                                </Link>
-                                <p className="text-sm text-text/50">Aantal: {item.quantity}</p>
+                                  <Link 
+                                    href={`/product/${item.title.toLowerCase().replace(/\s+/g, '-')}`}
+                                    className="hover:text-text/70 transition-colors hover:underline"
+                                  >
+                                    <h3 className="font-medium text-text ">{item.title}</h3>
+                                  </Link>
+                                  <p className="text-sm text-text/50">Aantal: {item.quantity}</p>
                                 </div>
                                 <div className="flex items-center gap-2">
                                   <span className="font-medium text-text">
-                                    €{parseFloat(item.variant.price).toFixed(2)}
+                                    €{(parseFloat(item.variant.price) * item.quantity).toFixed(2)}
                                   </span>
                                 </div>
                               </div>
