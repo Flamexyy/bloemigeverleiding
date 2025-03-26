@@ -123,7 +123,7 @@ export default function CartMenu() {
                     <Link 
                       href={`/product/${item.handle}`}
                       onClick={() => setIsOpen(false)}
-                      className="w-20 h-20 bg-accent rounded-xl shrink-0 relative overflow-hidden hover:opacity-80 transition-opacity mt-1.5"
+                      className="w-20 h-20 bg-accent rounded-xl shrink-0 relative overflow-hidden hover:opacity-80 transition-opacity mt-1"
                     >
                       <Image 
                         src={item.imageUrl} 
@@ -133,24 +133,24 @@ export default function CartMenu() {
                       />
                     </Link>
                     <div className="flex-1 text-text">
-                      <div className="flex justify-between items-start">
+                      <div className="flex justify-between items-start gap-4">
                         <div>
                           <Link 
                             href={`/product/${item.handle}`}
                             onClick={() => setIsOpen(false)}
-                            className="hover:text-text/70 transition-colors"
+                            className="hover:underline"
                           >
-                            <h3 className="font-bold">{item.title}</h3>
+                            <h3 className="font-bold line-clamp-2">{item.title}</h3>
                           </Link>
                           {item.size && (
-                            <p className="text-sm opacity-50">Maat: {item.size}</p>
+                            <p className="text-sm opacity-50">Variant: {item.size}</p>
                           )}
                         </div>
                         <div className="text-right flex flex-col items-end">
                           <div className="flex items-center gap-2">
                             {item.compareAtPrice ? (
                               <>
-                                <p className="text-sm text-text line-through">
+                                <p className="text-sm text-text/50 line-through">
                                   €{(parseFloat(String(item.compareAtPrice)) * item.quantity).toFixed(2)}
                                 </p>
                                 <p className="text-red-400 font-bold">

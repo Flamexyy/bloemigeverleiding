@@ -16,6 +16,8 @@ import { RiArrowRightUpLine } from "react-icons/ri";
 import ProductCard from '@/app/components/ProductCard';
 import { ProductCardSkeleton } from '@/app/components/SkeletonLoader';
 import { IoClose } from "react-icons/io5";
+import { IoFlowerOutline } from "react-icons/io5";
+import { IoCartOutline } from "react-icons/io5";
 
 interface ProductPageProps {
   params: {
@@ -38,6 +40,7 @@ export default function ProductPage({ params }: ProductPageProps) {
   const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
   const [relatedProductsLoading, setRelatedProductsLoading] = useState(true);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
+  const [selectedOptions, setSelectedOptions] = useState<{[key: string]: string}>({});
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -92,6 +95,51 @@ export default function ProductPage({ params }: ProductPageProps) {
       fetchRelatedProducts();
     }
   }, [product]);
+
+  useEffect(() => {
+    // Initialize selected options with the first available option for each option type
+    if (product && product.options) {
+      const initialOptions: {[key: string]: string} = {};
+      
+      product.options.forEach(option => {
+        if (option.values && option.values.length > 0) {
+          initialOptions[option.name] = option.values[0];
+        }
+      });
+      
+      setSelectedOptions(initialOptions);
+      
+      // Find the matching variant based on initial options
+      const matchingVariant = findVariantForOptions(initialOptions);
+      if (matchingVariant) {
+        setSelectedVariant(matchingVariant);
+      }
+    }
+  }, [product]);
+
+  const findVariantForOptions = (options: {[key: string]: string}) => {
+    if (!product || !product.variants || !product.variants.edges) return null;
+    
+    return product.variants.edges.find(({ node }) => {
+      // Check if this variant matches all selected options
+      if (!node.selectedOptions) return false;
+      
+      return node.selectedOptions.every(optionItem => 
+        options[optionItem.name] === optionItem.value
+      );
+    })?.node || null;
+  };
+
+  const handleOptionChange = (optionName: string, value: string) => {
+    const newOptions = { ...selectedOptions, [optionName]: value };
+    setSelectedOptions(newOptions);
+    
+    // Find the matching variant
+    const matchingVariant = findVariantForOptions(newOptions);
+    if (matchingVariant) {
+      setSelectedVariant(matchingVariant);
+    }
+  };
 
   const handleAddToCart = async () => {
     if (!selectedVariant || isOutOfStock || isAddingToCart) return;
@@ -202,6 +250,19 @@ export default function ProductPage({ params }: ProductPageProps) {
     setIsLightboxOpen(false);
     // Re-enable scrolling when lightbox is closed
     document.body.style.overflow = '';
+  };
+
+  // First, let's add a function to check if we can add more of this item
+  const canAddToCart = () => {
+    if (!selectedVariant || !selectedVariant.availableForSale) {
+      return false;
+    }
+    
+    // Check if adding the selected quantity would exceed available stock
+    const currentQuantityInCart = getCartItemQuantity(selectedVariant.id);
+    const totalQuantityAfterAdd = currentQuantityInCart + quantity;
+    
+    return totalQuantityAfterAdd <= selectedVariant.quantityAvailable;
   };
 
   if (!product) return (
@@ -468,10 +529,10 @@ export default function ProductPage({ params }: ProductPageProps) {
               ) : product.compareAtPriceRange?.maxVariantPrice?.amount && 
                   parseFloat(product.compareAtPriceRange.maxVariantPrice.amount) > parseFloat(product.priceRange.minVariantPrice.amount) ? (
                 <>
-                  <p className="text-xl font-bold text-red-400">
+                  <p className="text-2xl font-bold text-red-400">
                     €{parseFloat(product.priceRange.minVariantPrice.amount).toFixed(2)}
                   </p>
-                  <p className="text-sm text-text line-through">
+                  <p className="text-sm text-text/50 line-through">
                     €{parseFloat(product.compareAtPriceRange.maxVariantPrice.amount).toFixed(2)}
                   </p>
                 </>
@@ -489,9 +550,9 @@ export default function ProductPage({ params }: ProductPageProps) {
 
           {/* Variant Selection */}
           {product?.variants?.edges?.length > 1 && (
-            <div className="space-y-2">
-              <label className="block text-sm font-medium text-text">
-                Maat
+            <div className="space-y-2 pb-4">
+              <label className="block text-md font-medium text-text">
+                Variant
               </label>
               <div className="flex flex-wrap gap-2">
                 {product.variants.edges.map((edge: any) => (
@@ -535,20 +596,28 @@ export default function ProductPage({ params }: ProductPageProps) {
               {/* Add to Cart Button */}
               <button
                 onClick={handleAddToCart}
-                disabled={isOutOfStock || isAddingToCart || !selectedVariant || (getCartItemQuantity(selectedVariant?.id) + quantity > selectedVariant?.quantityAvailable)}
-                className={`flex-1 rounded-[50px] p-3 flex items-center justify-center gap-2 transition-colors text-sm
-                  ${isOutOfStock || isAddingToCart || !selectedVariant || (getCartItemQuantity(selectedVariant?.id) + quantity > selectedVariant?.quantityAvailable)
-                    ? 'bg-accent/50 text-text/70 cursor-not-allowed' 
-                    : 'bg-accent text-text hover:bg-accent/70 cursor-pointer'
-                  }`}
+                disabled={isAddingToCart || !canAddToCart()}
+                className={`w-full py-3 px-6 rounded-[100px] flex items-center justify-center gap-2 font-medium transition-all duration-300 ${
+                  !canAddToCart()
+                    ? 'bg-accent/50 text-text/50 cursor-not-allowed'
+                    : 'bg-accent text-text hover:bg-accent/70'
+                }`}
               >
-                <MdOutlineShoppingBag className="text-lg" />
-                {isOutOfStock 
-                  ? 'Uitverkocht' 
-                  : isAddingToCart 
-                    ? 'Toevoegen...' 
-                    : 'In winkelwagen'
-                }
+                {isAddingToCart ? (
+                  <>
+                    <span className="animate-spin mr-2">
+                      <IoFlowerOutline className="text-xl" />
+                    </span>
+                    Toevoegen...
+                  </>
+                ) : !canAddToCart() ? (
+                  'Uitverkocht'
+                ) : (
+                  <>
+                    <IoCartOutline className="text-xl" />
+                    In winkelwagen
+                  </>
+                )}
               </button>
             </div>
 

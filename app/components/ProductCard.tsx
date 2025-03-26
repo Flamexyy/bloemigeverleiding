@@ -146,10 +146,10 @@ export default function ProductCard({ product }: ProductCardProps) {
       {/* Content area with flex structure */}
       <div className="flex flex-col flex-grow">
         {/* Top content that stays together */}
-        <div>
+        <div className="px-2">
           {/* Clickable title */}
           <Link href={`/product/${product.handle}`} className="text-center">
-            <h3 className="font-medium text-text hover:underline cursor-pointer">{product.title}</h3>
+            <h3 className="font-medium text-text hover:underline cursor-pointer line-clamp-2">{product.title}</h3>
           </Link>
           
           {/* Non-clickable price */}
