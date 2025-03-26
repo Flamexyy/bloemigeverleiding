@@ -250,7 +250,7 @@ export default function Profile() {
 
   return (
     <ProtectedRoute>
-      <div className="max-w-[1600px] mx-auto p-4 lg:px-8 py-8">
+      <div className="max-w-[1600px] mx-auto p-4 lg:px-8 py-20">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left Side - Navigation */}
           <div className="lg:w-[300px]">
@@ -314,7 +314,7 @@ export default function Profile() {
           <div className="flex-1">
             {activeTab === 'orders' && (
               <div className="space-y-4 flex flex-col gap-6">
-                <h2 className="text-3xl font-bold text-text">Mijn Bestellingen</h2>
+                <h2 className="text-3xl font-bold text-text">MIJN BESTELLINGEN</h2>
                 
                 {ordersLoading ? (
                   <div className="space-y-4">
@@ -431,7 +431,7 @@ export default function Profile() {
 
             {activeTab === 'settings' && (
               <div className="space-y-4 flex flex-col gap-6">
-                <h2 className="text-3xl font-bold text-text">Account Instellingen</h2>
+                <h2 className="text-3xl font-bold text-text">ACCOUNT INSTELLINGEN</h2>
                 
                 <div className="border border-text/20 rounded-2xl p-6 space-y-6">
                   {updateError && (
