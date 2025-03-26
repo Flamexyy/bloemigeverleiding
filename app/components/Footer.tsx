@@ -17,12 +17,13 @@ export default function Footer() {
                             </p>
                         </div>
                         
-                        <div className="w-full md:w-auto">
-                            <form className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto md:mx-0">
+                        <div className="w-full flex justify-end">
+                            <form className="w-full flex flex-col sm:flex-row gap-3 max-w-md mx-auto md:mx-0">
                                 <input 
                                     type="email" 
                                     placeholder="Vul uw email in" 
-                                    className="flex-1 bg-white rounded-[25px] px-6 py-3 text-sm md:text-base placeholder:text-text/50 border border-text/10 focus:outline-none focus:border-text/30"
+                                    className="flex-1 bg-white rounded-[25px] px-6 py-3 text-sm md:text-base placeholder:text-text/50 border border-text/10 focus:outline-none focus:border-text/30 valid:border-green-500/50"
+                                    required
                                 />
                                 <button 
                                     type="submit"
