@@ -2,7 +2,7 @@
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { useCart } from '../context/CartContext';
 import { IoClose } from "react-icons/io5";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -11,6 +11,32 @@ export default function CartMenu() {
   const router = useRouter();
   const { items, removeFromCart, updateQuantity, total, isOpen, setIsOpen } = useCart();
   const [isLoading, setIsLoading] = useState(false);
+
+  // Add useEffect to handle body scrolling
+  useEffect(() => {
+    if (isOpen) {
+      // Disable scrolling on body when cart is open
+      document.body.style.overflow = 'hidden';
+      // Add padding to prevent layout shift when scrollbar disappears
+      document.body.style.paddingRight = 'var(--scrollbar-width)';
+    } else {
+      // Re-enable scrolling when cart is closed
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    }
+
+    // Calculate scrollbar width once on mount and store it as CSS variable
+    if (typeof window !== 'undefined') {
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      document.documentElement.style.setProperty('--scrollbar-width', `${scrollbarWidth}px`);
+    }
+
+    // Cleanup function to ensure scrolling is re-enabled when component unmounts
+    return () => {
+      document.body.style.overflow = '';
+      document.body.style.paddingRight = '';
+    };
+  }, [isOpen]);
 
   const handleCheckout = async () => {
     if (isLoading || items.length === 0) return;
