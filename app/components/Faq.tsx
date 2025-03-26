@@ -45,7 +45,7 @@ export default function Faq({ faqs = defaultFaqs, title = "Veel gestelde vragen"
                     </div>
                     <div className='w-full justify-end flex '>
                     <Link 
-                        href="/faq"
+                        href="/contact"
                         className="min-w-fit flex items-center gap-2 transition-opacity mt-2 group"
                     >
                         Bekijk alle vragen
