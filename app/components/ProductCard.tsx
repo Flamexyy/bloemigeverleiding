@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { useCart } from '../context/CartContext';
 import { useState, useEffect } from 'react';
 import { useLiked } from '../context/LikedContext';
+import FadeInImage from './FadeInImage';
 
 interface ProductCardProps {
   product: {
@@ -111,12 +112,12 @@ export default function ProductCard({ product }: ProductCardProps) {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <Image
+        <FadeInImage
           src={product.imageUrl}
           alt={product.title}
-          fill
-          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-          className={`object-cover transition-transform duration-500 ${isHovered ? 'scale-110' : 'scale-100'}`}
+          width={400}
+          height={400}
+          className="w-full h-full object-cover rounded-[25px]"
         />
         
         {/* Heart icon for wishlist */}

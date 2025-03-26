@@ -4,13 +4,15 @@ export function SkeletonItem({ className = "" }: { className?: string }) {
 
 export function ProductCardSkeleton() {
   return (
-    <div className="space-y-4 animate-pulse">
-      <div className="aspect-square bg-accent/30 rounded-[25px]"></div>
-      <div className="flex flex-col items-center space-y-2 text-center">
-        <div className="h-5 bg-accent/30 rounded w-3/4"></div>
-        <div className="h-5 bg-accent/30 rounded w-1/3"></div>
+    <div className="animate-pulse transition-opacity duration-300 ease-in-out">
+      <div className="space-y-4">
+        <div className="aspect-square bg-accent/30 rounded-[25px]"></div>
+        <div className="flex flex-col items-center space-y-2 text-center">
+          <div className="h-5 bg-accent/30 rounded w-3/4"></div>
+          <div className="h-5 bg-accent/30 rounded w-1/3"></div>
+        </div>
+        <div className="h-10 bg-accent/30 rounded-[100px] w-full"></div>
       </div>
-      <div className="h-10 bg-accent/30 rounded-[100px] w-full"></div>
     </div>
   );
 }

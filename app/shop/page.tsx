@@ -65,6 +65,8 @@ export default function Shop() {
   const [minPriceFilter, setMinPriceFilter] = useState(0);
   const [maxPriceFilter, setMaxPriceFilter] = useState(500);
   const [initialLoad, setInitialLoad] = useState(true);
+  const [productsReady, setProductsReady] = useState(false);
+  const [previousProducts, setPreviousProducts] = useState<ShopifyProduct[]>([]);
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -145,6 +147,7 @@ export default function Shop() {
       
       try {
         setLoading(true);
+        setProductsReady(false);
         
         // Find the collection handle if we have an ID
         let collectionQuery = collectionParam;
@@ -163,10 +166,17 @@ export default function Shop() {
         
         setProducts(productsData);
         setFilteredProducts(productsData);
+        
+        // Set loading to false first
+        setLoading(false);
+        
+        // Then set products ready after a small delay to allow for fade-in
+        setTimeout(() => {
+          setProductsReady(true);
+        }, 100);
       } catch (err) {
         console.error('Error fetching products:', err);
         setError('Failed to load products. Please try again later.');
-      } finally {
         setLoading(false);
       }
     };
@@ -480,60 +490,56 @@ export default function Shop() {
             </div>
 
             {/* Product Grid */}
-            {loading ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-4 gap-y-10 md:gap-y-10">
-                {Array.from({ length: 8 }).map((_, index) => (
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+              {loading ? (
+                // Skeleton loaders
+                Array.from({ length: 8 }).map((_, index) => (
                   <ProductCardSkeleton key={index} />
-                ))}
-              </div>
-            ) : (
-              <>
-                <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-4 gap-y-10 md:gap-y-10'>
-                  {filteredProducts.slice(0, visibleProducts).map((product) => (
-                    <ProductCard 
-                      key={product.id}
-                      product={product}
-                    />
-                  ))}
-                </div>
-                
-                {visibleProducts < filteredProducts.length && (
-                  <div className="flex flex-col items-center mt-10">
-                    <button 
-                      onClick={loadMoreProducts}
-                      disabled={loadingMore}
-                      className="flex items-center justify-center gap-2 px-10 py-3 bg-transparent text-text border-2 border-accent hover:bg-accent rounded-[100px] transition-all duration-300 font-medium group"
-                    >
-                      {loadingMore ? (
-                        <>
-                          <span className="animate-spin mr-2">
-                            <IoFlowerOutline className="text-xl" />
-                          </span>
-                          Laden...
-                        </>
-                      ) : (
-                        <>
-                          Meer producten laden
-                        </>
-                      )}
-                    </button>
-                    <p className="text-text/70 text-sm mt-3">
-                      {visibleProducts} van {filteredProducts.length} producten geladen
-                    </p>
+                ))
+              ) : (
+                // Products with fade-in animation
+                filteredProducts.slice(0, visibleProducts).map(product => (
+                  <div 
+                    key={product.id} 
+                    className={`transition-opacity duration-300 ease-in-out ${
+                      productsReady ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    <ProductCard product={product} />
                   </div>
-                )}
-                
-                {visibleProducts >= filteredProducts.length && filteredProducts.length > 16 && (
-                  <div className="text-center mt-12 text-text/70">
-                    <p>{filteredProducts.length} van {filteredProducts.length} producten geladen</p>
-                  </div>
-                )}
-              </>
-            )}
+                ))
+              )}
+            </div>
 
             {!loading && filteredProducts.length === 0 && (
               <div className="text-center py-8">
                 <p className="text-sm text-text/50">Geen producten gevonden</p>
+              </div>
+            )}
+
+            {visibleProducts < filteredProducts.length && (
+              <div className="flex flex-col items-center mt-10">
+                <button 
+                  onClick={loadMoreProducts}
+                  disabled={loadingMore}
+                  className="flex items-center justify-center gap-2 px-10 py-3 bg-transparent text-text border-2 border-accent hover:bg-accent rounded-[100px] transition-all duration-300 font-medium group"
+                >
+                  {loadingMore ? (
+                    <>
+                      <span className="animate-spin mr-2">
+                        <IoFlowerOutline className="text-xl" />
+                      </span>
+                      Laden...
+                    </>
+                  ) : (
+                    <>
+                      Meer producten laden
+                    </>
+                  )}
+                </button>
+                <p className="text-text/70 text-sm mt-3">
+                  {visibleProducts} van {filteredProducts.length} producten geladen
+                </p>
               </div>
             )}
           </div>
@@ -564,6 +570,7 @@ export default function Shop() {
               onPriceFilter={handlePriceFilter}
               onSortChange={handleSortChange}
               onCollectionChange={handleCollectionChange}
+              onExactPriceChange={handleExactPriceChange}
               isMobile={true}
               onReset={handleReset}
               shouldReset={shouldResetFilters}
@@ -605,4 +612,4 @@ export default function Shop() {
       )}
     </div>
   );
-} 
+}
