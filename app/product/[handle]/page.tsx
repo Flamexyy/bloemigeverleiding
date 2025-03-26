@@ -15,6 +15,7 @@ import Link from 'next/link';
 import { RiArrowRightUpLine } from "react-icons/ri";
 import ProductCard from '@/app/components/ProductCard';
 import { ProductCardSkeleton } from '@/app/components/SkeletonLoader';
+import { IoClose } from "react-icons/io5";
 
 interface ProductPageProps {
   params: {
@@ -36,6 +37,7 @@ export default function ProductPage({ params }: ProductPageProps) {
   const [activeTab, setActiveTab] = useState('description');
   const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
   const [relatedProductsLoading, setRelatedProductsLoading] = useState(true);
+  const [isLightboxOpen, setIsLightboxOpen] = useState(false);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -189,6 +191,18 @@ export default function ProductPage({ params }: ProductPageProps) {
     );
   };
 
+  const openLightbox = () => {
+    setIsLightboxOpen(true);
+    // Disable scrolling when lightbox is open
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeLightbox = () => {
+    setIsLightboxOpen(false);
+    // Re-enable scrolling when lightbox is closed
+    document.body.style.overflow = '';
+  };
+
   if (!product) return (
     <div className="max-w-[1600px] mx-auto">
       <div className="flex flex-col md:flex-row gap-6 py-6 xl:py-10 px-4 lg:px-8 justify-center">
@@ -283,7 +297,7 @@ export default function ProductPage({ params }: ProductPageProps) {
 
             {/* Main Image */}
             <div className="flex-1">
-              <div className="aspect-square relative rounded-[25px] overflow-hidden">
+              <div className="aspect-square relative rounded-[25px] overflow-hidden cursor-zoom-in" onClick={openLightbox}>
                 <Carousel
                   selectedItem={selectedImage}
                   onChange={setSelectedImage}
@@ -327,14 +341,20 @@ export default function ProductPage({ params }: ProductPageProps) {
                 {/* Navigation Arrows */}
                 <div className="hidden md:flex absolute bottom-4 right-4 gap-2 z-10">
                   <button 
-                    onClick={prevImage}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent opening lightbox when clicking arrows
+                      prevImage();
+                    }}
                     className="bg-cream/80 hover:bg-cream rounded-full p-2 transition-colors text-text"
                     aria-label="Previous image"
                   >
                     <BiChevronLeft className="text-xl" />
                   </button>
                   <button 
-                    onClick={nextImage}
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevent opening lightbox when clicking arrows
+                      nextImage();
+                    }}
                     className="bg-cream/80 hover:bg-cream rounded-full p-2 transition-colors text-text"
                     aria-label="Next image"
                   >
@@ -841,6 +861,50 @@ export default function ProductPage({ params }: ProductPageProps) {
           </Link>
         </div>
       </div>
+
+      {/* Image Lightbox */}
+      {isLightboxOpen && (
+        <div className="fixed inset-0 bg-black/90 z-50 flex items-center justify-center touch-manipulation">
+          <button 
+            onClick={closeLightbox}
+            className="absolute top-4 right-4 text-white hover:text-accent transition-colors"
+          >
+            <IoClose className="text-4xl" />
+          </button>
+          
+          <div className="relative w-full h-full max-w-[90vw] max-h-[90vh]">
+            {product?.images?.edges?.length > 0 && (
+              <Image
+                src={product.images.edges[selectedImage].node.originalSrc}
+                alt={product.title}
+                fill
+                className="object-contain"
+                priority
+                sizes="90vw"
+                style={{ touchAction: "pinch-zoom" }}
+              />
+            )}
+          </div>
+          
+          {/* Navigation arrows for lightbox */}
+          {product?.images?.edges?.length > 1 && (
+            <>
+              <button 
+                onClick={prevImage}
+                className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors"
+              >
+                <BiChevronLeft className="text-3xl" />
+              </button>
+              <button 
+                onClick={nextImage}
+                className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full transition-colors"
+              >
+                <BiChevronRight className="text-3xl" />
+              </button>
+            </>
+          )}
+        </div>
+      )}
     </div>
   );
 } 
