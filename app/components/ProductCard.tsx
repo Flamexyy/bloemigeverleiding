@@ -4,10 +4,11 @@ import { IoMdHeart, IoMdHeartEmpty, IoMdClose } from "react-icons/io";
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '../context/CartContext';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CartMenu from './CartMenu';
 import { useLiked } from '../context/LikedContext';
 import ConfirmationModal from './ConfirmationModal';
+import { formatPrice } from '../utils/formatPrice';
 
 interface ProductCardProps {
   product: {
@@ -120,8 +121,17 @@ export default function ProductCard({ product }: ProductCardProps) {
       ? parseFloat(product.compareAtPrice) 
       : product.compareAtPrice) > priceAsNumber;
 
+  useEffect(() => {
+    if (isHeartAnimating) {
+      const timer = setTimeout(() => {
+        setIsHeartAnimating(false);
+      }, 600);
+      return () => clearTimeout(timer);
+    }
+  }, [isHeartAnimating]);
+
   return (
-    <div className="flex flex-col mb-6">
+    <div className="flex flex-col h-full">
       {/* Clickable image */}
       <Link href={`/product/${product.handle}`} className="block">
         <div 
@@ -159,46 +169,55 @@ export default function ProductCard({ product }: ProductCardProps) {
         </div>
       </Link>
       
-      {/* Clickable title */}
-      <Link href={`/product/${product.handle}`} className="text-center">
-        <h3 className="font-medium text-text hover:underline cursor-pointer">{product.title}</h3>
-      </Link>
-      
-      {/* Non-clickable price */}
-      <div className="text-center mb-4">
-        <div className="flex items-center justify-center gap-2">
-          {product.compareAtPrice && parseFloat(product.compareAtPrice.toString()) > priceAsNumber && (
-            <span className="text-sm line-through text-text/50">
-              €{parseFloat(product.compareAtPrice.toString()).toFixed(2)}
-            </span>
-          )}
-          <span className={`font-medium ${
-            product.compareAtPrice && parseFloat(product.compareAtPrice.toString()) > priceAsNumber
-              ? 'text-red-400'
-              : 'text-text'
-          }`}>
-            €{priceAsNumber.toFixed(2)}
-          </span>
+      {/* Content area with flex structure */}
+      <div className="flex flex-col flex-grow">
+        {/* Top content that stays together */}
+        <div>
+          {/* Clickable title */}
+          <Link href={`/product/${product.handle}`} className="text-center">
+            <h3 className="font-medium text-text hover:underline cursor-pointer">{product.title}</h3>
+          </Link>
+          
+          {/* Non-clickable price */}
+          <div className="text-center mb-4">
+            <div className="flex items-center justify-center gap-2">
+              {product.compareAtPrice && parseFloat(product.compareAtPrice.toString()) > priceAsNumber && (
+                <span className="text-sm line-through text-text/50">
+                  €{parseFloat(product.compareAtPrice.toString()).toFixed(2)}
+                </span>
+              )}
+              <span className={`font-medium ${
+                product.compareAtPrice && parseFloat(product.compareAtPrice.toString()) > priceAsNumber
+                  ? 'text-red-400'
+                  : 'text-text'
+              }`}>
+                €{priceAsNumber.toFixed(2)}
+              </span>
+            </div>
+          </div>
         </div>
+        
+        {/* Spacer to push button to bottom */}
+        <div className="flex-grow"></div>
+        
+        {/* Add to cart button */}
+        <button
+          onClick={handleAddToCart}
+          disabled={!product.availableForSale || isAddingToCart}
+          className={`w-full py-3 rounded-[100px] transition-colors ${
+            product.availableForSale
+              ? 'bg-accent text-text hover:bg-accent/70'
+              : 'bg-accent/40 text-text/40 border border-accent cursor-not-allowed'
+          } ${isAddingToCart ? 'opacity-70' : ''}`}
+        >
+          {!product.availableForSale 
+            ? 'Uitverkocht' 
+            : isAddingToCart 
+              ? 'Toevoegen...' 
+              : 'In winkelwagen'
+          }
+        </button>
       </div>
-      
-      {/* Add to cart button */}
-      <button
-        onClick={handleAddToCart}
-        disabled={!product.availableForSale || isAddingToCart}
-        className={`w-full py-3 rounded-[100px] transition-colors ${
-          product.availableForSale
-            ? 'bg-accent text-text hover:bg-accent/70'
-            : 'bg-accent/40 text-text/40 border border-accent cursor-not-allowed'
-        } ${isAddingToCart ? 'opacity-70' : ''}`}
-      >
-        {!product.availableForSale 
-          ? 'Uitverkocht' 
-          : isAddingToCart 
-            ? 'Toevoegen...' 
-            : 'In winkelwagen'
-        }
-      </button>
 
       <ConfirmationModal
         isOpen={showConfirmation}

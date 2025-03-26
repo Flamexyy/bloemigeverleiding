@@ -347,7 +347,7 @@ export default function Shop() {
               </div>
             ) : (
               <>
-                <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-4'>
+                <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-4 gap-y-10 md:gap-y-10'>
                   {filteredProducts.slice(0, visibleProducts).map((product) => (
                     <ProductCard 
                       key={product.id}
