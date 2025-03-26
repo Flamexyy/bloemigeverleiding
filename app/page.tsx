@@ -115,15 +115,17 @@ export default function Home() {
           <div className="flex flex-col gap-6 items-start mb-10 text-text">
             <div className='w-full flex flex-col-reverse md:flex-row justify-between items-start gap-5 md:gap-10'>
               <div className='max-w-[800px]'>
-                <h2 className="text-3xl font-bold">Boeketten</h2>
+                <h2 className="text-3xl font-bold">BOEKETTEN</h2>
               </div>
-              <Link 
-                href="/shop"
-                className="w-full justify-end min-w-fit flex items-center gap-2 transition-opacity mt-2 group"
-              >
-                Bekijk alles
-                <RiArrowRightUpLine className="text-xl group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-transform duration-300" />
-              </Link>
+              <div className='w-full flex justify-end'>
+                <Link 
+                  href="/shop"
+                  className="min-w-fit flex items-center gap-2 transition-opacity mt-2 group"
+                >
+                  Bekijk alles
+                  <RiArrowRightUpLine className="text-xl group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-transform duration-300" />
+                </Link>
+              </div>
             </div>
             <p className='max-w-[800px]'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo odio quas vitae aspernatur optio quae quidem cumque natus necessitatibus. Natus nisi ipsam commodi libero, obcaecati eligendi iste consequatur eos totam?</p>
           </div>

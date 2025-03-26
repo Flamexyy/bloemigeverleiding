@@ -12,7 +12,7 @@ export default function SocialSection() {
           <div className='max-w-[800px]'>
             <h2 className="text-3xl font-bold whitespace-nowrap">BOEKETTEN OP MAAT</h2>
           </div>
-            <div className='w-full justify-end flex '>
+            <div className='w-full justify-end flex'>
                 <Link 
                     href="/contact"
                     className="min-w-fit flex items-center gap-2 transition-opacity mt-2 group"
