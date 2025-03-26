@@ -131,7 +131,7 @@ export default function Home() {
           </div>
 
           {loading && (
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 gap-y-10 md:gap-y-10">
               {Array.from({ length: 4 }).map((_, index) => (
                 <ProductCardSkeleton key={index} />
               ))}
@@ -152,7 +152,7 @@ export default function Home() {
 
           {!loading && !error && products.length > 0 && (
             <>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 gap-y-10 md:gap-y-10">
                 {products.slice(0, 4).map((product) => (
                   <ProductCard 
                     key={product.id}
