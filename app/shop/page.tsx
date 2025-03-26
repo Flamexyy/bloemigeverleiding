@@ -197,7 +197,7 @@ export default function Shop() {
       <div className="flex flex-col xl:flex-row gap-6 p-4 lg:p-6">
         {showDesktopFilter && (
           <div className="hidden xl:block w-[200px] shrink-0">
-            <div className="sticky top-[110px]">
+            <div className="sticky top-[130px]">
               <ProductFilter
                 onPriceFilter={handlePriceFilter}
                 onSortChange={handleSortChange}

@@ -254,7 +254,7 @@ export default function Profile() {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left Side - Navigation */}
           <div className="lg:w-[300px]">
-            <div className="sticky top-[110px] space-y-6">
+            <div className="sticky top-[140px] space-y-6">
               {/* Profile Header */}
               <div className="flex items-center gap-4 mb-4">
                 <div className="min-w-16 h-16 bg-accent rounded-full flex items-center justify-center">
