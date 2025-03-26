@@ -5,25 +5,33 @@ import { BiChevronDown } from "react-icons/bi";
 interface ProductFilterProps {
   onPriceFilter?: (value: string[]) => void;
   onSortChange?: (sort: string) => void;
+  onCollectionChange?: (collection: string) => void;
   initialPrice?: number;
   isMobile?: boolean;
   onReset?: () => void;
   shouldReset?: boolean;
+  collections?: {id: string, title: string}[];
+  selectedCollection?: string;
 }
 
 export default function ProductFilter({ 
   onPriceFilter,
   onSortChange,
+  onCollectionChange,
   initialPrice = 250,
   isMobile = false,
   onReset,
-  shouldReset = false
+  shouldReset = false,
+  collections = [],
+  selectedCollection = ''
 }: ProductFilterProps) {
   const [selectedSort, setSelectedSort] = useState<string>('featured');
   const [selectedPrices, setSelectedPrices] = useState<string[]>([]);
+  const [activeCollection, setActiveCollection] = useState<string>(selectedCollection);
   const [isExpanded, setIsExpanded] = useState({
     sort: true,
-    price: true
+    price: true,
+    collection: true
   });
 
   // Reset when shouldReset changes to true
@@ -31,23 +39,9 @@ export default function ProductFilter({
     if (shouldReset) {
       setSelectedSort('featured');
       setSelectedPrices([]);
+      setActiveCollection('');
     }
   }, [shouldReset]);
-
-  const sortOptions = [
-    { value: 'featured', label: 'Sorteren op' },
-    { value: 'price-asc', label: 'Prijs: Laag naar Hoog' },
-    { value: 'price-desc', label: 'Prijs: Hoog naar Laag' },
-    { value: 'name-asc', label: 'Naam: A tot Z' },
-    { value: 'name-desc', label: 'Naam: Z tot A' }
-  ];
-
-  const priceRanges = [
-    { value: '0-50', label: '€0 - €50' },
-    { value: '50-100', label: '€50 - €100' },
-    { value: '100-150', label: '€100 - €150' },
-    { value: '150+', label: '€150+' }
-  ];
 
   const handleSortChange = (sort: string) => {
     setSelectedSort(sort);
@@ -56,114 +50,167 @@ export default function ProductFilter({
     }
   };
 
-  const handlePriceChange = (value: string) => {
-    const newPrices = selectedPrices.includes(value)
-      ? selectedPrices.filter(p => p !== value)
-      : [...selectedPrices, value];
+  const handlePriceChange = (price: string) => {
+    let newSelectedPrices;
     
-    setSelectedPrices(newPrices);
+    if (selectedPrices.includes(price)) {
+      newSelectedPrices = selectedPrices.filter(p => p !== price);
+    } else {
+      newSelectedPrices = [...selectedPrices, price];
+    }
+    
+    setSelectedPrices(newSelectedPrices);
+    
     if (onPriceFilter) {
-      onPriceFilter(newPrices);
+      onPriceFilter(newSelectedPrices);
+    }
+  };
+
+  const handleCollectionChange = (collection: string) => {
+    setActiveCollection(collection);
+    if (onCollectionChange) {
+      onCollectionChange(collection);
     }
   };
 
   const handleReset = () => {
     setSelectedSort('featured');
     setSelectedPrices([]);
-    setIsExpanded({
-      sort: true,
-      price: true
-    });
-
-    if (onSortChange) {
-      onSortChange('featured');
-    }
-    if (onPriceFilter) {
-      onPriceFilter([]);
-    }
+    setActiveCollection('');
     if (onReset) {
       onReset();
     }
   };
 
-  const toggleSection = (section: 'sort' | 'price') => {
-    setIsExpanded(prev => ({
-      ...prev,
-      [section]: !prev[section]
-    }));
-  };
+  const priceRanges = [
+    { value: '0-25', label: '€0 - €25' },
+    { value: '25-50', label: '€25 - €50' },
+    { value: '50-100', label: '€50 - €100' },
+    { value: '100-200', label: '€100 - €200' },
+    { value: '200+', label: '€200+' }
+  ];
+
+  const sortOptions = [
+    { value: 'featured', label: 'Aanbevolen' },
+    { value: 'price-asc', label: 'Prijs: laag naar hoog' },
+    { value: 'price-desc', label: 'Prijs: hoog naar laag' },
+    { value: 'title-asc', label: 'Naam: A-Z' },
+    { value: 'title-desc', label: 'Naam: Z-A' },
+    { value: 'created-desc', label: 'Nieuwste eerst' },
+    { value: 'created-asc', label: 'Oudste eerst' }
+  ];
 
   return (
-    <div className={`${isMobile ? 'space-y-6' : 'sticky top-4 space-y-6 max-h-[calc(100vh-2rem)] overflow-y-auto hover:scrollbar-thin scrollbar-thumb-[#EBEBEB] scrollbar-track-transparent overflow-x-hidden'}`}>
-      {/* Sort Options */}
-      <div className="border-b border-[#EBEBEB] pb-6">
+    <div className={`space-y-6 ${isMobile ? 'p-4' : ''}`}>
+      {/* Sort By */}
+      <div>
         <button 
-          className="w-full flex items-center justify-between font-bold text-lg mb-4 text-text"
-          onClick={() => toggleSection('sort')}
+          className="flex items-center justify-between w-full text-text font-medium"
+          onClick={() => setIsExpanded({...isExpanded, sort: !isExpanded.sort})}
         >
           <span>Sorteren op</span>
-          <BiChevronDown className={`transform transition-transform text-text ${isExpanded.sort ? 'rotate-180' : ''}`} />
+          <BiChevronDown className={`text-xl transition-transform ${isExpanded.sort ? 'rotate-180' : ''}`} />
         </button>
+        
         {isExpanded.sort && (
-          <div className="space-y-3">
-            {sortOptions.map((option) => (
-              <label
-                key={option.value}
-                className="flex items-center space-x-3 cursor-pointer group"
-              >
-                <div className="relative w-4 h-4">
-                  <input
-                    type="radio"
-                    name="sort"
-                    value={option.value}
-                    checked={selectedSort === option.value}
-                    onChange={() => handleSortChange(option.value)}
-                    className="absolute w-4 h-4 opacity-0 cursor-pointer"
-                  />
-                  <div className={`w-4 h-4 border rounded-full ${
-                    selectedSort === option.value 
-                      ? 'border-2 border-text' 
-                      : 'border-[#EBEBEB]'
-                  }`}>
-                    <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-2 h-2 rounded-full bg-text ${
-                      selectedSort === option.value 
-                        ? 'opacity-100' 
-                        : 'opacity-0'
-                    }`} />
-                  </div>
+          <div className="mt-3 space-y-2">
+            {sortOptions.map(option => (
+              <label key={option.value} className="flex items-center gap-2 cursor-pointer group">
+                <input 
+                  type="radio" 
+                  name="sort" 
+                  value={option.value}
+                  checked={selectedSort === option.value}
+                  onChange={() => handleSortChange(option.value)}
+                  className="hidden"
+                />
+                <div className="w-4 h-4 border border-text/30 rounded-full flex items-center justify-center group-hover:border-text">
+                  {selectedSort === option.value && (
+                    <div className="w-2 h-2 bg-text rounded-full"></div>
+                  )}
                 </div>
-                <span className="text-md text-text group-hover:text-text">
-                  {option.label}
-                </span>
+                <span className="text-md text-text group-hover:text-text">{option.label}</span>
               </label>
             ))}
           </div>
         )}
       </div>
 
-      {/* Price Range Filter */}
-      <div className="border-b border-[#EBEBEB] pb-6">
+      {/* Collections Filter */}
+      {collections.length > 0 && (
+        <div>
+          <button 
+            className="flex items-center justify-between w-full text-text font-medium"
+            onClick={() => setIsExpanded({...isExpanded, collection: !isExpanded.collection})}
+          >
+            <span>Collecties</span>
+            <BiChevronDown className={`text-xl transition-transform ${isExpanded.collection ? 'rotate-180' : ''}`} />
+          </button>
+          
+          {isExpanded.collection && (
+            <div className="mt-3 space-y-2">
+              <label className="flex items-center gap-2 cursor-pointer group">
+                <input 
+                  type="radio" 
+                  name="collection" 
+                  value=""
+                  checked={activeCollection === ''}
+                  onChange={() => handleCollectionChange('')}
+                  className="hidden"
+                />
+                <div className="w-4 h-4 border border-text/30 rounded-full flex items-center justify-center group-hover:border-text">
+                  {activeCollection === '' && (
+                    <div className="w-2 h-2 bg-text rounded-full"></div>
+                  )}
+                </div>
+                <span className="text-md text-text group-hover:text-text">Alle collecties</span>
+              </label>
+              
+              {collections.map(collection => (
+                <label key={collection.id} className="flex items-center gap-2 cursor-pointer group">
+                  <input 
+                    type="radio" 
+                    name="collection" 
+                    value={collection.id}
+                    checked={activeCollection === collection.id}
+                    onChange={() => handleCollectionChange(collection.id)}
+                    className="hidden"
+                  />
+                  <div className="w-4 h-4 border border-text/30 rounded-full flex items-center justify-center group-hover:border-text">
+                    {activeCollection === collection.id && (
+                      <div className="w-2 h-2 bg-text rounded-full"></div>
+                    )}
+                  </div>
+                  <span className="text-md text-text group-hover:text-text">{collection.title}</span>
+                </label>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* Price Filter */}
+      <div>
         <button 
-          className="w-full flex items-center justify-between font-bold text-lg mb-4 text-text"
-          onClick={() => toggleSection('price')}
+          className="flex items-center justify-between w-full text-text font-medium"
+          onClick={() => setIsExpanded({...isExpanded, price: !isExpanded.price})}
         >
           <span>Prijs</span>
-          <BiChevronDown className={`transform transition-transform text-text ${isExpanded.price ? 'rotate-180' : ''}`} />
+          <BiChevronDown className={`text-xl transition-transform ${isExpanded.price ? 'rotate-180' : ''}`} />
         </button>
+        
         {isExpanded.price && (
-          <div className="space-y-3">
-            {priceRanges.map((range) => (
-              <label
-                key={range.value}
-                className="flex items-center space-x-3 cursor-pointer group"
-              >
-                <div className="relative flex items-center">
-                  <input
-                    type="checkbox"
-                    checked={selectedPrices.includes(range.value)}
-                    onChange={() => handlePriceChange(range.value)}
-                    className="appearance-none w-4 h-4 border border-[#EBEBEB] rounded checked:bg-text checked:border-text transition-colors focus:outline-none"
-                  />
+          <div className="mt-3 space-y-2">
+            {priceRanges.map(range => (
+              <label key={range.value} className="flex items-center gap-2 cursor-pointer group">
+                <input 
+                  type="checkbox" 
+                  value={range.value}
+                  checked={selectedPrices.includes(range.value)}
+                  onChange={() => handlePriceChange(range.value)}
+                  className="hidden"
+                />
+                <div className="w-4 h-4 border border-text/30 rounded flex items-center justify-center group-hover:border-text relative">
                   {selectedPrices.includes(range.value) && (
                     <div className="absolute inset-0 flex items-center justify-center text-white">
                       <svg className="w-3 h-3" viewBox="0 0 12 12" fill="none">

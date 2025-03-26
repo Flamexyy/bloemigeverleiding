@@ -1,11 +1,12 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import ProductFilter from '../components/productfilter';
-import { BiSearch } from "react-icons/bi";
+import { BiSearch, BiFilter } from "react-icons/bi";
 import { RiFilterOffLine, RiFilterLine } from "react-icons/ri";
 import { IoClose, IoFlowerOutline } from "react-icons/io5";
 import ProductCard from '../components/ProductCard';
-import { getProducts } from '../utils/shopify';
+import { getProducts, getCollections } from '../utils/shopify';
 import { ProductCardSkeleton } from '../components/SkeletonLoader';
 
 interface ShopifyProduct {
@@ -19,6 +20,8 @@ interface ShopifyProduct {
   variantId: string;
   colors?: string[];
   quantityAvailable: number;
+  collections?: {id: string, title: string}[];
+  createdAt?: string;
 }
 
 interface Filters {
@@ -26,6 +29,12 @@ interface Filters {
   color: string | null;
   priceRanges: string[];
   sort: string;
+}
+
+interface Collection {
+  id: string;
+  title: string;
+  handle: string;
 }
 
 export default function Shop() {
@@ -46,6 +55,17 @@ export default function Shop() {
   const [visibleProducts, setVisibleProducts] = useState<number>(16);
   const [loadingMore, setLoadingMore] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [selectedPrices, setSelectedPrices] = useState<string[]>([]);
+  const [sortOption, setSortOption] = useState('featured');
+  const [collections, setCollections] = useState<Collection[]>([]);
+  const [selectedCollection, setSelectedCollection] = useState('');
+  const [collectionsLoading, setCollectionsLoading] = useState(true);
+
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  
+  const collectionParam = searchParams.get('collection');
 
   // Reset the shouldResetFilters flag after it's been consumed
   useEffect(() => {
@@ -75,104 +95,179 @@ export default function Shop() {
     };
   }, [showMobileFilter]);
 
-  // Fetch products on mount
+  // Fetch collections immediately on component mount
   useEffect(() => {
-    async function fetchProducts() {
+    const fetchCollections = async () => {
+      try {
+        setCollectionsLoading(true);
+        const collectionsData = await getCollections();
+        setCollections(collectionsData);
+        
+        // Set initial collection from URL if present
+        if (collectionParam) {
+          // If it's a handle, find the matching collection ID
+          const matchingCollection = collectionsData.find((c: Collection) => 
+            c.handle === collectionParam || c.id === collectionParam
+          );
+          if (matchingCollection) {
+            setSelectedCollection(matchingCollection.id);
+          } else {
+            setSelectedCollection(collectionParam);
+          }
+        }
+      } catch (err) {
+        console.error('Error fetching collections:', err);
+      } finally {
+        setCollectionsLoading(false);
+      }
+    };
+    
+    fetchCollections();
+  }, [collectionParam]);
+
+  // Fetch products when collections are loaded or collection param changes
+  useEffect(() => {
+    const fetchProducts = async () => {
+      if (collectionsLoading) return; // Wait for collections to load first
+      
       try {
         setLoading(true);
-        const data = await getProducts();
-        const formattedProducts = data.map((product: ShopifyProduct) => ({
-          ...product,
-          quantityAvailable: product.quantityAvailable || 1
-        }));
-        setProducts(formattedProducts);
-        setFilteredProducts(formattedProducts);
+        
+        // Find the collection handle if we have an ID
+        let collectionQuery = collectionParam;
+        if (collectionParam && collectionParam.includes('gid://')) {
+          const matchingCollection = collections.find(c => c.id === collectionParam);
+          if (matchingCollection) {
+            collectionQuery = matchingCollection.handle;
+          }
+        }
+        
+        // Fetch products (optionally filtered by collection)
+        const productsData = await getProducts({ 
+          collection: collectionQuery || undefined,
+          first: 50 
+        });
+        
+        setProducts(productsData);
+        setFilteredProducts(productsData);
       } catch (err) {
-        console.error('Error:', err);
-        setError(err instanceof Error ? err.message : 'Failed to fetch products');
+        console.error('Error fetching products:', err);
+        setError('Failed to load products. Please try again later.');
       } finally {
         setLoading(false);
       }
-    }
+    };
+    
     fetchProducts();
-  }, []);
+  }, [collectionParam, collectionsLoading, collections]);
 
-  // Apply filters
-  useEffect(() => {
-    let filtered = [...products];
-
-    // Apply search filter
-    if (filters.search) {
-      filtered = filtered.filter(product => 
-        product.title.toLowerCase().includes(filters.search.toLowerCase())
-      );
+  // Apply filters and sorting
+  const applyFiltersAndSort = useCallback(() => {
+    if (!products.length) return;
+    
+    let result = [...products];
+    
+    // Filter by collection - only if we're not already filtered by collection in the API call
+    if (selectedCollection && !collectionParam) {
+      result = result.filter(product => {
+        if (!product.collections || !Array.isArray(product.collections)) {
+          return false;
+        }
+        return product.collections.some(col => col.id === selectedCollection);
+      });
     }
-
-    // Apply color filter
-    if (filters.color) {
-      filtered = filtered.filter(product => 
-        product.colors?.includes(filters.color!)
-      );
-    }
-
-    // Apply price range filter
-    if (filters.priceRanges.length > 0) {
-      filtered = filtered.filter(product => {
+    
+    // Filter by price
+    if (selectedPrices.length > 0) {
+      result = result.filter(product => {
         const price = parseFloat(product.price);
-        return filters.priceRanges.some(range => {
-          if (range === '150+') {
-            return price >= 150;
-          }
-          const [min, max] = range.split('-').map(Number);
-          return price >= min && price <= max;
+        
+        return selectedPrices.some(range => {
+          if (range === '0-25') return price >= 0 && price <= 25;
+          if (range === '25-50') return price > 25 && price <= 50;
+          if (range === '50-100') return price > 50 && price <= 100;
+          if (range === '100-200') return price > 100 && price <= 200;
+          if (range === '200+') return price > 200;
+          return false;
         });
       });
     }
-
-    // Apply sort
-    if (filters.sort !== 'featured') {
-      filtered.sort((a, b) => {
-        switch (filters.sort) {
-          case 'price-asc':
-            return parseFloat(a.price) - parseFloat(b.price);
-          case 'price-desc':
-            return parseFloat(b.price) - parseFloat(a.price);
-          case 'name-asc':
-            return a.title.localeCompare(b.title);
-          case 'name-desc':
-            return b.title.localeCompare(a.title);
-          default:
-            return 0;
-        }
-      });
+    
+    // Apply sorting
+    switch (sortOption) {
+      case 'price-asc':
+        result.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+        break;
+      case 'price-desc':
+        result.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+        break;
+      case 'title-asc':
+        result.sort((a, b) => a.title.localeCompare(b.title));
+        break;
+      case 'title-desc':
+        result.sort((a, b) => b.title.localeCompare(a.title));
+        break;
+      case 'created-desc':
+        result.sort((a, b) => {
+          const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+          const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+          return dateB - dateA;
+        });
+        break;
+      case 'created-asc':
+        result.sort((a, b) => {
+          const dateA = a.createdAt ? new Date(a.createdAt).getTime() : 0;
+          const dateB = b.createdAt ? new Date(b.createdAt).getTime() : 0;
+          return dateA - dateB;
+        });
+        break;
+      // 'featured' is default, no sorting needed
     }
+    
+    setFilteredProducts(result);
+  }, [products, selectedPrices, sortOption, selectedCollection, collectionParam]);
 
-    setFilteredProducts(filtered);
-  }, [filters, products]);
+  // Apply filters when dependencies change
+  useEffect(() => {
+    applyFiltersAndSort();
+  }, [applyFiltersAndSort]);
 
-  const handlePriceFilter = (priceRanges: string[]) => {
-    setFilters(prev => ({ ...prev, priceRanges }));
+  const handlePriceFilter = (prices: string[]) => {
+    setSelectedPrices(prices);
   };
 
   const handleSortChange = (sort: string) => {
-    setFilters(prev => ({ ...prev, sort }));
+    setSortOption(sort);
   };
 
-  const handleSearch = (search: string) => {
-    setFilters(prev => ({ ...prev, search }));
-  };
-
-  const handleResetFilters = () => {
-    // Reset all filters
-    setFilters({
-      search: '',
-      color: null,
-      priceRanges: [],
-      sort: 'featured'
-    });
+  const handleCollectionChange = (collectionId: string) => {
+    setSelectedCollection(collectionId);
     
-    // Trigger reset in filter component
+    // Update URL with collection parameter
+    if (collectionId) {
+      // Find the collection handle if we have an ID
+      const selectedCol = collections.find(c => c.id === collectionId);
+      if (selectedCol) {
+        router.push(`/shop?collection=${selectedCol.handle}`);
+      } else {
+        router.push(`/shop?collection=${collectionId}`);
+      }
+    } else {
+      router.push('/shop');
+    }
+  };
+
+  const handleReset = () => {
+    setSelectedPrices([]);
+    setSortOption('featured');
+    setSelectedCollection('');
     setShouldResetFilters(true);
+    router.push('/shop');
+    
+    // Reset the flag after a short delay
+    setTimeout(() => {
+      setShouldResetFilters(false);
+    }, 100);
   };
 
   const toggleFilter = () => {
@@ -226,8 +321,12 @@ export default function Shop() {
               <ProductFilter
                 onPriceFilter={handlePriceFilter}
                 onSortChange={handleSortChange}
-                onReset={handleResetFilters}
+                onCollectionChange={handleCollectionChange}
+                onReset={handleReset}
                 isMobile={false}
+                shouldReset={shouldResetFilters}
+                collections={collections}
+                selectedCollection={selectedCollection}
               />
             </div>
           </div>
@@ -244,7 +343,7 @@ export default function Shop() {
                     type="text" 
                     placeholder="Zoeken"
                     value={filters.search}
-                    onChange={(e) => handleSearch(e.target.value)}
+                    onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
                     className="w-full bg-cream rounded-[25px] py-2.5 pl-10 pr-4 text-sm text-text placeholder:text-text focus:outline-none" 
                   />
                 </div>
@@ -292,7 +391,7 @@ export default function Shop() {
                     }
                     
                     // Reset all filters
-                    handleResetFilters();
+                    handleReset();
                     
                     // Also trigger the reset in the filter component
                     setShouldResetFilters(true);
@@ -422,9 +521,12 @@ export default function Shop() {
             <ProductFilter 
               onPriceFilter={handlePriceFilter}
               onSortChange={handleSortChange}
-              onReset={handleResetFilters}
+              onCollectionChange={handleCollectionChange}
               isMobile={true}
+              onReset={handleReset}
               shouldReset={shouldResetFilters}
+              collections={collections}
+              selectedCollection={selectedCollection}
             />
           </div>
 
@@ -432,7 +534,7 @@ export default function Shop() {
           <div className="border-t border-text/20 p-4 flex gap-3">
             <button 
               onClick={() => {
-                handleResetFilters();
+                handleReset();
               }}
               className="flex-1 py-2.5 px-4 border border-text/20 rounded-[100px] hover:bg-accent transition-colors text-md font-medium text-text"
             >

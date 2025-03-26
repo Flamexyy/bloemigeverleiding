@@ -193,47 +193,95 @@ export async function getCustomer(accessToken: string) {
   }
 }
 
-export async function getProducts() {
-  try {
-    const response = await shopifyFetch({
-      query: `
-        query {
-          products(first: 250) {
-            edges {
-              node {
-                id
-                handle
-                title
-                priceRange {
-                  minVariantPrice {
-                    amount
-                  }
-                }
-                compareAtPriceRange {
-                  maxVariantPrice {
-                    amount
-                  }
-                }
-                images(first: 1) {
-                  edges {
-                    node {
-                      originalSrc
-                      altText
+export async function getCollections() {
+  const query = `
+    query getCollections {
+      collections(first: 20) {
+        edges {
+          node {
+            id
+            title
+            handle
+          }
+        }
+      }
+    }
+  `;
+
+  const response = await shopifyFetch({
+    query,
+    variables: {},
+  });
+
+  return response.collections.edges.map((edge: any) => ({
+    id: edge.node.id,
+    title: edge.node.title,
+    handle: edge.node.handle,
+  }));
+}
+
+export async function getProducts({ 
+  collection = undefined as string | undefined,
+  first = 20,
+  query = '',
+  reverse = false,
+  sortKey = 'TITLE'
+} = {}) {
+  // If we have a collection, let's try to query by handle first
+  if (collection) {
+    // Try to determine if this is a handle or ID
+    const isGid = collection.includes('gid://');
+    const isNumeric = /^\d+$/.test(collection);
+    
+    // If it's not a GID and not numeric, assume it's a handle
+    if (!isGid && !isNumeric) {
+      // Query by collection handle
+      const collectionQuery = `
+        query getProductsByCollection($handle: String!, $first: Int!) {
+          collection(handle: $handle) {
+            products(first: $first) {
+              edges {
+                node {
+                  id
+                  title
+                  handle
+                  description
+                  createdAt
+                  priceRange {
+                    minVariantPrice {
+                      amount
+                      currencyCode
                     }
                   }
-                }
-                variants(first: 1) {
-                  edges {
-                    node {
-                      id
-                      compareAtPrice {
-                        amount
+                  compareAtPriceRange {
+                    minVariantPrice {
+                      amount
+                      currencyCode
+                    }
+                  }
+                  images(first: 1) {
+                    edges {
+                      node {
+                        url
+                        altText
                       }
-                      price {
-                        amount
+                    }
+                  }
+                  variants(first: 1) {
+                    edges {
+                      node {
+                        id
+                        availableForSale
+                        quantityAvailable
+                        price {
+                          amount
+                          currencyCode
+                        }
+                        compareAtPrice {
+                          amount
+                          currencyCode
+                        }
                       }
-                      availableForSale
-                      quantityAvailable
                     }
                   }
                 }
@@ -241,25 +289,193 @@ export async function getProducts() {
             }
           }
         }
-      `,
-      variables: {},
-    });
+      `;
 
-    return response.products.edges.map((edge: any) => ({
-      id: edge.node.id,
-      handle: edge.node.handle,
-      title: edge.node.title,
-      price: edge.node.variants.edges[0].node.price.amount,
-      compareAtPrice: edge.node.variants.edges[0].node.compareAtPrice?.amount,
-      imageUrl: edge.node.images.edges[0]?.node.originalSrc || '',
-      availableForSale: edge.node.variants.edges[0].node.availableForSale,
-      variantId: edge.node.variants.edges[0].node.id,
-      quantityAvailable: edge.node.variants.edges[0].node.quantityAvailable || 1
-    }));
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    throw error;
+      try {
+        const response = await shopifyFetch({
+          query: collectionQuery,
+          variables: {
+            handle: collection,
+            first
+          },
+        });
+
+        if (response.collection && response.collection.products.edges.length > 0) {
+          console.log(`Found ${response.collection.products.edges.length} products in collection by handle`);
+          
+          return response.collection.products.edges.map((edge: any) => {
+            const product = edge.node;
+            const variant = product.variants.edges[0]?.node;
+            const image = product.images.edges[0]?.node;
+
+            return {
+              id: product.id,
+              title: product.title,
+              handle: product.handle,
+              description: product.description,
+              createdAt: product.createdAt,
+              collections: [{ id: collection, title: 'Collection' }], // Placeholder
+              price: variant?.price.amount || product.priceRange.minVariantPrice.amount,
+              compareAtPrice: variant?.compareAtPrice?.amount || null,
+              currencyCode: variant?.price.currencyCode || product.priceRange.minVariantPrice.currencyCode,
+              imageUrl: image?.url || '',
+              imageAlt: image?.altText || product.title,
+              availableForSale: variant?.availableForSale || false,
+              variantId: variant?.id || '',
+              quantityAvailable: variant?.quantityAvailable || 0
+            };
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching products by collection handle:", error);
+        // Fall back to the regular query
+      }
+    }
   }
+
+  // Regular query if we don't have a collection handle or the handle query failed
+  const gqlQuery = `
+    query getProducts($first: Int!, $query: String, $sortKey: ProductSortKeys, $reverse: Boolean, $after: String) {
+      products(first: $first, query: $query, sortKey: $sortKey, reverse: $reverse, after: $after) {
+        edges {
+          node {
+            id
+            title
+            handle
+            description
+            createdAt
+            collections(first: 5) {
+              edges {
+                node {
+                  id
+                  title
+                  handle
+                }
+              }
+            }
+            priceRange {
+              minVariantPrice {
+                amount
+                currencyCode
+              }
+            }
+            compareAtPriceRange {
+              minVariantPrice {
+                amount
+                currencyCode
+              }
+            }
+            images(first: 1) {
+              edges {
+                node {
+                  url
+                  altText
+                }
+              }
+            }
+            variants(first: 1) {
+              edges {
+                node {
+                  id
+                  availableForSale
+                  quantityAvailable
+                  price {
+                    amount
+                    currencyCode
+                  }
+                  compareAtPrice {
+                    amount
+                    currencyCode
+                  }
+                }
+              }
+            }
+          }
+        }
+        pageInfo {
+          hasNextPage
+          endCursor
+        }
+      }
+    }
+  `;
+
+  // Build the query string
+  let queryString = '';
+  if (collection) {
+    // Handle different collection ID formats
+    let collectionId: string | null = collection;
+    
+    // If it's not already a gid format
+    if (!collection.includes('gid://')) {
+      // Check if it's just a numeric ID
+      if (/^\d+$/.test(collection)) {
+        collectionId = `gid://shopify/Collection/${collection}`;
+      } 
+      // If it has a Collection/ prefix but no gid
+      else if (collection.includes('Collection/')) {
+        collectionId = `gid://shopify/${collection}`;
+      }
+      // Otherwise assume it's a handle and use collection:handle syntax
+      else {
+        queryString += `collection:${collection} `;
+        collectionId = null; // Skip adding collection_id
+      }
+    }
+    
+    if (collectionId) {
+      console.log('Using collection ID for query:', collectionId);
+      queryString += `collection_id:${collectionId} `;
+    }
+  }
+  
+  if (query) {
+    queryString += query;
+  }
+
+  console.log('Final query string:', queryString);
+
+  const response = await shopifyFetch({
+    query: gqlQuery,
+    variables: {
+      first,
+      query: queryString,
+      sortKey,
+      reverse,
+    },
+  });
+
+  console.log(`Found ${response.products.edges.length} products with query`);
+
+  return response.products.edges.map((edge: any) => {
+    const product = edge.node;
+    const variant = product.variants.edges[0]?.node;
+    const image = product.images.edges[0]?.node;
+    
+    // Extract collections data
+    const collections = product.collections.edges.map((colEdge: any) => ({
+      id: colEdge.node.id,
+      title: colEdge.node.title,
+      handle: colEdge.node.handle
+    }));
+
+    return {
+      id: product.id,
+      title: product.title,
+      handle: product.handle,
+      description: product.description,
+      createdAt: product.createdAt,
+      collections: collections,
+      price: variant?.price.amount || product.priceRange.minVariantPrice.amount,
+      compareAtPrice: variant?.compareAtPrice?.amount || null,
+      currencyCode: variant?.price.currencyCode || product.priceRange.minVariantPrice.currencyCode,
+      imageUrl: image?.url || '',
+      imageAlt: image?.altText || product.title,
+      availableForSale: variant?.availableForSale || false,
+      variantId: variant?.id || '',
+      quantityAvailable: variant?.quantityAvailable || 0
+    };
+  });
 }
 
 export async function getProduct(handle: string) {
