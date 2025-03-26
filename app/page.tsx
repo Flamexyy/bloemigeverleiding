@@ -9,6 +9,7 @@ import Claims from './components/Claims';
 import Faq from './components/Faq';
 import SocialSection from './components/SocialSection';
 import { ProductCardSkeleton } from './components/SkeletonLoader';
+import Testimonials from './components/Testimonials';
 
 interface ShopifyProduct {
   id: string;
@@ -165,6 +166,7 @@ export default function Home() {
         <Claims />
         <SocialSection />
         <Faq />
+        <Testimonials />
       </div>
     </div>
   );
