@@ -30,7 +30,7 @@ export default function Claims() {
                 <div className='w-full flex justify-end items-end flex-end'>
                     <Link href="/shop" passHref>
                         <button 
-                            className='flex items-center justify-center px-5 p-3 bg-accent text-text hover:bg-gray-100 rounded-[100px] transition-all duration-300'
+                            className='flex items-center justify-center px-5 p-3 bg-accent text-text hover:bg-accent/80 rounded-[100px] transition-all duration-300'
                         >
                             Bekijk het assortiment
                             <RiArrowRightUpLine className="text-xl ml-2" />

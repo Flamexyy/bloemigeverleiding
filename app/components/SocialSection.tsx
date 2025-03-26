@@ -32,7 +32,7 @@ export default function SocialSection() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
         {/* Left card */}
         <div className="bg-accent text-text rounded-[25px] p-8 pb-5 flex flex-col items-start h-full">
-          <h3 className="text-2xl mb-4 font-bold">PERSOONLIJKE<br />BOEKETTEN</h3>
+          <h3 className="text-2xl mb-4 font-bold">Persoonlijke<br />boeketten</h3>
           <p className="max-w-[90%] text-text/80">
             Wij maken boeketten die perfect passen bij elke gelegenheid. Of het nu gaat om een verjaardag, 
             jubileum of gewoon om iemand te laten weten dat je aan ze denkt.
@@ -58,7 +58,7 @@ export default function SocialSection() {
           className="bg-cover bg-center text-text rounded-[25px] p-8 pb-5 flex flex-col items-start justify-between gap-10 h-full"
           style={{ backgroundImage: "url('/flower-shop-collection.jpg')" }}
         >
-          <h3 className="text-2xl mb-4 font-bold text-white drop-shadow-md">VERSE BLOEMEN<br />ELKE DAG</h3>
+          <h3 className="text-2xl mb-4 font-bold text-white drop-shadow-md">Verse bloemen<br />elke dag</h3>
           <div className="w-full flex justify-end items-end">
             <Link href="/shop" passHref>
               <button 
