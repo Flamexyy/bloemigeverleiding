@@ -210,7 +210,7 @@ export default function Shop() {
   };
 
   return (
-    <div className="max-w-[1600px] mx-auto px-4 lg:px-8 pt-8 pb-20">
+    <div className="max-w-[1600px] mx-auto px-4 lg:px-8 pt-20 pb-20">
       <div className="flex flex-col gap-6 items-start mb-10 text-text">
         <h1 className="text-3xl md:text-4xl font-bold">ONZE COLLECTIE</h1>
         <p className="text-text/70 max-w-3xl">
@@ -340,7 +340,7 @@ export default function Shop() {
 
             {/* Product Grid */}
             {loading ? (
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
                 {Array.from({ length: 8 }).map((_, index) => (
                   <ProductCardSkeleton key={index} />
                 ))}
@@ -357,11 +357,11 @@ export default function Shop() {
                 </div>
                 
                 {visibleProducts < filteredProducts.length && (
-                  <div className="flex justify-center mt-12">
+                  <div className="flex flex-col items-center mt-10">
                     <button 
                       onClick={loadMoreProducts}
                       disabled={loadingMore}
-                      className="flex items-center justify-center gap-2 px-10 py-3 bg-transparent text-text border-2 border-accent hover:bg-accent/10 rounded-[100px] transition-all duration-300 font-medium group"
+                      className="flex items-center justify-center gap-2 px-10 py-3 bg-transparent text-text border-2 border-accent hover:bg-accent rounded-[100px] transition-all duration-300 font-medium group"
                     >
                       {loadingMore ? (
                         <>
@@ -376,12 +376,15 @@ export default function Shop() {
                         </>
                       )}
                     </button>
+                    <p className="text-text/70 text-sm mt-3">
+                      {visibleProducts} van {filteredProducts.length} producten geladen
+                    </p>
                   </div>
                 )}
                 
                 {visibleProducts >= filteredProducts.length && filteredProducts.length > 16 && (
                   <div className="text-center mt-12 text-text/70">
-                    <p>Alle producten zijn geladen</p>
+                    <p>{filteredProducts.length} van {filteredProducts.length} producten geladen</p>
                   </div>
                 )}
               </>

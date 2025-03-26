@@ -65,7 +65,7 @@ export default function Home() {
                 Handgemaakte boeketten voor elke gelegenheid, bezorgd met liefde en zorg
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center lg:justify-start pt-4">
+              <div className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center lg:justify-start pt-4">
                 <Link href="/shop">
                   <button className="flex items-center justify-center px-8 py-3 bg-accent text-text hover:bg-accent/70 rounded-[100px] transition-all duration-300 font-medium group">
                     Shop nu
@@ -131,7 +131,7 @@ export default function Home() {
           </div>
 
           {loading && (
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
               {Array.from({ length: 4 }).map((_, index) => (
                 <ProductCardSkeleton key={index} />
               ))}
@@ -152,7 +152,7 @@ export default function Home() {
 
           {!loading && !error && products.length > 0 && (
             <>
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
                 {products.slice(0, 4).map((product) => (
                   <ProductCard 
                     key={product.id}

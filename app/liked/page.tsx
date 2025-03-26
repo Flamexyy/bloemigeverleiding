@@ -20,10 +20,10 @@ export default function LikedPage() {
   }, []);
 
   return (
-    <div className="max-w-[1600px] mx-auto px-4 lg:px-8 py-8">
+    <div className="max-w-[1600px] mx-auto px-4 lg:px-8 py-20">
       <div className="flex items-center gap-4 mb-4">
         <div>
-          <h1 className="text-3xl font-bold text-text">Favorieten</h1>
+          <h1 className="text-3xl md:text-4xl font-bold text-text">FAVORIETEN</h1>
           <p className="text-text/50 text-sm">
             {items.length} {items.length === 1 ? 'item' : 'items'}
           </p>
@@ -31,13 +31,13 @@ export default function LikedPage() {
       </div>
 
       {isLoading ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
           {Array.from({ length: 8 }).map((_, index) => (
             <LikedProductSkeleton key={index} />
           ))}
         </div>
       ) : items.length > 0 ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
           {items.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
