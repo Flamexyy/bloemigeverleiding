@@ -395,107 +395,119 @@ export default function Shop() {
         <div className='flex-1'>
           <div className="flex flex-col gap-4">
             {/* Search Bar and Filters */}
-            <div className="flex items-center gap-2">
-              <div className="flex-1 max-w-md flex items-center gap-2">
-                <div className="relative flex-1">
-                  <BiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-text" />
-                  <input 
-                    type="text" 
-                    placeholder="Zoeken"
-                    value={filters.search}
-                    onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
-                    className="w-full bg-cream rounded-[25px] py-2.5 pl-10 pr-4 text-sm text-text placeholder:text-text focus:outline-none" 
-                  />
+            <div className="flex flex-col gap-2">
+              <div className="flex items-center gap-2">
+                <div className="flex-1 max-w-md flex items-center gap-2">
+                  <div className="relative flex-1">
+                    <BiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-text" />
+                    <input 
+                      type="text" 
+                      placeholder="Zoeken"
+                      value={filters.search}
+                      onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
+                      className="w-full bg-cream rounded-[25px] py-2.5 pl-10 pr-4 text-sm text-text placeholder:text-text focus:outline-none" 
+                    />
+                  </div>
+                  <button 
+                    onClick={toggleFilter}
+                    className="flex items-center gap-2 bg-cream h-[40px] px-4 rounded-[25px] hover:bg-cream/70 transition-colors"
+                  >
+                    {showDesktopFilter || showMobileFilter ? (
+                      <RiFilterOffLine className="text-text" />
+                    ) : (
+                      <RiFilterLine className="text-text" />
+                    )}
+                    <span className="text-sm font-medium text-text">Filter</span>
+                  </button>
                 </div>
-                <button 
-                  onClick={toggleFilter}
-                  className="flex items-center gap-2 bg-cream h-[40px] px-4 rounded-[25px] hover:bg-cream/70 transition-colors"
-                >
-                  {showDesktopFilter || showMobileFilter ? (
-                    <RiFilterOffLine className="text-text" />
-                  ) : (
-                    <RiFilterLine className="text-text" />
-                  )}
-                  <span className="text-sm font-medium text-text">Filter</span>
-                </button>
-              </div>
-              <div className="hidden md:flex items-center gap-2">
-                <button 
-                  onClick={() => {
-                    const newSortOrder = filters.sort === 'price-asc' ? 'price-desc' : 'price-asc';
-                    setFilters(prev => ({ ...prev, sort: newSortOrder }));
-                    setSortOption(newSortOrder);
-                  }}
-                  className="flex items-center gap-2 bg-cream h-[40px] px-4 rounded-[25px] hover:bg-cream/70 transition-colors"
-                >
-                  <svg 
-                    className={`w-4 h-4 transition-transform text-text ${filters.sort === 'price-desc' ? 'rotate-180' : ''}`} 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
+                <div className="hidden md:flex items-center gap-2">
+                  <button 
+                    onClick={() => {
+                      const newSortOrder = filters.sort === 'price-asc' ? 'price-desc' : 'price-asc';
+                      setFilters(prev => ({ ...prev, sort: newSortOrder }));
+                      setSortOption(newSortOrder);
+                    }}
+                    className="flex items-center gap-2 bg-cream h-[40px] px-4 rounded-[25px] hover:bg-cream/70 transition-colors"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
-                  </svg>
-                  <span className="text-sm font-medium text-text">
-                    {filters.sort === 'price-desc' ? 'Prijs: Hoog naar Laag' : 'Prijs: Laag naar Hoog'}
-                  </span>
-                </button>
-                <button 
-                  onClick={() => {
-                    // Add a class to trigger rotation animation
-                    const resetButton = document.getElementById('reset-button');
-                    if (resetButton) {
-                      resetButton.classList.add('animate-spin-reverse');
+                    <svg 
+                      className={`w-4 h-4 transition-transform text-text ${filters.sort === 'price-desc' ? 'rotate-180' : ''}`} 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+                    </svg>
+                    <span className="text-sm font-medium text-text">
+                      {filters.sort === 'price-desc' ? 'Prijs: Hoog naar Laag' : 'Prijs: Laag naar Hoog'}
+                    </span>
+                  </button>
+                  <button 
+                    onClick={() => {
+                      // Add a class to trigger rotation animation
+                      const resetButton = document.getElementById('reset-button');
+                      if (resetButton) {
+                        resetButton.classList.add('animate-spin-reverse');
+                        setTimeout(() => {
+                          resetButton.classList.remove('animate-spin-reverse');
+                        }, 300);
+                      }
+                      
+                      // Reset all filters
+                      handleReset();
+                      
+                      // Also trigger the reset in the filter component
+                      setShouldResetFilters(true);
+                      
+                      // Reset after a short delay to allow the component to process
                       setTimeout(() => {
-                        resetButton.classList.remove('animate-spin-reverse');
-                      }, 300);
-                    }
-                    
-                    // Reset all filters
-                    handleReset();
-                    
-                    // Also trigger the reset in the filter component
-                    setShouldResetFilters(true);
-                    
-                    // Reset after a short delay to allow the component to process
-                    setTimeout(() => {
-                      setShouldResetFilters(false);
-                    }, 100);
-                  }}
-                  className="flex items-center justify-center w-10 h-[40px] bg-cream rounded-[25px] hover:bg-cream/70 transition-colors"
-                >
-                  <svg 
-                    id="reset-button"
-                    className="w-5 h-5 text-text transition-transform duration-300" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
+                        setShouldResetFilters(false);
+                      }, 100);
+                    }}
+                    className="flex items-center justify-center w-10 h-[40px] bg-cream rounded-[25px] hover:bg-cream/70 transition-colors"
                   >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                  </svg>
-                </button>
+                    <svg 
+                      id="reset-button"
+                      className="w-5 h-5 text-text transition-transform duration-300" 
+                      fill="none" 
+                      stroke="currentColor" 
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                    </svg>
+                  </button>
+                </div>
               </div>
             </div>
 
             {/* Products Header */}
+              {/* Selected Category Display - New Section */}
+              <div>
+                <div className="text-sm text-text/50">
+                  Categorie: <span className="font-medium text-text/80">
+                    {selectedCollection 
+                      ? collections.find(c => c.id === selectedCollection)?.title || ''
+                      : 'Alle collecties'}
+                  </span>
+                </div>
             <div className="flex items-center justify-between">
               <div className='w-full'>
                 <div className="flex items-center gap-2">
                   <div className='flex w-full justify-between items-center'>
-                    <div>
-                      <span className="text-sm text-text/50">Resultaten </span>
-                      <span className="text-sm text-text/50">({filteredProducts.length})</span>
-                    </div> 
                     <div className="text-sm text-text/50">
-                      {filters.sort === 'featured' && 'Sorteren op'}
+                      {filters.sort === 'featured' && 'Aanbevolen'}
                       {filters.sort === 'price-asc' && 'Prijs: Laag naar Hoog'}
                       {filters.sort === 'price-desc' && 'Prijs: Hoog naar Laag'}
                       {filters.sort === 'name-asc' && 'Naam: A tot Z'}
                       {filters.sort === 'name-desc' && 'Naam: Z tot A'}
                     </div>
+                    <div>
+                      <span className="text-sm text-text/50">Resultaten </span>
+                      <span className="text-sm text-text/50">({filteredProducts.length})</span>
+                    </div> 
                   </div>
                 </div>
               </div>
+            </div>
             </div>
 
             {/* Product Grid */}
