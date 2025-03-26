@@ -120,7 +120,8 @@ export default function ProductPage({ params }: ProductPageProps) {
         parseFloat(selectedVariant.compareAtPrice.amount) > parseFloat(selectedVariant.price.amount)
         ? selectedVariant.compareAtPrice.amount
         : null,
-      quantityAvailable: selectedVariant.quantityAvailable
+      quantityAvailable: selectedVariant.quantityAvailable,
+      availableForSale: selectedVariant.availableForSale
     };
 
     try {

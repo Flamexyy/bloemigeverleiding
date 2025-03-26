@@ -160,7 +160,7 @@ export default function Home() {
                   />
                 ))}
               </div>
-              <div className="flex justify-center mt-6">
+              <div className="flex justify-center mt-14">
                 <Link 
                   href="/shop"
                     className='flex items-center justify-center px-10 p-3 bg-transparent text-text border-2 border-accent hover:bg-accent rounded-[100px] transition-all duration-300'
