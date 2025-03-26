@@ -14,7 +14,7 @@ import { IoStar, IoCheckmark } from "react-icons/io5";
 import Link from 'next/link';
 import { RiArrowRightUpLine } from "react-icons/ri";
 import ProductCard from '@/app/components/ProductCard';
-import ProductCardSkeleton from '@/app/components/ProductCardSkeleton';
+import { ProductCardSkeleton } from '@/app/components/SkeletonLoader';
 
 interface ProductPageProps {
   params: {
@@ -523,6 +523,285 @@ export default function ProductPage({ params }: ProductPageProps) {
         </div>
       </div>
       <CartMenu />
+
+      {/* Product Details Tabs Section */}
+      <div className="max-w-[1600px] mx-auto px-4 lg:px-8 py-12">
+        <div className="flex border-b border-text/10 mb-8 overflow-x-auto">
+          <button 
+            onClick={() => setActiveTab('description')}
+            className={`px-6 py-3 font-medium transition-colors whitespace-nowrap ${
+              activeTab === 'description' ? 'border-b-2 border-accent text-text' : 'text-text/70 hover:text-text'
+            }`}
+          >
+            Beschrijving
+          </button>
+          <button 
+            onClick={() => setActiveTab('delivery')}
+            className={`px-6 py-3 font-medium transition-colors whitespace-nowrap ${
+              activeTab === 'delivery' ? 'border-b-2 border-accent text-text' : 'text-text/70 hover:text-text'
+            }`}
+          >
+            Verzending & Levering
+          </button>
+          <button 
+            onClick={() => setActiveTab('care')}
+            className={`px-6 py-3 font-medium transition-colors whitespace-nowrap ${
+              activeTab === 'care' ? 'border-b-2 border-accent text-text' : 'text-text/70 hover:text-text'
+            }`}
+          >
+            Verzorgingstips
+          </button>
+        </div>
+        
+        <div className="max-w-3xl">
+          {activeTab === 'description' && (
+            <div className="space-y-4 text-text/70">
+              <p>
+                {product.description || 'Geen beschrijving beschikbaar.'}
+              </p>
+              <p>
+                Onze boeketten worden met de grootste zorg samengesteld door onze ervaren bloemisten. 
+                We gebruiken alleen de mooiste en verste bloemen om een prachtig arrangement te creëren 
+                dat perfect past bij elke gelegenheid.
+              </p>
+              
+              {/* Product Features */}
+              <div className="pt-6 mt-6 border-t border-text/10">
+                <h3 className="font-bold text-lg mb-4 text-text">Productkenmerken</h3>
+                <ul className="space-y-3">
+                  <li className="flex items-start gap-3">
+                    <div className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <IoCheckmark className="text-text text-sm" />
+                    </div>
+                    <span>Handgemaakt met verse bloemen</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <IoCheckmark className="text-text text-sm" />
+                    </div>
+                    <span>Bezorging binnen 24 uur mogelijk</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <IoCheckmark className="text-text text-sm" />
+                    </div>
+                    <span>Inclusief verzorgingstips</span>
+                  </li>
+                  <li className="flex items-start gap-3">
+                    <div className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+                      <IoCheckmark className="text-text text-sm" />
+                    </div>
+                    <span>Gratis wenskaart bij bestelling</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          )}
+          
+          {activeTab === 'delivery' && (
+            <div className="space-y-6 text-text/70">
+              <div>
+                <h3 className="text-lg font-bold text-text mb-2">Bezorgopties</h3>
+                <p>
+                  We bieden verschillende bezorgopties aan om aan uw wensen te voldoen:
+                </p>
+                <ul className="list-disc pl-5 mt-2 space-y-1">
+                  <li>Standaard bezorging (1-2 werkdagen)</li>
+                  <li>Express bezorging (binnen 24 uur)</li>
+                  <li>Bezorging op specifieke datum</li>
+                </ul>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-bold text-text mb-2">Verzendkosten</h3>
+                <p>
+                  De verzendkosten zijn afhankelijk van de gekozen bezorgoptie en de bestemming:
+                </p>
+                <ul className="list-disc pl-5 mt-2 space-y-1">
+                  <li>Standaard bezorging: €4,95</li>
+                  <li>Express bezorging: €9,95</li>
+                  <li>Gratis verzending bij bestellingen boven €150</li>
+                </ul>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-bold text-text mb-2">Leveringsgebied</h3>
+                <p>
+                  Wij bezorgen in heel Nederland. Voor internationale leveringen, neem contact met ons op.
+                </p>
+              </div>
+            </div>
+          )}
+          
+          {activeTab === 'care' && (
+            <div className="space-y-6 text-text/70">
+              <p>
+                Om zo lang mogelijk van uw bloemen te genieten, volg deze verzorgingstips:
+              </p>
+              
+              <div>
+                <h3 className="text-lg font-bold text-text mb-2">Bij ontvangst</h3>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>Haal het boeket voorzichtig uit de verpakking</li>
+                  <li>Snijd de stelen schuin af met een scherp mes (ongeveer 2 cm)</li>
+                  <li>Verwijder bladeren die onder water komen te staan</li>
+                  <li>Gebruik een schone vaas met vers, koud water</li>
+                  <li>Voeg het meegeleverde voedingszakje toe aan het water</li>
+                </ul>
+              </div>
+              
+              <div>
+                <h3 className="text-lg font-bold text-text mb-2">Dagelijkse verzorging</h3>
+                <ul className="list-disc pl-5 space-y-1">
+                  <li>Plaats het boeket niet in direct zonlicht of bij een warmtebron</li>
+                  <li>Ververs het water om de 2-3 dagen</li>
+                  <li>Verwijder verwelkte bloemen om de levensduur van de andere bloemen te verlengen</li>
+                  <li>Snijd de stelen elke keer als u het water ververst opnieuw schuin af</li>
+                </ul>
+              </div>
+              
+              <div className="bg-accent/10 p-4 rounded-[15px] mt-4">
+                <p className="font-medium text-text">
+                  Tip: Sommige bloemen, zoals tulpen, blijven groeien in de vaas. Houd hier rekening mee bij het plaatsen van uw boeket.
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Customer Reviews Section */}
+      {/* <div className="bg-accent/10 py-12">
+        <div className="max-w-[1600px] mx-auto px-4 lg:px-8">
+          <div className="flex flex-col gap-6 items-start mb-10 text-text">
+            <div className='w-full flex flex-col-reverse md:flex-row justify-between items-start gap-5 md:gap-10'>
+              <div className='max-w-[800px]'>
+                <h2 className="text-3xl font-bold">KLANTERVARINGEN</h2>
+              </div>
+            </div>
+            <p className='max-w-[800px] text-text/70'>
+              Ontdek wat onze klanten vinden van dit product
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+            {[
+              { name: 'Emma de Vries', date: '12 mei 2023', rating: 5, text: 'Prachtig boeket, precies zoals op de foto. De bloemen waren vers en de bezorging was snel.' },
+              { name: 'Thomas Bakker', date: '3 april 2023', rating: 5, text: 'Al jaren bestel ik hier bloemen voor speciale gelegenheden. De kwaliteit is altijd uitstekend en de service is top.' },
+              { name: 'Sophie Jansen', date: '18 maart 2023', rating: 4, text: 'Mooi boeket, maar iets kleiner dan verwacht. Wel zeer goede kwaliteit bloemen die lang mooi blijven.' }
+            ].map((review, index) => (
+              <div key={index} className="bg-white rounded-[25px] p-6 shadow-sm">
+                <div className="flex justify-between items-start mb-3">
+                  <div>
+                    <h4 className="font-bold text-text">{review.name}</h4>
+                    <p className="text-text/50 text-sm">{review.date}</p>
+                  </div>
+                  <div className="flex">
+                    {[1, 2, 3, 4, 5].map((star) => (
+                      <IoStar key={star} className={star <= review.rating ? "text-accent" : "text-text/20"} />
+                    ))}
+                  </div>
+                </div>
+                <p className="text-text/70">{review.text}</p>
+              </div>
+            ))}
+          </div>
+          
+          <div className="flex justify-center">
+            <button className="flex items-center justify-center px-8 py-3 border-2 border-accent bg-transparent text-text hover:bg-accent rounded-[100px] transition-all duration-300 font-medium">
+              Schrijf een review
+            </button>
+          </div>
+        </div>
+      </div> */}
+
+      {/* Related Products Section */}
+      <div className="max-w-[1600px] mx-auto px-4 lg:px-8 py-12">
+        <div className="flex flex-col gap-6 items-start mb-10 text-text">
+          <div className='w-full flex flex-col-reverse md:flex-row justify-between items-start gap-5 md:gap-10'>
+            <div className='max-w-[800px]'>
+              <h2 className="text-3xl font-bold md:whitespace-nowrap">GERELATEERDE PRODUCTEN</h2>
+            </div>
+            <div className='w-full justify-end flex'>
+              <Link 
+                href="/shop"
+                className="min-w-fit flex items-center gap-2 transition-opacity mt-2 group"
+              >
+                Bekijk alles
+                <RiArrowRightUpLine className="text-xl group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-transform duration-300" />
+              </Link>
+            </div>
+          </div>
+          <p className='max-w-[800px] text-text/70'>
+            Ontdek meer prachtige boeketten die perfect passen bij elke gelegenheid.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+          {Array.from({ length: 4 }).map((_, index) => (
+            <ProductCardSkeleton key={index} />
+          ))}
+        </div>
+      </div>
+
+      {/* FAQ Section */}
+      <div className="max-w-[1600px] mx-auto px-4 lg:px-8 py-12 border-t border-text/10">
+        <div className="flex flex-col gap-6 items-start mb-10 text-text">
+          <div className='w-full flex flex-col-reverse md:flex-row justify-between items-start gap-5 md:gap-10'>
+            <div className='max-w-[800px]'>
+              <h2 className="text-3xl font-bold">VEELGESTELDE VRAGEN</h2>
+            </div>
+          </div>
+          <p className='max-w-[800px] text-text/70'>
+            Antwoorden op de meest gestelde vragen over dit product
+          </p>
+        </div>
+        
+        <div className="space-y-4 max-w-3xl">
+          {[
+            { 
+              question: 'Hoe lang blijven de bloemen mooi?', 
+              answer: 'Bij goede verzorging blijven onze boeketten gemiddeld 7-10 dagen mooi. Dit kan variëren afhankelijk van de bloemensoorten en de verzorging.' 
+            },
+            { 
+              question: 'Kan ik een persoonlijke boodschap toevoegen?', 
+              answer: 'Ja, tijdens het afrekenen kunt u een persoonlijke boodschap toevoegen die op een kaartje bij het boeket wordt geleverd.' 
+            },
+            { 
+              question: 'Zijn de getoonde bloemen seizoensgebonden?', 
+              answer: 'Sommige bloemen in onze boeketten zijn seizoensgebonden. Als een specifieke bloem niet beschikbaar is, vervangen we deze door een vergelijkbare bloem van dezelfde kwaliteit en kleur.' 
+            },
+            { 
+              question: 'Kan ik het boeket aanpassen?', 
+              answer: 'Voor speciale verzoeken of aanpassingen aan het boeket, neem contact met ons op via het contactformulier of telefonisch.' 
+            }
+          ].map((faq, index) => (
+            <div 
+              key={index} 
+              className="border-2 rounded-[25px] overflow-hidden transition-all duration-300 border-accent/40 bg-accent/5 hover:border-accent hover:bg-accent/10"
+            >
+              <button 
+                className="w-full text-left flex justify-between items-center p-6 font-bold text-lg text-text/80"
+                onClick={() => {}}
+              >
+                <span>{faq.question}</span>
+              </button>
+              <div className="p-6 pt-0 text-text/70">
+                {faq.answer}
+              </div>
+            </div>
+          ))}
+        </div>
+        
+        <div className="flex justify-center mt-10">
+          <Link 
+            href="/contact" 
+            className="flex items-center justify-center px-10 p-3 bg-transparent text-text border-2 border-accent hover:bg-accent rounded-[100px] transition-all duration-300"
+          >
+            Neem contact op
+          </Link>
+        </div>
+      </div>
     </div>
   );
 } 
