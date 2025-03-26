@@ -10,6 +10,11 @@ import { IoMdAdd, IoMdRemove, IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useLiked } from '@/app/context/LikedContext';
 import { Carousel } from 'react-responsive-carousel';
 import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { IoStar, IoCheckmark } from "react-icons/io5";
+import Link from 'next/link';
+import { RiArrowRightUpLine } from "react-icons/ri";
+import ProductCard from '@/app/components/ProductCard';
+import ProductCardSkeleton from '@/app/components/ProductCardSkeleton';
 
 interface ProductPageProps {
   params: {
@@ -28,6 +33,7 @@ export default function ProductPage({ params }: ProductPageProps) {
   const [quantity, setQuantity] = useState(1);
   const { addToLiked, removeLiked, isLiked } = useLiked();
   const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [activeTab, setActiveTab] = useState('description');
 
   useEffect(() => {
     const fetchProduct = async () => {
