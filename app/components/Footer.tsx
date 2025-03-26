@@ -9,7 +9,7 @@ export default function Footer() {
             {/* Newsletter Section */}
             <div className="bg-accent/20 border-t border-accent/30">
                 <div className="max-w-[1600px] mx-auto px-4 lg:px-8 py-12 md:py-16">
-                    <div className="flex flex-col md:flex-row gap-10 items-center md:items-start justify-between">
+                    <div className="flex flex-col md:flex-row gap-10 justify-between items-center">
                         <div className="max-w-xl text-center md:text-left">
                             <h2 className="text-2xl md:text-3xl font-bold text-text mb-4">SLUIT AAN BIJ ONZE NIEUWSBRIEF</h2>
                             <p className="text-text/70 text-sm md:text-base">
@@ -26,7 +26,7 @@ export default function Footer() {
                                 />
                                 <button 
                                     type="submit"
-                                    className="bg-accent text-text px-6 py-3 rounded-[25px] hover:bg-accent/70 transition-colors text-sm md:text-base whitespace-nowrap font-medium"
+                                    className="bg-text text-cream px-6 py-3 rounded-[25px] hover:bg-text/70 transition-colors text-sm md:text-base whitespace-nowrap font-medium"
                                 >
                                     Abonneer
                                 </button>
