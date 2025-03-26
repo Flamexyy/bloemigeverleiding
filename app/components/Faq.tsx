@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { HiMiniChevronUp, HiMiniChevronDown } from "react-icons/hi2";
+import { RiArrowRightUpLine } from "react-icons/ri";
+import Link from 'next/link';
 
 interface FaqItem {
     question: string;
@@ -35,17 +37,45 @@ export default function Faq({ faqs = defaultFaqs, title = "Veel gestelde vragen"
     };
 
     return (
-        <div className="p-4 lg:p-8 w-full lg:py-20 py-20">
-            {title && <h2 className='text-text font-bold text-center mb-10 text-3xl'>{title}</h2>}
-            <div className="space-y-3">
+        <div className="p-4 lg:p-8 w-full py-14 lg:py-20">
+            <div className="flex flex-col gap-6 items-start mb-10 text-text max-w-[1600px] mx-auto">
+                <div className='w-full flex justify-between items-start gap-10'>
+                    <div className='max-w-[800px]'>
+                        <h2 className="text-3xl font-bold">{title.toUpperCase()}</h2>
+                    </div>
+                    <Link 
+                        href="/faq"
+                        className="min-w-fit flex items-center gap-2 transition-opacity mt-2 group"
+                    >
+                        Bekijk alle vragen
+                        <RiArrowRightUpLine className="text-xl group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-transform duration-300" />
+                    </Link>
+                </div>
+                <p className='max-w-[800px] text-text/70'>
+                    Hier vind je antwoorden op de meest gestelde vragen. Staat je vraag er niet tussen? Neem dan contact met ons op.
+                </p>
+            </div>
+
+            <div className="space-y-3 max-w-[1600px] mx-auto">
                 {faqs.map((item, index) => (
-                    <div key={index} className="border-2 border-accent/80 bg-accent/20 rounded-[25px] overflow-hidden transition-all duration-300">
+                    <div 
+                        key={index} 
+                        className={`border-2 rounded-[25px] overflow-hidden transition-all duration-300 ${
+                            activeIndex === index 
+                                ? 'border-accent bg-accent/10' 
+                                : 'border-accent/40 bg-accent/5'
+                        }`}
+                    >
                         <button 
-                            className={`w-full text-left flex justify-between items-center p-6 font-bold text-lg ${activeIndex === index ? 'text-red-400' : 'text-text'}`}
+                            className={`w-full text-left flex justify-between items-center p-6 font-bold text-lg ${
+                                activeIndex === index ? 'text-text' : 'text-text/80'
+                            }`}
                             onClick={() => toggleFaq(index)}
                         >
                             <span>{item.question}</span>
-                            <div className={`w-8 h-8 flex items-center justify-center flex-shrink-0 transition-colors ${activeIndex === index ? 'text-red-400' : 'text-text'}`}>
+                            <div className={`w-8 h-8 flex items-center justify-center flex-shrink-0 transition-colors rounded-full ${
+                                activeIndex === index ? 'bg-accent text-text rounded-full' : 'text-text/60'
+                            }`}>
                                 {activeIndex === index ? 
                                     <HiMiniChevronUp className="text-xl" /> : 
                                     <HiMiniChevronDown className="text-xl" />
@@ -59,12 +89,21 @@ export default function Faq({ faqs = defaultFaqs, title = "Veel gestelde vragen"
                                 height: activeIndex === index ? contentRefs.current[index]?.scrollHeight : 0,
                             }}
                         >
-                            <div className="p-6 pt-0 text-text">
+                            <div className="p-6 pt-0 text-text/70">
                                 {item.answer}
                             </div>
                         </div>
                     </div>
                 ))}
+            </div>
+
+            <div className="flex justify-center mt-10 max-w-[1600px] mx-auto">
+                <Link 
+                    href="/contact" 
+                    className="flex items-center justify-center px-10 p-3 bg-transparent text-text border-2 border-accent hover:bg-accent rounded-[100px] transition-all duration-300"
+                >
+                    Neem contact op
+                </Link>
             </div>
         </div>
     );
