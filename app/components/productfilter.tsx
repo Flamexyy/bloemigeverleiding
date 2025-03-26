@@ -1,6 +1,5 @@
 'use client';
 import { useState, useEffect } from 'react';
-import PriceRangeSlider from './PriceRangeSlider';
 import { BiChevronDown } from "react-icons/bi";
 
 interface ProductFilterProps {

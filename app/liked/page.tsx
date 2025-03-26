@@ -2,7 +2,6 @@
 import { useLiked } from '../context/LikedContext';
 import ProductCard from '../components/ProductCard';
 import Link from 'next/link';
-import { IoArrowBack } from "react-icons/io5";
 import { LikedProductSkeleton } from '../components/SkeletonLoader';
 import { useState, useEffect } from 'react';
 

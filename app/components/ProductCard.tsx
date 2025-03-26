@@ -1,14 +1,11 @@
 'use client';
-import { MdOutlineShoppingBag } from "react-icons/md";
-import { IoMdHeart, IoMdHeartEmpty, IoMdClose } from "react-icons/io";
+import { IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import Link from 'next/link';
 import Image from 'next/image';
 import { useCart } from '../context/CartContext';
 import { useState, useEffect } from 'react';
-import CartMenu from './CartMenu';
 import { useLiked } from '../context/LikedContext';
 import ConfirmationModal from './ConfirmationModal';
-import { formatPrice } from '../utils/formatPrice';
 
 interface ProductCardProps {
   product: {
