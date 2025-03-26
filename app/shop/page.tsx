@@ -564,7 +564,7 @@ export default function Shop() {
         <div className="h-full flex flex-col">
           {/* Header */}
           <div className="flex justify-between items-center p-4 border-b border-text/20">
-            <h2 className="text-xl font-medium text-text">Filters</h2>
+            <h2 className="text-xl font-bold text-text">Filters</h2>
             <button 
               onClick={() => setShowMobileFilter(false)}
               className="p-2 hover:bg-accent rounded-full transition-colors"
@@ -574,7 +574,7 @@ export default function Shop() {
           </div>
 
           {/* Content */}
-          <div className="flex-1 overflow-y-auto p-4">
+          <div className="flex-1 overflow-y-auto">
             <ProductFilter 
               onPriceFilter={handlePriceFilter}
               onSortChange={handleSortChange}
@@ -589,14 +589,14 @@ export default function Shop() {
           </div>
 
           {/* Footer */}
-          <div className="border-t border-text/20 p-4 flex gap-3">
+          <div className="border-t border-text/20 p-4 flex gap-3 flex-btn">
             <button 
               onClick={() => {
                 handleReset();
               }}
               className="flex-1 py-2.5 px-4 border border-text/20 rounded-[100px] hover:bg-accent transition-colors text-md font-medium text-text"
             >
-              Filters verwijderen
+              Filters herstellen
             </button>
             <button 
               onClick={() => setShowMobileFilter(false)}

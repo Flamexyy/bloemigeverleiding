@@ -98,7 +98,7 @@ export default function CookieConsent() {
             <div className="p-3 md:p-6">
               <div className="flex flex-col gap-3">
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm text-text/70">
+                  <p className="text-sm text-text/70 py-2">
                     We gebruiken cookies om je ervaring te verbeteren.{' '}
                     <button 
                       onClick={() => setShowDetails(true)}
@@ -111,19 +111,19 @@ export default function CookieConsent() {
                 <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                   <button
                     onClick={handleDecline}
-                    className="px-3 py-2 border border-text/20 text-text rounded-[100px] hover:bg-accent transition-colors text-sm font-medium order-3 sm:order-1"
+                    className="p-3 border border-text/20 text-text rounded-[100px] hover:bg-accent transition-colors text-sm font-medium order-3 sm:order-1"
                   >
                     Weigeren
                   </button>
                   <button
                     onClick={handleAcceptNecessary}
-                    className="px-3 py-2 border border-text text-text rounded-[100px] hover:bg-accent transition-colors text-sm font-medium order-2"
+                    className="p-3 border border-text text-text rounded-[100px] hover:bg-accent transition-colors text-sm font-medium order-2"
                   >
                     Alleen noodzakelijk
                   </button>
                   <button
                     onClick={handleAcceptAll}
-                    className="px-3 py-2 bg-accent text-text rounded-[100px] hover:bg-accent/70 transition-colors text-sm font-medium order-1 sm:order-3"
+                    className="p-3 bg-accent text-text rounded-[100px] hover:bg-accent/70 transition-colors text-sm font-medium order-1 sm:order-3"
                   >
                     Alles accepteren
                   </button>
@@ -216,19 +216,19 @@ export default function CookieConsent() {
                 <div className="flex flex-col sm:flex-row gap-2">
                   <button
                     onClick={handleDecline}
-                    className="px-3 py-2 border border-text/20 text-text rounded-[100px] hover:bg-accent transition-colors text-sm font-medium order-3 sm:order-1"
+                    className="p-3 border border-text/20 text-text rounded-[100px] hover:bg-accent transition-colors text-sm font-medium order-3 sm:order-1"
                   >
                     Alles weigeren
                   </button>
                   <button
                     onClick={() => setShowDetails(false)}
-                    className="px-3 py-2 border border-text text-text rounded-[100px] hover:bg-accent transition-colors text-sm font-medium order-2"
+                    className="p-3 border border-text text-text rounded-[100px] hover:bg-accent transition-colors text-sm font-medium order-2"
                   >
                     Annuleren
                   </button>
                   <button
                     onClick={handleSavePreferences}
-                    className="px-3 py-2 bg-accent text-text rounded-[100px] hover:bg-accent/70 transition-colors text-sm font-medium order-1 sm:order-3"
+                    className="p-3 bg-accent text-text rounded-[100px] hover:bg-accent/70 transition-colors text-sm font-medium order-1 sm:order-3"
                   >
                     Voorkeuren opslaan
                   </button>

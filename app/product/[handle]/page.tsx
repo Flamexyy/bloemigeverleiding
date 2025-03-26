@@ -591,14 +591,14 @@ export default function ProductPage({ params }: ProductPageProps) {
               <div className="w-fit flex items-center rounded-[50px] border-2 border-accent bg-white">
                 <button
                   onClick={() => handleQuantityChange(-1)}
-                  className="p-3 text-text hover:bg-accent/50 transition-colors rounded-l-[50px]"
+                  className="p-3 py-[15px] text-text hover:bg-accent/50 transition-colors rounded-l-[50px]"
                 >
                   <IoMdRemove />
                 </button>
                 <span className="w-12 text-center font-medium text-text">{quantity}</span>
                 <button
                   onClick={() => handleQuantityChange(1)}
-                  className="p-3 text-text hover:bg-accent/50 transition-colors rounded-r-[50px]"
+                  className="p-3 py-[15px] text-text hover:bg-accent/50 transition-colors rounded-r-[50px]"
                 >
                   <IoMdAdd />
                 </button>
@@ -610,7 +610,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                 disabled={isAddingToCart || !canAddToCart()}
                 className={`w-full py-3 px-6 rounded-[100px] flex items-center justify-center gap-2 font-medium transition-all duration-300 ${
                   !canAddToCart()
-                    ? 'bg-accent/50 text-text/50 cursor-not-allowed'
+                    ? 'bg-accent/50 border border-accent text-text/50 cursor-not-allowed'
                     : 'bg-accent text-text hover:bg-accent/70'
                 }`}
               >

@@ -78,6 +78,13 @@ html {
   }
 }
 
+@media (max-width: 350px) {
+  .flex-btn {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 /* Add swipe animations */
 @keyframes slide-left {
   0% {
