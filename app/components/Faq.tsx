@@ -39,13 +39,13 @@ export default function Faq({ faqs = defaultFaqs, title = "Veel gestelde vragen"
     return (
         <div className="p-4 lg:p-8 w-full py-14 lg:py-20">
             <div className="flex flex-col gap-6 items-start mb-10 text-text max-w-[1600px] mx-auto">
-                <div className='w-full flex justify-between items-start gap-10'>
+                <div className='w-full flex flex-col-reverse md:flex-row justify-between items-start gap-5 md:gap-10'>
                     <div className='max-w-[800px]'>
-                        <h2 className="text-3xl font-bold">{title.toUpperCase()}</h2>
+                        <h2 className="text-3xl font-bold sm:whitespace-nowrap">{title.toUpperCase()}</h2>
                     </div>
                     <Link 
                         href="/faq"
-                        className="min-w-fit flex items-center gap-2 transition-opacity mt-2 group"
+                        className="w-full justify-end min-w-fit flex items-center gap-2 transition-opacity mt-2 group"
                     >
                         Bekijk alle vragen
                         <RiArrowRightUpLine className="text-xl group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-transform duration-300" />

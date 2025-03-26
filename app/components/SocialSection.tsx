@@ -2,20 +2,19 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { RiArrowRightUpLine } from "react-icons/ri";
-import { FaInstagram } from "react-icons/fa";
 import { IoFlowerOutline } from "react-icons/io5";
 
 export default function SocialSection() {
   return (
     <div className="p-4 lg:p-8 py-14 lg:py-20">
       <div className="flex flex-col gap-6 items-start mb-10 text-text">
-        <div className='w-full flex justify-between items-start gap-10'>
+        <div className='w-full flex flex-col-reverse md:flex-row justify-between items-start gap-5 md:gap-10'>
           <div className='max-w-[800px]'>
-            <h2 className="text-3xl font-bold">BOEKETTEN OP MAAT</h2>
+            <h2 className="text-3xl font-bold whitespace-nowrap">BOEKETTEN OP MAAT</h2>
           </div>
           <Link 
             href="/contact"
-            className="min-w-fit flex items-center gap-2 transition-opacity mt-2 group"
+            className="w-full justify-end min-w-fit flex items-center gap-2 transition-opacity mt-2 group"
           >
             Neem contact op
             <RiArrowRightUpLine className="text-xl group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-transform duration-300" />
@@ -73,15 +72,14 @@ export default function SocialSection() {
       
       {/* Instagram-style gallery */}
       <div className="mt-16">
-        <div className="flex justify-between items-center mb-8">
+        <div className="w-full flex flex-col-reverse md:flex-row justify-between items-start gap-5 md:gap-10 mb-8">
           <div className="flex items-center gap-3">
-            <FaInstagram className="text-3xl text-text" />
             <h3 className="text-2xl font-bold text-text">VOLG ONS OP INSTAGRAM</h3>
           </div>
           <Link 
             href="https://instagram.com" 
             target="_blank"
-            className="flex items-center gap-2 text-text transition-colors group"
+            className="w-full justify-end flex items-center gap-2 text-text transition-colors group"
           >
             @bloemigeverleidingen
             <RiArrowRightUpLine className="text-xl group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-transform duration-300" />

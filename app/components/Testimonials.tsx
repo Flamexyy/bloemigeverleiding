@@ -67,13 +67,13 @@ export default function Testimonials() {
       <div className="max-w-[1600px] mx-auto">
         {/* Header with "View All" link like in other sections */}
         <div className="flex flex-col gap-6 items-start mb-10 text-text">
-          <div className='w-full flex justify-between items-start gap-10'>
+          <div className='w-full flex flex-col-reverse md:flex-row justify-between items-start gap-5 md:gap-10'>
             <div className='max-w-[800px]'>
               <h2 className="text-3xl font-bold">KLANTERVARINGEN</h2>
             </div>
             <Link 
               href="/reviews"
-              className="min-w-fit flex items-center gap-2 transition-opacity mt-2 group"
+              className="justify-end w-full min-w-fit flex items-center gap-2 transition-opacity mt-2 group"
             >
               Bekijk alle reviews
               <RiArrowRightUpLine className="text-xl group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-transform duration-300" />
