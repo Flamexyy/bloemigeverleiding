@@ -81,10 +81,10 @@ export default function SocialSection() {
           <Link 
             href="https://instagram.com" 
             target="_blank"
-            className="flex items-center gap-2 text-text hover:text-text/70 transition-colors"
+            className="flex items-center gap-2 text-text transition-colors group"
           >
             @bloemigeverleidingen
-            <RiArrowRightUpLine />
+            <RiArrowRightUpLine className="text-xl group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-transform duration-300" />
           </Link>
         </div>
         
