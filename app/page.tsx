@@ -85,7 +85,7 @@ export default function Home() {
             <div className="w-full lg:w-1/2 relative order-1 lg:order-2">
               <div className="relative aspect-square max-w-[500px] mx-auto">
                 {/* Main image with decorative shape */}
-                <div className="absolute inset-0 rounded-tl-[100px] rounded-br-[100px] rounded-tr-[25px] rounded-bl-[25px] overflow-hidden shadow-lg">
+                <div className="absolute inset-0 rounded-[100px] overflow-hidden">
                   <Image
                     src="/top-view-beautiful-roses-bouquet-with-pink-ribbon.jpg"
                     alt="Prachtige boeketten"

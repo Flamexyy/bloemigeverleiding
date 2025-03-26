@@ -7,7 +7,7 @@ export default function Footer() {
     return (
         <footer className="mt-auto">
             {/* Newsletter Section */}
-            <div className="bg-accent/20 border-t border-accent/30">
+            {/* <div className="bg-accent/20 border-t border-accent/30">
                 <div className="max-w-[1600px] mx-auto px-4 lg:px-8 py-12 md:py-16">
                     <div className="flex flex-col md:flex-row gap-10 justify-between items-center">
                         <div className="max-w-xl text-center md:text-left">
@@ -35,7 +35,7 @@ export default function Footer() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
             
             {/* Main Footer */}
             <div className="bg-cream text-text">

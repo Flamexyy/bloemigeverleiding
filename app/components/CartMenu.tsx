@@ -58,7 +58,7 @@ export default function CartMenu() {
       <div 
         onClick={() => setIsOpen(false)}
         className={`fixed inset-0 bg-black/50 transition-opacity duration-300 ease-in-out ${
-          isOpen ? 'opacity-100 z-50' : 'opacity-0 pointer-events-none -z-10'
+          isOpen ? 'opacity-100 z-50' : 'opacity-0 pointer-events-none z-10'
         }`}
       />
 
