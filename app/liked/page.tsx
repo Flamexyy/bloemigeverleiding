@@ -30,13 +30,13 @@ export default function LikedPage() {
       </div>
 
       {isLoading ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 gap-y-10 md:gap-y-10">
           {Array.from({ length: 8 }).map((_, index) => (
             <LikedProductSkeleton key={index} />
           ))}
         </div>
       ) : items.length > 0 ? (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 gap-y-10 md:gap-y-10">
           {items.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}

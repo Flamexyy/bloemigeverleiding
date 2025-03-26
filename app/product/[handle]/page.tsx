@@ -790,7 +790,7 @@ export default function ProductPage({ params }: ProductPageProps) {
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 border-b border-text/10 pb-10">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 gap-y-10 md:gap-y-10 border-b border-text/10 pb-10">
           {relatedProductsLoading ? (
             Array.from({ length: 4 }).map((_, index) => (
               <ProductCardSkeleton key={index} />
