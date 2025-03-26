@@ -10,6 +10,7 @@ import Faq from './components/Faq';
 import SocialSection from './components/SocialSection';
 import { ProductCardSkeleton } from './components/SkeletonLoader';
 import Testimonials from './components/Testimonials';
+import { IoFlowerOutline, IoStar } from 'react-icons/io5';
 
 interface ShopifyProduct {
   id: string;
@@ -53,31 +54,22 @@ export default function Home() {
       <div className="w-full pt-[80px]">
         {/* Hero Section */}
         <div className="max-w-[1600px] mx-auto px-4 lg:px-8 py-10 md:py-16">
-          <div className="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+          <div className="flex flex-col-reverse lg:flex-row items-center gap-10 lg:gap-16">
             {/* Text Content */}
-            <div className="w-full lg:w-1/2 text-center lg:text-left space-y-6">
-              <div className="mb-2">
-                <Image 
-                  src="/logo.svg" 
-                  alt="Bloemigeverleiding Logo" 
-                  width={280} 
-                  height={70} 
-                  className="mx-auto lg:mx-0"
-                />
-              </div>
-              
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-text">
-                Prachtige boeketten voor elke gelegenheid
+            <div className="w-full lg:w-1/2 text-center lg:text-left space-y-6 order-2 lg:order-1">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-text">
+                Bloemen die emoties overbrengen
               </h1>
               
               <p className="text-lg md:text-xl text-text/70 max-w-2xl mx-auto lg:mx-0">
-                "De liefde voor bloemen die altijd bloeien"
+                Handgemaakte boeketten voor elke gelegenheid, bezorgd met liefde en zorg
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start pt-4">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center lg:justify-start pt-4">
                 <Link href="/shop">
-                  <button className="flex items-center justify-center px-8 py-3 bg-accent text-text hover:bg-accent/70 rounded-[100px] transition-all duration-300 font-medium">
+                  <button className="flex items-center justify-center px-8 py-3 bg-accent text-text hover:bg-accent/70 rounded-[100px] transition-all duration-300 font-medium group">
                     Shop nu
+                    <RiArrowRightUpLine className="ml-2 text-xl group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-transform duration-300" />
                   </button>
                 </Link>
                 
@@ -89,79 +81,26 @@ export default function Home() {
               </div>
             </div>
             
-            {/* Image Section */}
-            <div className="w-full lg:w-1/2 relative">
-              <div className="relative aspect-[4/5] max-w-[600px] mx-auto">
-                <Image
-                  src="/top-view-beautiful-roses-bouquet-with-pink-ribbon.jpg"
-                  alt="Prachtige boeketten"
-                  fill
-                  className="object-cover rounded-tl-[100px] rounded-br-[100px] rounded-[30px] shadow-lg"
-                  priority
-                />
+            {/* Image Section - Simplified */}
+            <div className="w-full lg:w-1/2 relative order-1 lg:order-2">
+              <div className="relative aspect-square max-w-[500px] mx-auto">
+                {/* Main image with decorative shape */}
+                <div className="absolute inset-0 rounded-tl-[100px] rounded-br-[100px] rounded-tr-[25px] rounded-bl-[25px] overflow-hidden shadow-lg">
+                  <Image
+                    src="/top-view-beautiful-roses-bouquet-with-pink-ribbon.jpg"
+                    alt="Prachtige boeketten"
+                    fill
+                    className="object-cover"
+                    priority
+                  />
+                </div>
                 
-                {/* Decorative elements */}
-                <div className="absolute -bottom-6 -left-6 w-24 h-24 bg-accent rounded-full flex items-center justify-center text-text font-bold">
+                {/* Simple accent element */}
+                <div className="absolute -bottom-4 -right-4 w-24 h-24 bg-accent rounded-full flex items-center justify-center text-text font-bold shadow-lg z-10">
                   <div className="text-center">
-                    <div className="text-xl">20%</div>
-                    <div className="text-sm">KORTING</div>
+                    <div className="text-lg md:text-xl">NIEUW</div>
+                    <div className="text-xs">COLLECTIE</div>
                   </div>
-                </div>
-                
-                <div className="absolute -top-4 -right-4 bg-white p-4 rounded-[20px] shadow-md">
-                  <div className="flex items-center gap-2">
-                    <div className="flex">
-                      {[1, 2, 3, 4, 5].map((star) => (
-                        <svg key={star} className="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 20 20">
-                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                        </svg>
-                      ))}
-                    </div>
-                    <span className="text-text font-medium text-sm">4.9/5</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        
-        {/* Trust Badges */}
-        <div className="bg-accent/10 py-8 mt-10">
-          <div className="max-w-[1600px] mx-auto px-4 lg:px-8">
-            <div className="flex flex-wrap justify-center gap-8 md:gap-16">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
-                  <svg className="w-6 h-6 text-text" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <div className="text-text">
-                  <div className="font-bold">Verse bloemen</div>
-                  <div className="text-sm text-text/70">Dagelijks vers</div>
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
-                  <svg className="w-6 h-6 text-text" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <div className="text-text">
-                  <div className="font-bold">Snelle levering</div>
-                  <div className="text-sm text-text/70">Binnen 24 uur</div>
-                </div>
-              </div>
-              
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
-                  <svg className="w-6 h-6 text-text" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
-                  </svg>
-                </div>
-                <div className="text-text">
-                  <div className="font-bold">Veilig betalen</div>
-                  <div className="text-sm text-text/70">Meerdere opties</div>
                 </div>
               </div>
             </div>

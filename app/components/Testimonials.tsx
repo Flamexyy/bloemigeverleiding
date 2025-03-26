@@ -71,13 +71,15 @@ export default function Testimonials() {
             <div className='max-w-[800px]'>
               <h2 className="text-3xl font-bold">KLANTERVARINGEN</h2>
             </div>
-            <Link 
-              href="/reviews"
-              className="justify-end w-full min-w-fit flex items-center gap-2 transition-opacity mt-2 group"
-            >
-              Bekijk alle reviews
-              <RiArrowRightUpLine className="text-xl group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-transform duration-300" />
-            </Link>
+                {/* <div className='w-full justify-end flex '>
+                <Link 
+                    href="/faq"
+                    className="min-w-fit flex items-center gap-2 transition-opacity mt-2 group"
+                >
+                    Bekijk alle reviews
+                    <RiArrowRightUpLine className="text-xl group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-transform duration-300" />
+                    </Link>
+                </div> */}
           </div>
           <p className='max-w-[800px] text-text/70'>
             Ontdek waarom onze klanten steeds terugkomen voor onze prachtige boeketten en uitzonderlijke service.

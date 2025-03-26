@@ -43,13 +43,15 @@ export default function Faq({ faqs = defaultFaqs, title = "Veel gestelde vragen"
                     <div className='max-w-[800px]'>
                         <h2 className="text-3xl font-bold sm:whitespace-nowrap">{title.toUpperCase()}</h2>
                     </div>
+                    <div className='w-full justify-end flex '>
                     <Link 
                         href="/faq"
-                        className="w-full justify-end min-w-fit flex items-center gap-2 transition-opacity mt-2 group"
+                        className="min-w-fit flex items-center gap-2 transition-opacity mt-2 group"
                     >
                         Bekijk alle vragen
                         <RiArrowRightUpLine className="text-xl group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-transform duration-300" />
-                    </Link>
+                        </Link>
+                    </div>
                 </div>
                 <p className='max-w-[800px] text-text/70'>
                     Hier vind je antwoorden op de meest gestelde vragen. Staat je vraag er niet tussen? Neem dan contact met ons op.

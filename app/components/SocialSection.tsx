@@ -12,13 +12,15 @@ export default function SocialSection() {
           <div className='max-w-[800px]'>
             <h2 className="text-3xl font-bold whitespace-nowrap">BOEKETTEN OP MAAT</h2>
           </div>
-          <Link 
-            href="/contact"
-            className="w-full justify-end min-w-fit flex items-center gap-2 transition-opacity mt-2 group"
-          >
-            Neem contact op
-            <RiArrowRightUpLine className="text-xl group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-transform duration-300" />
-          </Link>
+            <div className='w-full justify-end flex '>
+                <Link 
+                    href="/contact"
+                    className="min-w-fit flex items-center gap-2 transition-opacity mt-2 group"
+                >
+                    Contact opnemen
+                    <RiArrowRightUpLine className="text-xl group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-transform duration-300" />
+                </Link>
+            </div>
         </div>
         <p className='max-w-[800px] text-text/70'>
           In onze catalogus kunt u een boeket kiezen dat perfect past bij uw wensen en budget. 
@@ -76,14 +78,16 @@ export default function SocialSection() {
           <div className="flex items-center gap-3">
             <h3 className="text-2xl font-bold text-text">VOLG ONS OP INSTAGRAM</h3>
           </div>
-          <Link 
-            href="https://instagram.com" 
-            target="_blank"
-            className="w-full justify-end flex items-center gap-2 text-text transition-colors group"
-          >
-            @bloemigeverleidingen
-            <RiArrowRightUpLine className="text-xl group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-transform duration-300" />
-          </Link>
+          <div className='w-full justify-end flex'>
+            <Link 
+                href="https://instagram.com" 
+                target="_blank"
+                className="min-w-fit justify-end flex items-center gap-2 text-text transition-colors group"
+            >
+                @bloemigeverleidingen
+                <RiArrowRightUpLine className="text-xl group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-transform duration-300" />
+            </Link>
+            </div>
         </div>
         
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
