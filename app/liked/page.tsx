@@ -6,7 +6,7 @@ import { LikedProductSkeleton } from '../components/SkeletonLoader';
 import { useState, useEffect } from 'react';
 
 export default function LikedPage() {
-  const { items } = useLiked();
+  const { likedItems } = useLiked();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function LikedPage() {
         <div>
           <h1 className="text-3xl md:text-4xl font-bold text-text">FAVORIETEN</h1>
           <p className="text-text/50 text-sm">
-            {items.length} {items.length === 1 ? 'item' : 'items'}
+            {likedItems.length} {likedItems.length === 1 ? 'item' : 'items'}
           </p>
         </div>
       </div>
@@ -35,9 +35,9 @@ export default function LikedPage() {
             <LikedProductSkeleton key={index} />
           ))}
         </div>
-      ) : items.length > 0 ? (
+      ) : likedItems.length > 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 gap-y-10 md:gap-y-10">
-          {items.map((product) => (
+          {likedItems.map((product) => (
             <ProductCard key={product.id} product={product} />
           ))}
         </div>

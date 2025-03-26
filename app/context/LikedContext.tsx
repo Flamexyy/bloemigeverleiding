@@ -1,9 +1,14 @@
 'use client';
-import { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useContext, useEffect, useRef } from 'react';
 import Cookies from 'js-cookie';
 import { Toast } from '../components/Toast';
 
-export interface LikedProduct {
+// Define the cookie name and expiry
+const COOKIE_NAME = 'likedItems';
+const COOKIE_EXPIRY = 30; // days
+
+// Define the shape of a liked item
+interface LikedItem {
   id: string;
   title: string;
   price: number;
@@ -11,136 +16,164 @@ export interface LikedProduct {
   handle: string;
   variantId: string;
   availableForSale: boolean;
-  quantityAvailable: number;
   compareAtPrice?: number | null;
+  quantityAvailable: number;
 }
 
+// Define the context shape
 interface LikedContextType {
-  items: LikedProduct[];
-  addToLiked: (product: LikedProduct) => void;
-  removeLiked: (id: string) => void;
-  isLiked: (id: string) => boolean;
+  likedItems: LikedItem[];
+  addToLiked: (item: LikedItem) => void;
+  removeLiked: (productId: string) => void;
+  isLiked: (productId: string) => boolean;
   clearLiked: () => void;
-  restoreLastRemoved: () => void;
 }
 
+// Create the context
 const LikedContext = createContext<LikedContextType | undefined>(undefined);
 
-const COOKIE_NAME = 'liked_items';
-const COOKIE_EXPIRY = 30;
+// Custom hook to use the context
+export function useLiked() {
+  const context = useContext(LikedContext);
+  if (!context) {
+    throw new Error('useLiked must be used within a LikedProvider');
+  }
+  return context;
+}
 
+// Provider component
 export function LikedProvider({ children }: { children: React.ReactNode }) {
-  const [likedItems, setLikedItems] = useState<LikedProduct[]>([]);
-  const [isInitialized, setIsInitialized] = useState(false);
-  const [lastRemovedItem, setLastRemovedItem] = useState<LikedProduct | null>(null);
+  const [likedItems, setLikedItems] = useState<LikedItem[]>([]);
+  const [lastRemovedItem, setLastRemovedItem] = useState<LikedItem | null>(null);
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
-
+  const [toastQueue, setToastQueue] = useState<string[]>([]);
+  const [isToastExiting, setIsToastExiting] = useState(false);
+  const toastTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  
   // Load liked items from cookies on mount
   useEffect(() => {
-    const loadLikedItems = () => {
+    const savedItems = Cookies.get(COOKIE_NAME);
+    if (savedItems) {
       try {
-        const savedItems = Cookies.get(COOKIE_NAME);
-        if (savedItems) {
-          const parsedItems = JSON.parse(savedItems);
-          setLikedItems(Array.isArray(parsedItems) ? parsedItems : []);
-        }
+        const parsedItems = JSON.parse(savedItems);
+        setLikedItems(parsedItems);
       } catch (error) {
-        console.error('Error loading liked items:', error);
-        Cookies.remove(COOKIE_NAME);
-      } finally {
-        setIsInitialized(true);
-      }
-    };
-
-    loadLikedItems();
-  }, []);
-
-  // Save to cookies whenever likedItems changes
-  useEffect(() => {
-    if (isInitialized) {
-      try {
-        if (likedItems.length > 0) {
-          Cookies.set(COOKIE_NAME, JSON.stringify(likedItems), {
-            expires: COOKIE_EXPIRY,
-            path: '/',
-            sameSite: 'lax'
-          });
-        } else {
-          Cookies.remove(COOKIE_NAME, { path: '/' });
-        }
-      } catch (error) {
-        console.error('Error saving liked items:', error);
+        console.error('Error parsing liked items from cookie:', error);
       }
     }
-  }, [likedItems, isInitialized]);
+  }, []);
 
-  const addToLiked = (product: LikedProduct) => {
+  // Process toast queue
+  useEffect(() => {
+    if (toastQueue.length > 0 && !showToast && !isToastExiting) {
+      // Show the next toast in the queue
+      setToastMessage(toastQueue[0]);
+      setShowToast(true);
+      
+      // Remove this toast from the queue
+      setToastQueue(prev => prev.slice(1));
+    }
+  }, [toastQueue, showToast, isToastExiting]);
+
+  // Add an item to liked items
+  const addToLiked = (item: LikedItem) => {
     setLikedItems(prev => {
-      if (!prev.some(item => item.id === product.id)) {
-        const newItems = [...prev, product];
-        return newItems;
+      // Check if item already exists
+      if (prev.some(i => i.id === item.id)) {
+        return prev;
       }
-      return prev;
+      
+      const newItems = [...prev, item];
+      // Save to cookies
+      Cookies.set(COOKIE_NAME, JSON.stringify(newItems), { expires: COOKIE_EXPIRY, path: '/' });
+      return newItems;
     });
   };
 
+  // Remove an item from liked items
   const removeLiked = (productId: string) => {
     const itemToRemove = likedItems.find(item => item.id === productId);
-    if (itemToRemove) {
-      setLastRemovedItem(itemToRemove);
-      setLikedItems(prev => {
-        const newItems = prev.filter(item => item.id !== productId);
-        return newItems;
-      });
+    if (!itemToRemove) return;
+    
+    setLastRemovedItem(itemToRemove);
+    
+    setLikedItems(prev => {
+      const newItems = prev.filter(item => item.id !== productId);
+      // Save to cookies
+      Cookies.set(COOKIE_NAME, JSON.stringify(newItems), { expires: COOKIE_EXPIRY, path: '/' });
+      return newItems;
+    });
+    
+    // If a toast is already showing, close it first
+    if (showToast) {
+      handleToastClose();
+      
+      // Show the new toast after a brief delay to allow for animation
+      setTimeout(() => {
+        setToastMessage(`${itemToRemove.title} verwijderd uit favorieten`);
+        setShowToast(true);
+      }, 300);
+    } else {
+      // Show toast immediately if none is showing
       setToastMessage(`${itemToRemove.title} verwijderd uit favorieten`);
       setShowToast(true);
-      
-      // Auto-hide toast after 5 seconds
-      setTimeout(() => {
-        setShowToast(false);
-      }, 5000);
     }
   };
 
+  // Restore the last removed item
   const restoreLastRemoved = () => {
     if (lastRemovedItem) {
       addToLiked(lastRemovedItem);
       setLastRemovedItem(null);
-      setShowToast(false);
+      
+      // Close the current toast
+      handleToastClose();
     }
   };
 
+  // Handle toast close with animation
+  const handleToastClose = () => {
+    setIsToastExiting(true);
+    setShowToast(false);
+    
+    // After animation completes, reset the exiting state
+    setTimeout(() => {
+      setIsToastExiting(false);
+    }, 300); // Match the animation duration
+  };
+
+  // Clear all liked items
+  const clearLiked = () => {
+    setLikedItems([]);
+    Cookies.remove(COOKIE_NAME, { path: '/' });
+  };
+
+  // Check if an item is liked
   const isLiked = (productId: string) => {
     return likedItems.some(item => item.id === productId);
   };
 
   return (
     <LikedContext.Provider value={{
-      items: likedItems, 
+      likedItems,
       addToLiked,
-      removeLiked, 
+      removeLiked,
       isLiked,
-      clearLiked: () => setLikedItems([]),
-      restoreLastRemoved
+      clearLiked
     }}>
       {children}
-      {showToast && (
+      
+      {/* Toast notification */}
+      {(showToast || isToastExiting) && (
         <Toast 
           message={toastMessage}
-          onClose={() => setShowToast(false)}
+          onClose={handleToastClose}
           actionLabel="Herstellen"
           onAction={restoreLastRemoved}
+          isVisible={showToast}
         />
       )}
     </LikedContext.Provider>
   );
-}
-
-export function useLiked() {
-  const context = useContext(LikedContext);
-  if (context === undefined) {
-    throw new Error('useLiked must be used within a LikedProvider');
-  }
-  return context;
 } 

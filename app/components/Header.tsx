@@ -21,9 +21,9 @@ export default function Header() {
     const router = useRouter();
     const { user } = useAuth();
     const { itemCount, setIsOpen: setCartIsOpen } = useCart();
-    const { items } = useLiked();
+    const { likedItems } = useLiked();
 
-    const likedCount = items.length;
+    const likedCount = likedItems.length;
 
     // Check if current path is shop-related (includes /shop or /product/)
     const isShopActive = pathname === '/shop' || pathname.startsWith('/product/');

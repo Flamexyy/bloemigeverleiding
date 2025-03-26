@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { IoClose } from 'react-icons/io5';
 
 interface ToastProps {
@@ -8,6 +8,7 @@ interface ToastProps {
   actionLabel?: string;
   onAction?: () => void;
   duration?: number;
+  isVisible: boolean;
 }
 
 export function Toast({ 
@@ -15,32 +16,38 @@ export function Toast({
   onClose, 
   actionLabel, 
   onAction,
-  duration = 5000 
+  duration = 3000,
+  isVisible 
 }: ToastProps) {
-  const [isVisible, setIsVisible] = useState(false);
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
   
   useEffect(() => {
-    // Animate in
-    setTimeout(() => setIsVisible(true), 10);
+    // Clear any existing timers
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
     
-    // Auto close after duration
-    const timer = setTimeout(() => {
-      setIsVisible(false);
-      setTimeout(onClose, 300); // Wait for animation to complete
-    }, duration);
+    // Set timer for auto-close
+    if (isVisible) {
+      timerRef.current = setTimeout(() => {
+        onClose();
+      }, duration);
+    }
     
-    return () => clearTimeout(timer);
-  }, [duration, onClose]);
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, [duration, onClose, isVisible, message]);
   
   const handleClose = () => {
-    setIsVisible(false);
-    setTimeout(onClose, 300); // Wait for animation to complete
+    if (timerRef.current) clearTimeout(timerRef.current);
+    onClose();
   };
   
   return (
     <div 
-      className={`fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 transition-all duration-300 ease-in-out ${
-        isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+      className={`fixed bottom-4 left-1/2 transform -translate-x-1/2 z-50 transition-transform duration-300 ease-out ${
+        isVisible ? 'translate-y-0' : 'translate-y-20'
       }`}
     >
       <div className="bg-text text-white px-4 py-3 rounded-[25px] shadow-lg flex items-center gap-2 sm:gap-3 max-w-[95vw] sm:max-w-[90vw] w-auto">
