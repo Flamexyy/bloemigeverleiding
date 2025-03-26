@@ -190,6 +190,14 @@ export default function Shop() {
     
     let result = [...products];
     
+    // Filter by search term
+    if (filters.search.trim()) {
+      const searchTerm = filters.search.toLowerCase().trim();
+      result = result.filter(product => 
+        product.title.toLowerCase().includes(searchTerm)
+      );
+    }
+    
     // Filter by collection - only if we're not already filtered by collection in the API call
     if (selectedCollection && !collectionParam) {
       result = result.filter(product => {
@@ -253,7 +261,7 @@ export default function Shop() {
     }
     
     setFilteredProducts(result);
-  }, [products, selectedPrices, sortOption, selectedCollection, collectionParam, minPriceFilter, maxPriceFilter]);
+  }, [products, selectedPrices, sortOption, selectedCollection, collectionParam, minPriceFilter, maxPriceFilter, filters.search]);
 
   // Apply filters when dependencies change
   useEffect(() => {
@@ -413,10 +421,11 @@ export default function Shop() {
               </div>
               <div className="hidden md:flex items-center gap-2">
                 <button 
-                  onClick={() => setFilters(prev => ({ 
-                    ...prev, 
-                    sort: prev.sort === 'price-asc' ? 'price-desc' : 'price-asc' 
-                  }))}
+                  onClick={() => {
+                    const newSortOrder = filters.sort === 'price-asc' ? 'price-desc' : 'price-asc';
+                    setFilters(prev => ({ ...prev, sort: newSortOrder }));
+                    setSortOption(newSortOrder);
+                  }}
                   className="flex items-center gap-2 bg-cream h-[40px] px-4 rounded-[25px] hover:bg-cream/70 transition-colors"
                 >
                   <svg 
@@ -490,7 +499,7 @@ export default function Shop() {
             </div>
 
             {/* Product Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4 gap-y-10 md:gap-y-10">
               {loading ? (
                 // Skeleton loaders
                 Array.from({ length: 8 }).map((_, index) => (

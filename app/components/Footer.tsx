@@ -196,7 +196,7 @@ export default function Footer() {
                             <a 
                                 href="https://enhancedigital.nl" 
                                 target="_blank" 
-                                className="hover:text-cream/80 transition-colors"
+                                className="hover:underline"
                             >
                                 Enhancedigital.nl
                             </a>
