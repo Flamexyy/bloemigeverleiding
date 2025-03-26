@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import ProductFilter from '../components/productfilter';
 import { BiSearch } from "react-icons/bi";
 import { RiFilterOffLine, RiFilterLine } from "react-icons/ri";
-import { IoClose } from "react-icons/io5";
+import { IoClose, IoFlowerOutline } from "react-icons/io5";
 import ProductCard from '../components/ProductCard';
 import { getProducts } from '../utils/shopify';
 import { ProductCardSkeleton } from '../components/SkeletonLoader';
@@ -43,6 +43,9 @@ export default function Shop() {
   const [filteredProducts, setFilteredProducts] = useState<ShopifyProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [shouldResetFilters, setShouldResetFilters] = useState(false);
+  const [visibleProducts, setVisibleProducts] = useState<number>(16);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Reset the shouldResetFilters flag after it's been consumed
   useEffect(() => {
@@ -78,10 +81,15 @@ export default function Shop() {
       try {
         setLoading(true);
         const data = await getProducts();
-        setProducts(data);
-        setFilteredProducts(data);
+        const formattedProducts = data.map((product: ShopifyProduct) => ({
+          ...product,
+          quantityAvailable: product.quantityAvailable || 1
+        }));
+        setProducts(formattedProducts);
+        setFilteredProducts(formattedProducts);
       } catch (err) {
         console.error('Error:', err);
+        setError(err instanceof Error ? err.message : 'Failed to fetch products');
       } finally {
         setLoading(false);
       }
@@ -192,9 +200,26 @@ export default function Shop() {
     { label: '€150+', value: '150+' }
   ];
 
+  const loadMoreProducts = () => {
+    setLoadingMore(true);
+    // Simulate loading delay for better UX
+    setTimeout(() => {
+      setVisibleProducts(prev => prev + 8);
+      setLoadingMore(false);
+    }, 500);
+  };
+
   return (
-    <div className="max-w-[1600px] mx-auto">
-      <div className="flex flex-col xl:flex-row gap-6 p-4 lg:p-6">
+    <div className="max-w-[1600px] mx-auto px-4 lg:px-8 pt-8 pb-20">
+      <div className="flex flex-col gap-6 items-start mb-10 text-text">
+        <h1 className="text-3xl md:text-4xl font-bold">ONZE COLLECTIE</h1>
+        <p className="text-text/70 max-w-3xl">
+          Ontdek onze prachtige collectie handgemaakte boeketten. Elk boeket is met zorg samengesteld 
+          met de mooiste bloemen van het seizoen.
+        </p>
+      </div>
+
+      <div className="flex flex-col xl:flex-row gap-6">
         {showDesktopFilter && (
           <div className="hidden xl:block w-[200px] shrink-0">
             <div className="sticky top-[130px]">
@@ -321,14 +346,45 @@ export default function Shop() {
                 ))}
               </div>
             ) : (
-              <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-4'>
-                {filteredProducts.map((product) => (
-                  <ProductCard 
-                    key={product.id}
-                    product={product}
-                  />
-                ))}
-              </div>
+              <>
+                <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 2xl:grid-cols-4 gap-3 md:gap-4'>
+                  {filteredProducts.slice(0, visibleProducts).map((product) => (
+                    <ProductCard 
+                      key={product.id}
+                      product={product}
+                    />
+                  ))}
+                </div>
+                
+                {visibleProducts < filteredProducts.length && (
+                  <div className="flex justify-center mt-12">
+                    <button 
+                      onClick={loadMoreProducts}
+                      disabled={loadingMore}
+                      className="flex items-center justify-center gap-2 px-10 py-3 bg-transparent text-text border-2 border-accent hover:bg-accent/10 rounded-[100px] transition-all duration-300 font-medium group"
+                    >
+                      {loadingMore ? (
+                        <>
+                          <span className="animate-spin mr-2">
+                            <IoFlowerOutline className="text-xl" />
+                          </span>
+                          Laden...
+                        </>
+                      ) : (
+                        <>
+                          Meer producten laden
+                        </>
+                      )}
+                    </button>
+                  </div>
+                )}
+                
+                {visibleProducts >= filteredProducts.length && filteredProducts.length > 16 && (
+                  <div className="text-center mt-12 text-text/70">
+                    <p>Alle producten zijn geladen</p>
+                  </div>
+                )}
+              </>
             )}
 
             {!loading && filteredProducts.length === 0 && (
@@ -388,6 +444,18 @@ export default function Shop() {
           </div>
         </div>
       </div>
+
+      {error && (
+        <div className="text-center py-10 text-red-400">
+          <p>Error loading products: {error}</p>
+          <button 
+            onClick={() => window.location.reload()} 
+            className="mt-4 px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300"
+          >
+            Try Again
+          </button>
+        </div>
+      )}
     </div>
   );
 } 
