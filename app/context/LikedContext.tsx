@@ -91,6 +91,19 @@ export function LikedProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  // Add this function to handle showing a toast with proper animation
+  const showToastWithAnimation = (message: string) => {
+    // First ensure the toast is in the hidden position
+    setShowToast(false);
+    setToastMessage(message);
+    
+    // Force a browser reflow to ensure the hidden state is applied
+    setTimeout(() => {
+      // Then show the toast (which will trigger the animation)
+      setShowToast(true);
+    }, 10);
+  };
+
   // Remove an item from liked items
   const removeLiked = (productId: string) => {
     const itemToRemove = likedItems.find(item => item.id === productId);
@@ -105,20 +118,16 @@ export function LikedProvider({ children }: { children: React.ReactNode }) {
       return newItems;
     });
     
-    // If a toast is already showing, close it first
-    if (showToast) {
-      handleToastClose();
-      
-      // Show the new toast after a brief delay to allow for animation
-      setTimeout(() => {
-        setToastMessage(`${itemToRemove.title} verwijderd uit favorieten`);
-        setShowToast(true);
-      }, 300);
-    } else {
-      // Show toast immediately if none is showing
+    // For the first toast or any subsequent toast, ensure it starts in the hidden position
+    // by setting isToastExiting to true briefly
+    setIsToastExiting(true);
+    
+    // After a very brief delay, show the toast (which will trigger the animation)
+    setTimeout(() => {
+      setIsToastExiting(false);
       setToastMessage(`${itemToRemove.title} verwijderd uit favorieten`);
       setShowToast(true);
-    }
+    }, 10);
   };
 
   // Restore the last removed item
