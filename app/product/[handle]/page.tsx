@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import { useCart } from '@/app/context/CartContext';
-import { getProduct } from '@/app/utils/shopify';
+import { getProduct, getProducts } from '@/app/utils/shopify';
 import Image from 'next/image';
 import { MdOutlineShoppingBag } from "react-icons/md";
 import { BiChevronLeft, BiChevronRight } from "react-icons/bi";
@@ -34,6 +34,8 @@ export default function ProductPage({ params }: ProductPageProps) {
   const { addToLiked, removeLiked, isLiked } = useLiked();
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [activeTab, setActiveTab] = useState('description');
+  const [relatedProducts, setRelatedProducts] = useState<any[]>([]);
+  const [relatedProductsLoading, setRelatedProductsLoading] = useState(true);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -55,6 +57,37 @@ export default function ProductPage({ params }: ProductPageProps) {
   useEffect(() => {
     if (product?.variants?.edges?.length > 0) {
       setSelectedVariant(product.variants.edges[0].node);
+    }
+  }, [product]);
+
+  useEffect(() => {
+    const fetchRelatedProducts = async () => {
+      if (!product) return;
+      
+      try {
+        setRelatedProductsLoading(true);
+        // Fetch all products
+        const allProducts = await getProducts();
+        
+        // Filter out the current product
+        const otherProducts = allProducts.filter((p: any) => p.id !== product.id);
+        
+        // Shuffle the array to get random products
+        const shuffled = [...otherProducts].sort(() => 0.5 - Math.random());
+        
+        // Take the first 4 (or fewer if there aren't enough products)
+        const randomProducts = shuffled.slice(0, 4);
+        
+        setRelatedProducts(randomProducts);
+      } catch (error) {
+        console.error('Error fetching related products:', error);
+      } finally {
+        setRelatedProductsLoading(false);
+      }
+    };
+    
+    if (product) {
+      fetchRelatedProducts();
     }
   }, [product]);
 
@@ -738,9 +771,15 @@ export default function ProductPage({ params }: ProductPageProps) {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
-          {Array.from({ length: 4 }).map((_, index) => (
-            <ProductCardSkeleton key={index} />
-          ))}
+          {relatedProductsLoading ? (
+            Array.from({ length: 4 }).map((_, index) => (
+              <ProductCardSkeleton key={index} />
+            ))
+          ) : (
+            relatedProducts.map((product: any) => (
+              <ProductCard key={product.id} product={product} />
+            ))
+          )}
         </div>
       </div>
 
