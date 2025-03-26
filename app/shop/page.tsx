@@ -64,6 +64,7 @@ export default function Shop() {
   const [filterLoading, setFilterLoading] = useState(true);
   const [minPriceFilter, setMinPriceFilter] = useState(0);
   const [maxPriceFilter, setMaxPriceFilter] = useState(500);
+  const [initialLoad, setInitialLoad] = useState(true);
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -103,7 +104,11 @@ export default function Shop() {
     const fetchCollections = async () => {
       try {
         setCollectionsLoading(true);
-        setFilterLoading(true);
+        // Only show filter loading on initial load
+        if (initialLoad) {
+          setFilterLoading(true);
+        }
+        
         const collectionsData = await getCollections();
         setCollections(collectionsData);
         
@@ -123,12 +128,15 @@ export default function Shop() {
         console.error('Error fetching collections:', err);
       } finally {
         setCollectionsLoading(false);
-        setFilterLoading(false);
+        if (initialLoad) {
+          setFilterLoading(false);
+          setInitialLoad(false);
+        }
       }
     };
     
     fetchCollections();
-  }, [collectionParam]);
+  }, [collectionParam, initialLoad]);
 
   // Fetch products when collections are loaded or collection param changes
   useEffect(() => {

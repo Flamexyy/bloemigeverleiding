@@ -151,7 +151,7 @@ export default function CartMenu() {
                             {item.compareAtPrice ? (
                               <>
                                 <p className="text-sm text-text line-through">
-                                  €{(parseFloat(item.compareAtPrice) * item.quantity).toFixed(2)}
+                                  €{(parseFloat(String(item.compareAtPrice)) * item.quantity).toFixed(2)}
                                 </p>
                                 <p className="text-red-400 font-bold">
                                   €{(item.price * item.quantity).toFixed(2)}
@@ -209,7 +209,9 @@ export default function CartMenu() {
                   <span>Subtotaal:</span>
                   <span className="font-medium">
                     €{items.reduce((sum, item) => {
-                      const originalPrice = item.compareAtPrice ? parseFloat(item.compareAtPrice) : item.price;
+                      const originalPrice = item.compareAtPrice 
+                        ? parseFloat(String(item.compareAtPrice)) 
+                        : parseFloat(String(item.price));
                       return sum + (originalPrice * item.quantity);
                     }, 0).toFixed(2)}
                   </span>
@@ -221,7 +223,7 @@ export default function CartMenu() {
                     <span className="font-medium">
                       -€{items.reduce((sum, item) => {
                         if (item.compareAtPrice) {
-                          return sum + (parseFloat(item.compareAtPrice) - item.price) * item.quantity;
+                          return sum + (parseFloat(String(item.compareAtPrice)) - parseFloat(String(item.price))) * item.quantity;
                         }
                         return sum;
                       }, 0).toFixed(2)}
