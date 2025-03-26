@@ -25,6 +25,17 @@ interface ProductPageProps {
   };
 }
 
+interface ProductOption {
+  id: string;
+  name: string;
+  values: string[];
+}
+
+interface SelectedOption {
+  name: string;
+  value: string;
+}
+
 export default function ProductPage({ params }: ProductPageProps) {
   const [selectedImage, setSelectedImage] = useState(0);
   const [product, setProduct] = useState<any>(null);
@@ -101,7 +112,7 @@ export default function ProductPage({ params }: ProductPageProps) {
     if (product && product.options) {
       const initialOptions: {[key: string]: string} = {};
       
-      product.options.forEach(option => {
+      product.options.forEach((option: ProductOption) => {
         if (option.values && option.values.length > 0) {
           initialOptions[option.name] = option.values[0];
         }
@@ -120,11 +131,11 @@ export default function ProductPage({ params }: ProductPageProps) {
   const findVariantForOptions = (options: {[key: string]: string}) => {
     if (!product || !product.variants || !product.variants.edges) return null;
     
-    return product.variants.edges.find(({ node }) => {
+    return product.variants.edges.find(({ node }: { node: any }) => {
       // Check if this variant matches all selected options
       if (!node.selectedOptions) return false;
       
-      return node.selectedOptions.every(optionItem => 
+      return node.selectedOptions.every((optionItem: SelectedOption) => 
         options[optionItem.name] === optionItem.value
       );
     })?.node || null;
