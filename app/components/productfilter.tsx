@@ -102,41 +102,7 @@ export default function ProductFilter({
 
   return (
     <div className={`space-y-6 ${isMobile ? 'p-4' : ''}`}>
-      {/* Sort By */}
-      <div>
-        <button 
-          className="flex items-center justify-between w-full text-text font-medium"
-          onClick={() => setIsExpanded({...isExpanded, sort: !isExpanded.sort})}
-        >
-          <span>Sorteren op</span>
-          <BiChevronDown className={`text-xl transition-transform ${isExpanded.sort ? 'rotate-180' : ''}`} />
-        </button>
-        
-        {isExpanded.sort && (
-          <div className="mt-3 space-y-2">
-            {sortOptions.map(option => (
-              <label key={option.value} className="flex items-center gap-2 cursor-pointer group">
-                <input 
-                  type="radio" 
-                  name="sort" 
-                  value={option.value}
-                  checked={selectedSort === option.value}
-                  onChange={() => handleSortChange(option.value)}
-                  className="hidden"
-                />
-                <div className="w-4 h-4 border border-text/30 rounded-full flex items-center justify-center group-hover:border-text">
-                  {selectedSort === option.value && (
-                    <div className="w-2 h-2 bg-text rounded-full"></div>
-                  )}
-                </div>
-                <span className="text-md text-text group-hover:text-text">{option.label}</span>
-              </label>
-            ))}
-          </div>
-        )}
-      </div>
-
-      {/* Collections Filter */}
+      {/* Collections Filter - Now first */}
       {collections.length > 0 && (
         <div>
           <button 
@@ -189,7 +155,41 @@ export default function ProductFilter({
         </div>
       )}
 
-      {/* Price Filter */}
+      {/* Sort By - Now second */}
+      <div>
+        <button 
+          className="flex items-center justify-between w-full text-text font-medium"
+          onClick={() => setIsExpanded({...isExpanded, sort: !isExpanded.sort})}
+        >
+          <span>Sorteren op</span>
+          <BiChevronDown className={`text-xl transition-transform ${isExpanded.sort ? 'rotate-180' : ''}`} />
+        </button>
+        
+        {isExpanded.sort && (
+          <div className="mt-3 space-y-2">
+            {sortOptions.map(option => (
+              <label key={option.value} className="flex items-center gap-2 cursor-pointer group">
+                <input 
+                  type="radio" 
+                  name="sort" 
+                  value={option.value}
+                  checked={selectedSort === option.value}
+                  onChange={() => handleSortChange(option.value)}
+                  className="hidden"
+                />
+                <div className="w-4 h-4 border border-text/30 rounded-full flex items-center justify-center group-hover:border-text">
+                  {selectedSort === option.value && (
+                    <div className="w-2 h-2 bg-text rounded-full"></div>
+                  )}
+                </div>
+                <span className="text-md text-text group-hover:text-text">{option.label}</span>
+              </label>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {/* Price Filter - Now third */}
       <div>
         <button 
           className="flex items-center justify-between w-full text-text font-medium"
