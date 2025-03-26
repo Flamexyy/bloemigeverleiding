@@ -115,8 +115,11 @@ export default function CartMenu() {
               <p className="text-center text-text">Uw winkelwagen is leeg</p>
             ) : (
               <div className="space-y-4">
-                {items.map(item => (
-                  <div key={item.id} className="flex gap-4 pb-4 border-b">
+                {items.map((item, index) => (
+                  <div 
+                    key={item.id}
+                    className="flex gap-4 pb-4 border-b"
+                  >
                     <Link 
                       href={`/product/${item.handle}`}
                       onClick={() => setIsOpen(false)}

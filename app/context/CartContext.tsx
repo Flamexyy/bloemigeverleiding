@@ -77,35 +77,52 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const addToCart = (newItem: CartItem) => {
     setItems(currentItems => {
-      const existingItem = currentItems.find(item => item.variantId === newItem.variantId);
+      // Check if item already exists in cart
+      const existingItemIndex = currentItems.findIndex(item => item.id === newItem.id);
       
-      if (existingItem) {
-        // Calculate new quantity and check against limit
-        const newQuantity = existingItem.quantity + newItem.quantity;
-        if (newQuantity > existingItem.quantityAvailable) {
-          // If would exceed limit, set to max available
-          return currentItems.map(item =>
-            item.variantId === newItem.variantId
-              ? { ...item, quantity: item.quantityAvailable }
-              : item
-          );
-        }
-        // If within limit, update normally
-        return currentItems.map(item =>
-          item.variantId === newItem.variantId
-            ? { ...item, quantity: newQuantity }
-            : item
+      if (existingItemIndex !== -1) {
+        // Update quantity of existing item
+        const updatedItems = [...currentItems];
+        const existingItem = updatedItems[existingItemIndex];
+        
+        // Calculate new quantity (respecting available quantity)
+        const newQuantity = Math.min(
+          existingItem.quantity + newItem.quantity,
+          existingItem.quantityAvailable
         );
+        
+        // Remove the existing item
+        updatedItems.splice(existingItemIndex, 1);
+        
+        // Add the updated item at the beginning of the array
+        return [
+          { ...existingItem, quantity: newQuantity },
+          ...updatedItems
+        ];
+      } else {
+        // For new items, ensure quantity doesn't exceed available
+        const safeQuantity = Math.min(newItem.quantity, newItem.quantityAvailable);
+        
+        // Add new item at the beginning of the array
+        return [{ ...newItem, quantity: safeQuantity }, ...currentItems];
       }
-      
-      // For new items, ensure quantity doesn't exceed available
-      const safeQuantity = Math.min(newItem.quantity, newItem.quantityAvailable);
-      return [...currentItems, { ...newItem, quantity: safeQuantity }];
     });
+    
+    // Open the cart when adding items
+    setIsOpen(true);
   };
 
   const removeFromCart = (id: string) => {
-    setItems(currentItems => currentItems.filter(item => item.id !== id));
+    setItems(currentItems => {
+      const updatedItems = currentItems.filter(item => item.id !== id);
+      
+      // Auto-close cart if it's now empty
+      if (updatedItems.length === 0) {
+        setIsOpen(false);
+      }
+      
+      return updatedItems;
+    });
   };
 
   const updateQuantity = (id: string, quantity: number) => {
