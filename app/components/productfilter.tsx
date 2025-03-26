@@ -169,7 +169,6 @@ export default function ProductFilter({
           background: #654b56;
           cursor: pointer;
           border: 2px solid #fff;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         
         .custom-slider::-moz-range-thumb {
@@ -179,7 +178,6 @@ export default function ProductFilter({
           background: #654b56;
           cursor: pointer;
           border: 2px solid #fff;
-          box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
       `}</style>
       

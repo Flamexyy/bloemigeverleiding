@@ -455,6 +455,12 @@ export default function Shop() {
                       // Reset all filters
                       handleReset();
                       
+                      // Reset search input
+                      setFilters(prev => ({ ...prev, search: '' }));
+                      
+                      // Reset selected collection (which will update the category text)
+                      setSelectedCollection('');
+                      
                       // Also trigger the reset in the filter component
                       setShouldResetFilters(true);
                       
@@ -494,11 +500,13 @@ export default function Shop() {
                 <div className="flex items-center gap-2">
                   <div className='flex w-full justify-between items-center'>
                     <div className="text-sm text-text/50">
-                      {filters.sort === 'featured' && 'Aanbevolen'}
-                      {filters.sort === 'price-asc' && 'Prijs: Laag naar Hoog'}
-                      {filters.sort === 'price-desc' && 'Prijs: Hoog naar Laag'}
-                      {filters.sort === 'name-asc' && 'Naam: A tot Z'}
-                      {filters.sort === 'name-desc' && 'Naam: Z tot A'}
+                      {sortOption === 'featured' && 'Aanbevolen'}
+                      {sortOption === 'price-asc' && 'Prijs: Laag naar Hoog'}
+                      {sortOption === 'price-desc' && 'Prijs: Hoog naar Laag'}
+                      {sortOption === 'name-asc' && 'Naam: A tot Z'}
+                      {sortOption === 'name-desc' && 'Naam: Z tot A'}
+                      {sortOption === 'created-desc' && 'Nieuwste eerst'}
+                      {sortOption === 'created-asc' && 'Oudste eerst'}
                     </div>
                     <div>
                       <span className="text-sm text-text/50">Resultaten </span>
