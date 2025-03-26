@@ -29,6 +29,7 @@ export default function ProductCard({ product }: ProductCardProps) {
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [isHeartAnimating, setIsHeartAnimating] = useState(false);
 
   if (!product) {
     return null;
@@ -78,6 +79,10 @@ export default function ProductCard({ product }: ProductCardProps) {
     if (isLiked(product.id)) {
       setShowConfirmation(true);
     } else {
+      // Start animation when adding to favorites
+      setIsHeartAnimating(true);
+      
+      // Add to favorites
       const compareAtPriceNumber = product.compareAtPrice 
         ? (typeof product.compareAtPrice === 'string' 
             ? parseFloat(product.compareAtPrice) 
@@ -97,6 +102,11 @@ export default function ProductCard({ product }: ProductCardProps) {
           ? compareAtPriceNumber 
           : null
       });
+      
+      // Reset animation state after animation completes
+      setTimeout(() => {
+        setIsHeartAnimating(false);
+      }, 600);
     }
   };
 
@@ -130,7 +140,11 @@ export default function ProductCard({ product }: ProductCardProps) {
             onClick={handleFavoriteToggle}
             className="absolute top-3 right-3 text-2xl text-text bg-cream p-2 rounded-full hover:bg-white"
           >
-            {isLiked(product.id) ? <IoMdHeart /> : <IoMdHeartEmpty />}
+            {isLiked(product.id) ? (
+              <IoMdHeart className={isHeartAnimating ? 'heart-animate text-red-400' : 'text-red-400'} />
+            ) : (
+              <IoMdHeartEmpty />
+            )}
           </button>
           
           {!product.availableForSale ? (
