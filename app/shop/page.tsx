@@ -61,6 +61,9 @@ export default function Shop() {
   const [collections, setCollections] = useState<Collection[]>([]);
   const [selectedCollection, setSelectedCollection] = useState('');
   const [collectionsLoading, setCollectionsLoading] = useState(true);
+  const [filterLoading, setFilterLoading] = useState(true);
+  const [minPriceFilter, setMinPriceFilter] = useState(0);
+  const [maxPriceFilter, setMaxPriceFilter] = useState(500);
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -100,6 +103,7 @@ export default function Shop() {
     const fetchCollections = async () => {
       try {
         setCollectionsLoading(true);
+        setFilterLoading(true);
         const collectionsData = await getCollections();
         setCollections(collectionsData);
         
@@ -119,6 +123,7 @@ export default function Shop() {
         console.error('Error fetching collections:', err);
       } finally {
         setCollectionsLoading(false);
+        setFilterLoading(false);
       }
     };
     
@@ -182,12 +187,17 @@ export default function Shop() {
       result = result.filter(product => {
         const price = parseFloat(product.price);
         
+        // If we're using the slider, use the exact min/max values
+        if (selectedPrices.includes('exact-range')) {
+          return price >= minPriceFilter && price <= maxPriceFilter;
+        }
+        
+        // Otherwise use the predefined ranges
         return selectedPrices.some(range => {
-          if (range === '0-25') return price >= 0 && price <= 25;
-          if (range === '25-50') return price > 25 && price <= 50;
+          if (range === '0-50') return price >= 0 && price <= 50;
           if (range === '50-100') return price > 50 && price <= 100;
-          if (range === '100-200') return price > 100 && price <= 200;
-          if (range === '200+') return price > 200;
+          if (range === '100-150') return price > 100 && price <= 150;
+          if (range === '150+') return price > 150;
           return false;
         });
       });
@@ -225,7 +235,7 @@ export default function Shop() {
     }
     
     setFilteredProducts(result);
-  }, [products, selectedPrices, sortOption, selectedCollection, collectionParam]);
+  }, [products, selectedPrices, sortOption, selectedCollection, collectionParam, minPriceFilter, maxPriceFilter]);
 
   // Apply filters when dependencies change
   useEffect(() => {
@@ -304,6 +314,11 @@ export default function Shop() {
     }, 500);
   };
 
+  const handleExactPriceChange = (min: number, max: number) => {
+    setMinPriceFilter(min);
+    setMaxPriceFilter(max);
+  };
+
   return (
     <div className="max-w-[1600px] mx-auto px-4 lg:px-8 py-12 md:py-20">
       <div className="flex flex-col gap-6 items-start mb-10 text-text">
@@ -318,16 +333,35 @@ export default function Shop() {
         {showDesktopFilter && (
           <div className="hidden xl:block w-[200px] shrink-0">
             <div className="sticky top-[130px]">
-              <ProductFilter
-                onPriceFilter={handlePriceFilter}
-                onSortChange={handleSortChange}
-                onCollectionChange={handleCollectionChange}
-                onReset={handleReset}
-                isMobile={false}
-                shouldReset={shouldResetFilters}
-                collections={collections}
-                selectedCollection={selectedCollection}
-              />
+              {filterLoading ? (
+                <div className="space-y-6 animate-pulse">
+                  <div className="h-6 bg-cream/50 rounded w-3/4"></div>
+                  <div className="space-y-2">
+                    <div className="h-4 bg-cream/50 rounded w-full"></div>
+                    <div className="h-4 bg-cream/50 rounded w-5/6"></div>
+                    <div className="h-4 bg-cream/50 rounded w-4/6"></div>
+                  </div>
+                  <div className="h-6 bg-cream/50 rounded w-3/4"></div>
+                  <div className="space-y-2">
+                    <div className="h-4 bg-cream/50 rounded w-full"></div>
+                    <div className="h-4 bg-cream/50 rounded w-5/6"></div>
+                  </div>
+                  <div className="h-6 bg-cream/50 rounded w-3/4"></div>
+                  <div className="h-10 bg-cream/50 rounded w-full"></div>
+                </div>
+              ) : (
+                <ProductFilter
+                  onPriceFilter={handlePriceFilter}
+                  onSortChange={handleSortChange}
+                  onCollectionChange={handleCollectionChange}
+                  onExactPriceChange={handleExactPriceChange}
+                  onReset={handleReset}
+                  isMobile={false}
+                  shouldReset={shouldResetFilters}
+                  collections={collections}
+                  selectedCollection={selectedCollection}
+                />
+              )}
             </div>
           </div>
         )}
