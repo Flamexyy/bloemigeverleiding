@@ -2,6 +2,8 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { RiArrowRightUpLine } from "react-icons/ri";
+import { FaInstagram } from "react-icons/fa";
+import { IoFlowerOutline } from "react-icons/io5";
 
 export default function SocialSection() {
   return (
@@ -19,71 +21,52 @@ export default function SocialSection() {
             <RiArrowRightUpLine className="text-xl group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-transform duration-300" />
           </Link>
         </div>
-        <p className='max-w-[800px]'>
+        <p className='max-w-[800px] text-text/70'>
           In onze catalogus kunt u een boeket kiezen dat perfect past bij uw wensen en budget. 
           Wij stellen zorgvuldig elk arrangement samen met uw voorkeuren in gedachten.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
-        {/* Left side: Image */}
-        <div className="rounded-[25px] overflow-hidden">
+      {/* Main content section */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        {/* Left card */}
+        <div className="bg-accent text-text rounded-[25px] p-8 pb-5 flex flex-col items-start h-full">
+          <h3 className="text-2xl mb-4 font-bold">PERSOONLIJKE<br />BOEKETTEN</h3>
+          <p className="max-w-[90%] text-text/80">
+            Wij maken boeketten die perfect passen bij elke gelegenheid. Of het nu gaat om een verjaardag, 
+            jubileum of gewoon om iemand te laten weten dat je aan ze denkt.
+          </p>
+          <div className="flex justify-end w-full mt-auto">
+            <IoFlowerOutline className="text-[7rem] text-[#fecde2]" />
+          </div>
+        </div>
+        
+        {/* Middle card - Image */}
+        <div className="rounded-[25px] overflow-hidden h-full">
           <Image 
             src="/top-view-bouquet-with-white-color-roses-red-tulips-pink-hydrangea-greenery.jpg" 
             alt="Bloemen arrangement" 
             width={800}
             height={600}
-            className="w-full h-auto object-cover"
+            className="w-full h-full object-cover"
           />
         </div>
         
-        {/* Right side: Content */}
-        <div className="space-y-8">
-          <div className="bg-cream p-8 rounded-[25px] shadow-sm space-y-6">
-            <h3 className="text-2xl font-bold text-text">
-              PERSOONLIJKE BOEKETTEN
-            </h3>
-            
-            <p className="text-text/70">
-              Wij maken boeketten die perfect passen bij elke gelegenheid. Of het nu gaat om een verjaardag, 
-              jubileum of gewoon om iemand te laten weten dat je aan ze denkt, wij hebben het perfecte boeket.
-            </p>
-            
-            <div className="flex flex-wrap gap-4">
-              <Link 
-                href="/shop" 
-                className="bg-accent text-text px-6 py-3 rounded-[25px] hover:bg-accent/70 transition-colors font-medium"
+        {/* Right card - Call to action */}
+        <div 
+          className="bg-cover bg-center text-text rounded-[25px] p-8 pb-5 flex flex-col items-start justify-between gap-10 h-full"
+          style={{ backgroundImage: "url('/flower-shop-collection.jpg')" }}
+        >
+          <h3 className="text-2xl mb-4 font-bold text-white drop-shadow-md">VERSE BLOEMEN<br />ELKE DAG</h3>
+          <div className="w-full flex justify-end items-end">
+            <Link href="/shop" passHref>
+              <button 
+                className="flex items-center justify-center px-5 p-3 bg-accent text-text hover:bg-accent/80 rounded-[100px] transition-all duration-300"
               >
                 Bekijk collectie
-              </Link>
-              
-              <Link 
-                href="/contact" 
-                className="border border-text/20 text-text px-6 py-3 rounded-[25px] hover:bg-accent/20 transition-colors font-medium"
-              >
-                Neem contact op
-              </Link>
-            </div>
-          </div>
-          
-          {/* Small flower image with text */}
-          <div className="flex items-center gap-6">
-            <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-accent flex-shrink-0">
-              <Image 
-                src="/flower-shop-collection.jpg" 
-                alt="Enkele bloem" 
-                width={100}
-                height={100}
-                className="w-full h-full object-cover"
-              />
-            </div>
-            <div>
-              <h4 className="font-bold text-text">VERSE BLOEMEN</h4>
-              <p className="text-text/70 text-sm">
-                Wij gebruiken alleen de meest verse bloemen voor onze boeketten, 
-                zodat ze langer mooi blijven.
-              </p>
-            </div>
+                <RiArrowRightUpLine className="text-xl ml-2" />
+              </button>
+            </Link>
           </div>
         </div>
       </div>
@@ -91,7 +74,10 @@ export default function SocialSection() {
       {/* Instagram-style gallery */}
       <div className="mt-16">
         <div className="flex justify-between items-center mb-8">
-          <h3 className="text-2xl font-bold text-text">VOLG ONS OP INSTAGRAM</h3>
+          <div className="flex items-center gap-3">
+            <FaInstagram className="text-3xl text-text" />
+            <h3 className="text-2xl font-bold text-text">VOLG ONS OP INSTAGRAM</h3>
+          </div>
           <Link 
             href="https://instagram.com" 
             target="_blank"
@@ -102,7 +88,7 @@ export default function SocialSection() {
           </Link>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
           {[1, 2, 3, 4].map((num) => (
             <Link 
               key={num}
@@ -120,7 +106,7 @@ export default function SocialSection() {
                 className="object-cover transition-transform duration-500 group-hover:scale-110"
               />
               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span className="text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-accent/80 px-4 py-2 rounded-[100px]">
                   Bekijk op Instagram
                 </span>
               </div>
