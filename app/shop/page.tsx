@@ -210,7 +210,7 @@ export default function Shop() {
   };
 
   return (
-    <div className="max-w-[1600px] mx-auto px-4 lg:px-8 pt-20 pb-20">
+    <div className="max-w-[1600px] mx-auto px-4 lg:px-8 py-12 md:py-20">
       <div className="flex flex-col gap-6 items-start mb-10 text-text">
         <h1 className="text-3xl md:text-4xl font-bold">ONZE COLLECTIE</h1>
         <p className="text-text/70 max-w-3xl">

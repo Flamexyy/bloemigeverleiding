@@ -250,7 +250,7 @@ export default function Profile() {
 
   return (
     <ProtectedRoute>
-      <div className="max-w-[1600px] mx-auto p-4 lg:px-8 py-20">
+      <div className="max-w-[1600px] mx-auto p-4 lg:px-8 py-12 md:py-20">
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Left Side - Navigation */}
           <div className="lg:w-[300px]">
