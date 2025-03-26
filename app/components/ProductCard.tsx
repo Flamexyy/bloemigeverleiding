@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { useCart } from '../context/CartContext';
 import { useState, useEffect } from 'react';
 import { useLiked } from '../context/LikedContext';
-import ConfirmationModal from './ConfirmationModal';
 
 interface ProductCardProps {
   product: {
@@ -26,7 +25,6 @@ export default function ProductCard({ product }: ProductCardProps) {
   const { isLiked, addToLiked, removeLiked } = useLiked();
   const [isAddingToCart, setIsAddingToCart] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [showConfirmation, setShowConfirmation] = useState(false);
   const [isHeartAnimating, setIsHeartAnimating] = useState(false);
 
   if (!product) {
@@ -49,19 +47,18 @@ export default function ProductCard({ product }: ProductCardProps) {
         variantId: product.variantId,
         title: product.title,
         price: priceAsNumber,
+        compareAtPrice: product.compareAtPrice,
         imageUrl: product.imageUrl,
-        quantity: 1,
+        availableForSale: product.availableForSale,
         handle: product.handle,
-        compareAtPrice: product.compareAtPrice && parseFloat(product.compareAtPrice.toString()) > priceAsNumber 
-          ? product.compareAtPrice.toString() 
-          : null,
+        quantity: 1,
         quantityAvailable: product.quantityAvailable || 1
       });
       
       // Short delay to show loading state
       await new Promise(resolve => setTimeout(resolve, 300));
       
-      // Open the cart menu
+      // Open cart after adding
       setIsOpen(true);
     } catch (error) {
       console.error('Error adding to cart:', error);
@@ -70,47 +67,34 @@ export default function ProductCard({ product }: ProductCardProps) {
     }
   };
 
-  const handleFavoriteToggle = (e: React.MouseEvent) => {
+  const toggleLiked = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     
+    setIsHeartAnimating(true);
+    
     if (isLiked(product.id)) {
-      setShowConfirmation(true);
+      removeLiked(product.id);
     } else {
-      // Start animation when adding to favorites
-      setIsHeartAnimating(true);
-      
-      // Add to favorites
-      const compareAtPriceNumber = product.compareAtPrice 
-        ? (typeof product.compareAtPrice === 'string' 
-            ? parseFloat(product.compareAtPrice) 
-            : product.compareAtPrice)
-        : null;
-
       addToLiked({
         id: product.id,
         title: product.title,
         price: priceAsNumber,
+        compareAtPrice: typeof product.compareAtPrice === 'string' 
+          ? parseFloat(product.compareAtPrice) 
+          : product.compareAtPrice,
         imageUrl: product.imageUrl,
-        handle: product.handle,
-        variantId: product.variantId,
         availableForSale: product.availableForSale,
-        quantityAvailable: product.quantityAvailable || 1,
-        compareAtPrice: compareAtPriceNumber && compareAtPriceNumber > priceAsNumber 
-          ? compareAtPriceNumber 
-          : null
+        variantId: product.variantId,
+        handle: product.handle,
+        quantityAvailable: product.quantityAvailable || 1
       });
-      
-      // Reset animation state after animation completes
-      setTimeout(() => {
-        setIsHeartAnimating(false);
-      }, 600);
     }
-  };
-
-  const handleRemoveFromFavorites = () => {
-    removeLiked(product.id);
-    setShowConfirmation(false);
+    
+    // Reset animation after a short delay
+    setTimeout(() => {
+      setIsHeartAnimating(false);
+    }, 600);
   };
 
   const isOnSale = product.compareAtPrice && 
@@ -118,52 +102,44 @@ export default function ProductCard({ product }: ProductCardProps) {
       ? parseFloat(product.compareAtPrice) 
       : product.compareAtPrice) > priceAsNumber;
 
-  useEffect(() => {
-    if (isHeartAnimating) {
-      const timer = setTimeout(() => {
-        setIsHeartAnimating(false);
-      }, 600);
-      return () => clearTimeout(timer);
-    }
-  }, [isHeartAnimating]);
-
   return (
     <div className="flex flex-col h-full">
-      {/* Clickable image */}
-      <Link href={`/product/${product.handle}`} className="block">
-        <div 
-          className="relative aspect-square rounded-[25px] overflow-hidden mb-4 cursor-pointer"
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
+      {/* Image container with relative positioning for heart icon */}
+      <Link 
+        href={`/product/${product.handle}`}
+        className="relative block aspect-square rounded-[25px] overflow-hidden mb-4 bg-white"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <Image
+          src={product.imageUrl}
+          alt={product.title}
+          fill
+          sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
+          className={`object-cover transition-transform duration-500 ${isHovered ? 'scale-110' : 'scale-100'}`}
+        />
+        
+        {/* Heart icon for wishlist */}
+        <button
+          onClick={toggleLiked}
+          className="absolute top-3 right-3 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center z-10 transition-colors hover:bg-white"
+          aria-label={isLiked(product.id) ? "Remove from wishlist" : "Add to wishlist"}
         >
-          <Image
-            src={product.imageUrl}
-            alt={product.title}
-            fill
-            sizes="(max-width: 768px) 50vw, (max-width: 1200px) 33vw, 25vw"
-            className={`object-cover transition-transform duration-500 ${isHovered ? 'scale-110' : 'scale-100'}`}
-          />
-          <button
-            onClick={handleFavoriteToggle}
-            className="absolute top-3 right-3 text-2xl text-text bg-cream p-2 rounded-full hover:bg-white"
-          >
+          <div className={isHeartAnimating ? 'heart-animate' : ''}>
             {isLiked(product.id) ? (
-              <IoMdHeart className={isHeartAnimating ? 'heart-animate text-red-400' : 'text-red-400'} />
+              <IoMdHeart className="text-red-400 text-2xl" />
             ) : (
-              <IoMdHeartEmpty />
+              <IoMdHeartEmpty className="text-text text-2xl" />
             )}
-          </button>
-          
-          {!product.availableForSale ? (
-            <div className='absolute bottom-3 right-3 px-4 py-2 bg-cream text-text rounded-[100px] text-sm'>
-              Uitverkocht
-            </div>
-          ) : isOnSale && (
-            <div className='absolute bottom-3 right-3 px-4 py-2 bg-text text-cream rounded-[100px] text-sm'>
-              Aanbieding
-            </div>
-          )}
-        </div>
+          </div>
+        </button>
+        
+        {/* Sale badge */}
+        {product.compareAtPrice && parseFloat(product.compareAtPrice.toString()) > priceAsNumber && (
+          <div className='absolute bottom-3 right-3 px-4 py-2 bg-text text-cream rounded-[100px] text-sm'>
+            Aanbieding
+          </div>
+        )}
       </Link>
       
       {/* Content area with flex structure */}
@@ -215,14 +191,6 @@ export default function ProductCard({ product }: ProductCardProps) {
           }
         </button>
       </div>
-
-      <ConfirmationModal
-        isOpen={showConfirmation}
-        onClose={() => setShowConfirmation(false)}
-        onConfirm={handleRemoveFromFavorites}
-        title="Verwijderen uit favorieten"
-        message={`Weet je zeker dat je "${product.title}" uit je favorieten wilt verwijderen?`}
-      />
     </div>
   );
 }

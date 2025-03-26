@@ -122,7 +122,7 @@ export default function AboutPage() {
           className="group inline-flex items-center gap-2 bg-accent text-text rounded-[100px] px-8 py-3 hover:bg-accent/70 transition-colors"
         >
           <span>Bekijk onze collectie</span>
-          <RiArrowRightUpLine className="text-xl transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" />
+          <RiArrowRightUpLine className="text-xl transition-transform group-hover:translate-x-[3px] group-hover:translate-y-[-3px] duration-300" />
         </Link>
       </div>
     </div>

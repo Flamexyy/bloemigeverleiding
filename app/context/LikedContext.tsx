@@ -1,6 +1,7 @@
 'use client';
 import { createContext, useContext, useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
+import { Toast } from '../components/Toast';
 
 export interface LikedProduct {
   id: string;
@@ -20,6 +21,7 @@ interface LikedContextType {
   removeLiked: (id: string) => void;
   isLiked: (id: string) => boolean;
   clearLiked: () => void;
+  restoreLastRemoved: () => void;
 }
 
 const LikedContext = createContext<LikedContextType | undefined>(undefined);
@@ -30,6 +32,9 @@ const COOKIE_EXPIRY = 30;
 export function LikedProvider({ children }: { children: React.ReactNode }) {
   const [likedItems, setLikedItems] = useState<LikedProduct[]>([]);
   const [isInitialized, setIsInitialized] = useState(false);
+  const [lastRemovedItem, setLastRemovedItem] = useState<LikedProduct | null>(null);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   // Load liked items from cookies on mount
   useEffect(() => {
@@ -80,11 +85,30 @@ export function LikedProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
-  const removeFromLiked = (productId: string) => {
-    setLikedItems(prev => {
-      const newItems = prev.filter(item => item.id !== productId);
-      return newItems;
-    });
+  const removeLiked = (productId: string) => {
+    const itemToRemove = likedItems.find(item => item.id === productId);
+    if (itemToRemove) {
+      setLastRemovedItem(itemToRemove);
+      setLikedItems(prev => {
+        const newItems = prev.filter(item => item.id !== productId);
+        return newItems;
+      });
+      setToastMessage(`${itemToRemove.title} verwijderd uit favorieten`);
+      setShowToast(true);
+      
+      // Auto-hide toast after 5 seconds
+      setTimeout(() => {
+        setShowToast(false);
+      }, 5000);
+    }
+  };
+
+  const restoreLastRemoved = () => {
+    if (lastRemovedItem) {
+      addToLiked(lastRemovedItem);
+      setLastRemovedItem(null);
+      setShowToast(false);
+    }
   };
 
   const isLiked = (productId: string) => {
@@ -92,14 +116,23 @@ export function LikedProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <LikedContext.Provider value={{ 
+    <LikedContext.Provider value={{
       items: likedItems, 
-      addToLiked, 
-      removeLiked: removeFromLiked, 
+      addToLiked,
+      removeLiked, 
       isLiked,
-      clearLiked: () => setLikedItems([]) 
+      clearLiked: () => setLikedItems([]),
+      restoreLastRemoved
     }}>
       {children}
+      {showToast && (
+        <Toast 
+          message={toastMessage}
+          onClose={() => setShowToast(false)}
+          actionLabel="Herstellen"
+          onAction={restoreLastRemoved}
+        />
+      )}
     </LikedContext.Provider>
   );
 }

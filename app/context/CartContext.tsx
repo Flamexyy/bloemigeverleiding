@@ -11,8 +11,9 @@ interface CartItem {
   imageUrl: string;
   size?: string;
   handle: string;
-  compareAtPrice: string | null;
+  compareAtPrice: string | number | null | undefined;
   quantityAvailable: number;
+  availableForSale: boolean;
 }
 
 interface CartContextType {
