@@ -107,7 +107,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     <div className="flex flex-col h-full">
       {/* Image container with relative positioning for heart icon */}
       <Link 
-        href={`/product/${product.handle}`}
+        href={`/products/${product.handle}`}
         className="relative block aspect-square rounded-[25px] overflow-hidden mb-4 bg-white"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
@@ -148,7 +148,7 @@ export default function ProductCard({ product }: ProductCardProps) {
         {/* Top content that stays together */}
         <div className="px-2">
           {/* Clickable title */}
-          <Link href={`/product/${product.handle}`} className="text-center">
+          <Link href={`/products/${product.handle}`} className="text-center">
             <h3 className="font-medium text-text hover:underline cursor-pointer line-clamp-2">{product.title}</h3>
           </Link>
           

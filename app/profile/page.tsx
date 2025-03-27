@@ -375,7 +375,7 @@ export default function Profile() {
                           return (
                             <div key={index} className="flex gap-4">
                               <Link 
-                                href={`/product/${item.title.toLowerCase().replace(/\s+/g, '-')}`}
+                                href={`/products/${item.title.toLowerCase().replace(/\s+/g, '-')}`}
                                 className="w-20 h-20 bg-accent rounded-xl shrink-0 relative overflow-hidden hover:opacity-80 transition-opacity"
                               >
                                 <Image
@@ -389,7 +389,7 @@ export default function Profile() {
                               <div className="flex justify-between flex-col max-w-fit">
                                 <div>
                                   <Link 
-                                    href={`/product/${item.title.toLowerCase().replace(/\s+/g, '-')}`}
+                                    href={`/products/${item.title.toLowerCase().replace(/\s+/g, '-')}`}
                                     className="hover:text-text/70 transition-colors hover:underline"
                                   >
                                     <h3 className="font-medium text-text ">{item.title}</h3>

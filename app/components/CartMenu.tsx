@@ -121,7 +121,7 @@ export default function CartMenu() {
                     className="flex gap-4 pb-4 border-b"
                   >
                     <Link 
-                      href={`/product/${item.handle}`}
+                      href={`/products/${item.handle}`}
                       onClick={() => setIsOpen(false)}
                       className="w-20 h-20 bg-accent rounded-xl shrink-0 relative overflow-hidden hover:opacity-80 transition-opacity mt-1"
                     >
@@ -136,7 +136,7 @@ export default function CartMenu() {
                       <div className="flex justify-between items-start gap-4">
                         <div>
                           <Link 
-                            href={`/product/${item.handle}`}
+                            href={`/products/${item.handle}`}
                             onClick={() => setIsOpen(false)}
                             className="hover:underline"
                           >

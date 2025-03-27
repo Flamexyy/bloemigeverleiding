@@ -25,8 +25,8 @@ export default function Header() {
 
     const likedCount = likedItems.length;
 
-    // Check if current path is shop-related (includes /shop or /product/)
-    const isShopActive = pathname === '/shop' || pathname.startsWith('/product/');
+    // Check if current path is shop-related (includes /shop or /products/)
+    const isShopActive = pathname === '/shop' || pathname.startsWith('/products/');
     const isLikedActive = pathname === '/liked';
 
     const isActive = (path: string) => {
