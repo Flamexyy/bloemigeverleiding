@@ -99,30 +99,39 @@ export default function Header() {
                     </nav>
 
                     <div className='sm:w-[150px] flex gap-1 items-center justify-end text-2xl'>
-                        <Link 
-                            href="/liked"
-                            className={`p-2 rounded-full transition-colors relative ${
-                                isLikedActive ? 'bg-accent' : 'hover:bg-accent'
-                            }`}
-                        >
-                            <AiOutlineHeart />
-                            {likedCount > 0 && (
-                                <span className="absolute -top-0 -right-0 bg-accent text-text text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                                    {likedCount}
-                                </span>
-                            )}
-                        </Link>
-                        <button 
-                            onClick={handleCartClick}
-                            className="p-2 hover:bg-accent rounded-full transition-colors relative"
-                        >
-                            <MdOutlineShoppingBag />
-                            {itemCount > 0 && (
-                                <span className="absolute -top-0 -right-0 bg-accent text-text text-xs w-5 h-5 rounded-full flex items-center justify-center">
-                                    {itemCount}
-                                </span>
-                            )}
-                        </button>
+                        <div className="relative">
+                            <Link
+                                href="/liked"
+                                className={`p-2 rounded-full flex items-center justify-center hover:bg-accent transition-colors group ${isLikedActive ? 'bg-accent' : ''}`}
+                            >
+                                <AiOutlineHeart className="text-2xl text-text" />
+                                {likedCount > 0 && (
+                                    <span className={`absolute  -top-0 -right-0 w-5 h-5 rounded-full text-xs flex items-center justify-center transition-colors ${
+                                        isLikedActive ? 'bg-text text-cream' : 'bg-accent group-hover:bg-text text-text group-hover:text-cream'
+                                    }`}>
+                                        {likedCount}
+                                    </span>
+                                )}
+                            </Link>
+                        </div>
+                        <div className="relative">
+                            <button
+                                onClick={() => setCartIsOpen(true)}
+                                className={`p-2 rounded-full flex items-center justify-center hover:bg-accent transition-colors group ${
+                                    isCartOpen ? 'bg-accent' : ''
+                                }`}
+                                aria-label="Open cart"
+                            >
+                                <MdOutlineShoppingBag className="text-2xl text-text" />
+                                {itemCount > 0 && (
+                                    <span className={`absolute  -top-0 -right-0 w-5 h-5 rounded-full text-xs flex items-center justify-center transition-colors ${
+                                        isCartOpen ? 'bg-text text-cream' : 'bg-accent group-hover:bg-text text-text group-hover:text-cream'
+                                    }`}>
+                                        {itemCount}
+                                    </span>
+                                )}
+                            </button>
+                        </div>
                         {/* Account Icon - Desktop Only */}
                         <Link 
                             href={user ? "/profile" : "/login"}
