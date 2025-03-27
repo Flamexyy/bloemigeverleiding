@@ -18,6 +18,7 @@ import { ProductCardSkeleton } from '@/app/components/SkeletonLoader';
 import { IoClose } from "react-icons/io5";
 import { IoFlowerOutline } from "react-icons/io5";
 import { IoCartOutline } from "react-icons/io5";
+import { HiMiniChevronUp, HiMiniChevronDown } from "react-icons/hi2";
 
 interface ProductPageProps {
   params: {
@@ -52,6 +53,7 @@ export default function ProductPage({ params }: ProductPageProps) {
   const [relatedProductsLoading, setRelatedProductsLoading] = useState(true);
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<{[key: string]: string}>({});
+  const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -274,6 +276,10 @@ export default function ProductPage({ params }: ProductPageProps) {
     const totalQuantityAfterAdd = currentQuantityInCart + quantity;
     
     return totalQuantityAfterAdd <= selectedVariant.quantityAvailable;
+  };
+
+  const toggleFaq = (index: number) => {
+    setActiveFaq(activeFaq === index ? null : index);
   };
 
   if (!product) return (
@@ -922,12 +928,23 @@ export default function ProductPage({ params }: ProductPageProps) {
             >
               <button 
                 className="w-full text-left flex justify-between items-center p-6 font-bold text-lg text-text/80"
-                onClick={() => {}}
+                onClick={() => toggleFaq(index)}
               >
                 <span>{faq.question}</span>
+                {activeFaq === index ? (
+                  <HiMiniChevronUp className="text-xl text-text/70" />
+                ) : (
+                  <HiMiniChevronDown className="text-xl text-text/70" />
+                )}
               </button>
-              <div className="p-6 pt-0 text-text/70">
-                {faq.answer}
+              <div 
+                className={`transition-all duration-300 overflow-hidden ${
+                  activeFaq === index ? 'max-h-96' : 'max-h-0'
+                }`}
+              >
+                <div className="p-6 pt-0 text-text/70">
+                  {faq.answer}
+                </div>
               </div>
             </div>
           ))}

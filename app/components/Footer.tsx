@@ -80,25 +80,25 @@ export default function Footer() {
                             <h3 className="text-lg mb-6 font-bold">ONTVANG HULP</h3>
                             <ul className="space-y-3 text-text/70 text-sm">
                                 <li>
-                                    <Link href="/order-status" className="hover:text-text transition-colors inline-flex items-center gap-1 group">
+                                    <Link href="/help" className="hover:text-text transition-colors inline-flex items-center gap-1 group">
                                         Bestelstatus
                                         <RiArrowRightUpLine className="opacity-0 group-hover:opacity-100 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-all duration-300" />
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/shipping" className="hover:text-text transition-colors inline-flex items-center gap-1 group">
+                                    <Link href="/help" className="hover:text-text transition-colors inline-flex items-center gap-1 group">
                                         Verzending & Levering
                                         <RiArrowRightUpLine className="opacity-0 group-hover:opacity-100 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-all duration-300" />
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/returns" className="hover:text-text transition-colors inline-flex items-center gap-1 group">
+                                    <Link href="/help" className="hover:text-text transition-colors inline-flex items-center gap-1 group">
                                         Retourneren
                                         <RiArrowRightUpLine className="opacity-0 group-hover:opacity-100 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-all duration-300" />
                                     </Link>
                                 </li>
                                 <li>
-                                    <Link href="/payment" className="hover:text-text transition-colors inline-flex items-center gap-1 group">
+                                    <Link href="/help" className="hover:text-text transition-colors inline-flex items-center gap-1 group">
                                         Betaalmethoden
                                         <RiArrowRightUpLine className="opacity-0 group-hover:opacity-100 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-all duration-300" />
                                     </Link>
@@ -117,26 +117,14 @@ export default function Footer() {
                             <h3 className="text-lg mb-6 font-bold">OVER ONS</h3>
                             <ul className="space-y-3 text-text/70 text-sm">
                                 <li>
+                                    <Link href="/about" className="hover:text-text transition-colors inline-flex items-center gap-1 group">
+                                        Over
+                                        <RiArrowRightUpLine className="opacity-0 group-hover:opacity-100 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-all duration-300" />
+                                    </Link>
+                                </li>
+                                <li>
                                     <Link href="/news" className="hover:text-text transition-colors inline-flex items-center gap-1 group">
                                         Nieuws
-                                        <RiArrowRightUpLine className="opacity-0 group-hover:opacity-100 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-all duration-300" />
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="/careers" className="hover:text-text transition-colors inline-flex items-center gap-1 group">
-                                        Vacatures
-                                        <RiArrowRightUpLine className="opacity-0 group-hover:opacity-100 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-all duration-300" />
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="/investors" className="hover:text-text transition-colors inline-flex items-center gap-1 group">
-                                        Investeerders
-                                        <RiArrowRightUpLine className="opacity-0 group-hover:opacity-100 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-all duration-300" />
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link href="/sustainability" className="hover:text-text transition-colors inline-flex items-center gap-1 group">
-                                        Duurzaamheid
                                         <RiArrowRightUpLine className="opacity-0 group-hover:opacity-100 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] transition-all duration-300" />
                                     </Link>
                                 </li>
@@ -173,7 +161,7 @@ export default function Footer() {
                     <div className="mt-16 pt-10 border-t border-text/10">
                         <div className="flex flex-col items-center">
                             <p className="text-sm text-text/70 font-medium mb-6">Veilig betalen met</p>
-                            <div className="flex flex-wrap justify-center gap-6">
+                            <div className="flex flex-wrap justify-center gap-3">
                                 <Image src="/Ideal.svg" alt="iDEAL" width={40} height={24} className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" />
                                 <Image src="/Visa.svg" alt="Visa" width={40} height={24} className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" />
                                 <Image src="/Mastercard.svg" alt="Mastercard" width={40} height={24} className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" />

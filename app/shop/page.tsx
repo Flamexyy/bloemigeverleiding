@@ -345,6 +345,40 @@ export default function Shop() {
     setMaxPriceFilter(max);
   };
 
+  // Update the getActiveSortDisplayName function to handle all possible sort values
+  const getActiveSortDisplayName = () => {
+    // Handle title-asc and title-desc specifically
+    if (sortOption === 'title-asc') {
+      return 'Naam: A tot Z';
+    } else if (sortOption === 'title-desc') {
+      return 'Naam: Z tot A';
+    }
+    
+    switch(sortOption) {
+      case 'name-asc':
+        return 'Naam: A tot Z';
+      case 'name-desc':
+        return 'Naam: Z tot A';
+      case 'price-asc':
+      case 'price-ascending':
+        return 'Prijs: Laag naar Hoog';
+      case 'price-desc':
+      case 'price-descending':
+        return 'Prijs: Hoog naar Laag';
+      case 'created-desc':
+      case 'created-descending':
+        return 'Nieuwste eerst';
+      case 'created-asc':
+      case 'created-ascending':
+        return 'Oudste eerst';
+      case 'featured':
+      case 'best-selling':
+        return 'Aanbevolen';
+      default:
+        return 'Sorteren';
+    }
+  };
+
   return (
     <div className="max-w-[1600px] mx-auto px-4 lg:px-8 py-12 md:py-20">
       <div className="flex flex-col gap-6 items-start mb-10 text-text">
@@ -485,37 +519,30 @@ export default function Shop() {
               </div>
             </div>
 
-            {/* Products Header */}
-              {/* Selected Category Display - New Section */}
-              <div>
-                <div className="text-sm text-text/50">
-                  Categorie: <span className="font-medium text-text/80">
-                    {selectedCollection 
-                      ? collections.find(c => c.id === selectedCollection)?.title || ''
-                      : 'Alle collecties'}
-                  </span>
-                </div>
-            <div className="flex items-center justify-between">
-              <div className='w-full'>
-                <div className="flex items-center gap-2">
-                  <div className='flex w-full justify-between items-center'>
-                    <div className="text-sm text-text/50">
-                      {sortOption === 'featured' && 'Aanbevolen'}
-                      {sortOption === 'price-asc' && 'Prijs: Laag naar Hoog'}
-                      {sortOption === 'price-desc' && 'Prijs: Hoog naar Laag'}
-                      {sortOption === 'name-asc' && 'Naam: A tot Z'}
-                      {sortOption === 'name-desc' && 'Naam: Z tot A'}
-                      {sortOption === 'created-desc' && 'Nieuwste eerst'}
-                      {sortOption === 'created-asc' && 'Oudste eerst'}
+            {/* Selected Category Display */}
+            <div>
+              <div className="text-sm text-text/50">
+                Categorie: <span className="font-medium text-text/80">
+                  {selectedCollection 
+                    ? collections.find(c => c.id === selectedCollection)?.title || ''
+                    : 'Alle collecties'}
+                </span>
+              </div>
+              <div className="flex items-center justify-between">
+                <div className='w-full'>
+                  <div className="flex items-center gap-2">
+                    <div className='flex w-full justify-between items-center'>
+                      <div className="text-sm text-text/50">
+                        {getActiveSortDisplayName()}
+                      </div>
+                      <div>
+                        <span className="text-sm text-text/50">Resultaten </span>
+                        <span className="text-sm text-text/50">({filteredProducts.length})</span>
+                      </div> 
                     </div>
-                    <div>
-                      <span className="text-sm text-text/50">Resultaten </span>
-                      <span className="text-sm text-text/50">({filteredProducts.length})</span>
-                    </div> 
                   </div>
                 </div>
               </div>
-            </div>
             </div>
 
             {/* Product Grid */}

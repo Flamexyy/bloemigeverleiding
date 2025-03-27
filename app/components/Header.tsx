@@ -107,7 +107,7 @@ export default function Header() {
                         >
                             <AiOutlineHeart />
                             {likedCount > 0 && (
-                                <span className="absolute -top-0 -right-0 bg-text text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                                <span className="absolute -top-0 -right-0 bg-accent text-text text-xs w-5 h-5 rounded-full flex items-center justify-center">
                                     {likedCount}
                                 </span>
                             )}
@@ -118,7 +118,7 @@ export default function Header() {
                         >
                             <MdOutlineShoppingBag />
                             {itemCount > 0 && (
-                                <span className="absolute -top-0 -right-0 bg-text text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+                                <span className="absolute -top-0 -right-0 bg-accent text-text text-xs w-5 h-5 rounded-full flex items-center justify-center">
                                     {itemCount}
                                 </span>
                             )}
