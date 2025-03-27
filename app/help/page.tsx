@@ -208,7 +208,7 @@ export default function HelpPage() {
       </div>
 
       {/* Help sections with independent heights */}
-      <div className="grid md:grid-cols-2 gap-6 mb-12 auto-rows-auto">
+      <div className="grid md:grid-cols-2 gap-3 mb-12 auto-rows-auto">
         {helpSections.map((section) => (
           <div 
             key={section.id}
