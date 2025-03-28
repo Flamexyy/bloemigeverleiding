@@ -307,6 +307,17 @@ export default function ProductPage({ params }: ProductPageProps) {
     setActiveFaq(activeFaq === index ? null : index);
   };
 
+  // Add a useEffect to calculate scrollbar width
+  useEffect(() => {
+    if (thumbnailContainerRef.current) {
+      const container = thumbnailContainerRef.current;
+      const hasScrollbar = container.scrollHeight > container.clientHeight;
+      
+      // Set padding only when scrollbar is present
+      container.style.paddingRight = hasScrollbar ? '12px' : '0px';
+    }
+  }, [product, thumbnailContainerRef.current?.scrollHeight]);
+
   if (!product) return (
     <div className="max-w-[1600px] mx-auto">
       <div className="flex flex-col md:flex-row gap-6 py-6 xl:py-10 px-4 lg:px-8 justify-center">
@@ -378,7 +389,12 @@ export default function ProductPage({ params }: ProductPageProps) {
             <div className="relative flex flex-col gap-2 h-[500px]">
               <div 
                 ref={thumbnailContainerRef}
-                className="flex flex-col gap-1 overflow-y-auto overflow-x-hidden pr-3 h-full scrollbar-thin scrollbar-thumb-accent/40 scrollbar-track-transparent"
+                className="flex flex-col gap-1 overflow-y-auto overflow-x-hidden h-full scrollbar-thin scrollbar-thumb-accent/40 scrollbar-track-transparent"
+                style={{
+                  paddingRight: thumbnailContainerRef.current && 
+                    thumbnailContainerRef.current.scrollHeight > (thumbnailContainerRef.current.clientHeight || 0) 
+                    ? '12px' : '0px'
+                }}
               >
                 {product.images.edges.map((image: any, index: number) => (
                   <button
