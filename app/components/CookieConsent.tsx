@@ -92,10 +92,10 @@ export default function CookieConsent() {
       <div className={`fixed bottom-0 left-0 right-0 bg-white border-t border-text/20 z-[60] transform transition-all duration-300 ${
         showDetails ? 'max-lg:h-[100dvh] md:max-h-[600px]' : ''
       }`}>
-        <div className={`max-w-[1600px] mx-auto h-full flex flex-col`}>
+        <div className={`h-full flex flex-col`}>
           {!showDetails ? (
             // Simple View
-            <div className="p-3 md:p-6">
+            <div className="max-w-[1600px] mx-auto w-full p-3 md:p-6">
               <div className="flex flex-col gap-3">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm text-text/70 py-2">
@@ -134,8 +134,8 @@ export default function CookieConsent() {
             // Detailed View with flex layout to ensure footer stays at bottom
             <div className="flex flex-col h-full">
               {/* Scrollable Content Area */}
-              <div className="flex-1 min-h-0 overflow-y-auto">
-                <div className="p-4 md:p-8 space-y-4 md:space-y-6">
+              <div className="flex-1 min-h-0 overflow-y-auto border-b border-text/20">
+                <div className="max-w-[1600px] mx-auto p-4 md:p-8 space-y-4 md:space-y-6">
                   <div className="flex justify-between items-start gap-4">
                     <div className="min-w-0">
                       <h2 className="text-lg md:text-xl font-bold mb-2 text-text">Cookie voorkeuren</h2>
@@ -212,26 +212,26 @@ export default function CookieConsent() {
               </div>
 
               {/* Footer - Always visible */}
-              <div className="border-t border-text/20 p-4 bg-white mt-auto">
-                <div className="flex flex-col sm:flex-row gap-2">
-                  <button
-                    onClick={handleDecline}
-                    className="p-3 border border-text/20 text-text rounded-[100px] hover:bg-accent transition-colors text-sm font-medium order-3 sm:order-1"
-                  >
-                    Alles weigeren
-                  </button>
-                  <button
-                    onClick={() => setShowDetails(false)}
-                    className="p-3 border border-text text-text rounded-[100px] hover:bg-accent transition-colors text-sm font-medium order-2"
-                  >
-                    Annuleren
-                  </button>
-                  <button
-                    onClick={handleSavePreferences}
-                    className="p-3 bg-accent text-text rounded-[100px] hover:bg-accent/70 transition-colors text-sm font-medium order-1 sm:order-3"
-                  >
-                    Voorkeuren opslaan
-                  </button>
+              <div className="max-w-[1600px] mx-auto w-full p-3 md:p-6 bg-white mt-auto">
+                  <div className="flex flex-col sm:flex-row gap-2">
+                    <button
+                      onClick={handleDecline}
+                      className="p-3 border border-text/20 text-text rounded-[100px] hover:bg-accent transition-colors text-sm font-medium order-3 sm:order-1"
+                    >
+                      Alles weigeren
+                    </button>
+                    <button
+                      onClick={() => setShowDetails(false)}
+                      className="p-3 border border-text text-text rounded-[100px] hover:bg-accent transition-colors text-sm font-medium order-2"
+                    >
+                      Annuleren
+                    </button>
+                    <button
+                      onClick={handleSavePreferences}
+                      className="p-3 bg-accent text-text rounded-[100px] hover:bg-accent/70 transition-colors text-sm font-medium order-1 sm:order-3"
+                    >
+                      Voorkeuren opslaan
+                    </button>
                 </div>
               </div>
             </div>
