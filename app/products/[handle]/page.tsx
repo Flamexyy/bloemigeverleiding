@@ -352,18 +352,18 @@ export default function ProductPage({ params }: ProductPageProps) {
           <div className="hidden lg:flex gap-4">
             {/* Thumbnails - Side */}
             <div className="relative flex flex-col gap-2 h-[500px]">
-              <div className="flex flex-col gap-1 overflow-y-auto overflow-x-hidden scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent">
+              <div className="flex flex-col gap-1 overflow-y-auto overflow-x-hidden pr-3 h-full scrollbar-thin scrollbar-thumb-accent/40 scrollbar-track-transparent">
                 {product.images.edges.map((image: any, index: number) => (
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
                     className={`relative w-[60px] h-[60px] rounded-[35%] overflow-hidden flex-shrink-0 transition-all ${
                       selectedImage === index 
-                        ? 'border-text' 
-                        : 'border-transparent hover:opacity-80 opacity-30'
+                        ? '' 
+                        : 'hover:opacity-80 opacity-30'
                     }`}
                   >
-                    <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-accent/10">
+                    <div className="relative aspect-square w-full h-full overflow-hidden">
                       {image.node.originalSrc ? (
                         <Image
                           src={image.node.originalSrc}
@@ -402,7 +402,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                       className={`w-2 h-2 rounded-full transition-all ${
                         isSelected 
                           ? 'bg-white w-4' 
-                          : 'bg-white/60 hover:bg-white/80'
+                        : 'bg-white/60 hover:bg-white/80'
                       }`}
                       style={{
                         display: 'inline-block',
@@ -413,22 +413,20 @@ export default function ProductPage({ params }: ProductPageProps) {
                   )}
                 >
                   {product.images.edges.map((image: any, index: number) => (
-                    <div key={index} className="aspect-square relative">
-                      <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-accent/10">
-                        {image.node.originalSrc ? (
-                          <Image
-                            src={image.node.originalSrc}
-                            alt={image.node.altText || product.title}
-                            fill
-                            className="object-cover"
-                            priority
-                          />
-                        ) : (
-                          <div className="w-full h-full flex items-center justify-center bg-accent/20">
-                            <CgShoppingBag className="text-text/50 text-5xl" />
-                          </div>
-                        )}
-                      </div>
+                    <div key={index} className="aspect-square w-full h-full">
+                      {image.node.originalSrc ? (
+                        <Image
+                          src={image.node.originalSrc}
+                          alt={image.node.altText || product.title}
+                          fill
+                          className="object-cover"
+                          priority
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-accent/20">
+                          <CgShoppingBag className="text-text/50 text-5xl" />
+                        </div>
+                      )}
                     </div>
                   ))}
                 </Carousel>
@@ -491,22 +489,20 @@ export default function ProductPage({ params }: ProductPageProps) {
                 )}
               >
                 {product.images.edges.map((image: any, index: number) => (
-                  <div key={index} className="aspect-square relative">
-                    <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-accent/10">
-                      {image.node.originalSrc ? (
-                        <Image
-                          src={image.node.originalSrc}
-                          alt={image.node.altText || product.title}
-                          fill
-                          className="object-cover"
-                          priority
-                        />
-                      ) : (
-                        <div className="w-full h-full flex items-center justify-center bg-accent/20">
-                          <CgShoppingBag className="text-text/50 text-5xl" />
-                        </div>
-                      )}
-                    </div>
+                  <div key={index} className="aspect-square w-full h-full">
+                    {image.node.originalSrc ? (
+                      <Image
+                        src={image.node.originalSrc}
+                        alt={image.node.altText || product.title}
+                        fill
+                        className="object-cover"
+                        priority
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-accent/20">
+                        <CgShoppingBag className="text-text/50 text-5xl" />
+                      </div>
+                    )}
                   </div>
                 ))}
               </Carousel>
