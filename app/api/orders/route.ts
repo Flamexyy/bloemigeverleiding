@@ -37,6 +37,7 @@ export async function GET(request: Request) {
                 quantity: item.node.quantity,
                 variant: {
                   price: unitPrice,
+                  title: item.node.variant?.title || 'Default Title',
                 },
                 lineTotal: lineTotal,
                 imageUrl: item.node.variant?.image?.url || "",

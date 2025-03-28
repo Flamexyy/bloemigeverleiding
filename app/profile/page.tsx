@@ -18,6 +18,7 @@ interface LineItem {
   variant: {
     price: string;
     compareAtPrice?: string;
+    title?: string;
   };
   lineTotal: string;
   imageUrl?: string;
@@ -395,6 +396,11 @@ export default function Profile() {
                                     <h3 className="font-medium text-text ">{item.title}</h3>
                                   </Link>
                                   <p className="text-sm text-text/50">Aantal: {item.quantity}</p>
+                                  
+                                  {/* Add variant display */}
+                                  {item.variant && item.variant.title && item.variant.title !== 'Default Title' && (
+                                    <p className="text-sm text-text/50">Variant: {item.variant.title}</p>
+                                  )}
                                 </div>
                                 <div className="flex items-center gap-2">
                                   <span className="font-medium text-text">
