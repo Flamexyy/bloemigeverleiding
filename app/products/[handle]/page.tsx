@@ -19,6 +19,7 @@ import { IoClose } from "react-icons/io5";
 import { IoFlowerOutline } from "react-icons/io5";
 import { IoCartOutline } from "react-icons/io5";
 import { HiMiniChevronUp, HiMiniChevronDown } from "react-icons/hi2";
+import { CgShoppingBag } from "react-icons/cg";
 
 interface ProductPageProps {
   params: {
@@ -362,13 +363,21 @@ export default function ProductPage({ params }: ProductPageProps) {
                         : 'border-transparent hover:opacity-80 opacity-30'
                     }`}
                   >
-                    <Image
-                      src={image.node.originalSrc}
-                      alt={image.node.altText || product.title}
-                      fill
-                      sizes="60px"
-                      className="object-cover"
-                    />
+                    <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-accent/10">
+                      {image.node.originalSrc ? (
+                        <Image
+                          src={image.node.originalSrc}
+                          alt={image.node.altText || product.title}
+                          fill
+                          className="object-cover"
+                          priority
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-accent/20">
+                          <CgShoppingBag className="text-text/50 text-5xl" />
+                        </div>
+                      )}
+                    </div>
                   </button>
                 ))}
               </div>
@@ -405,14 +414,21 @@ export default function ProductPage({ params }: ProductPageProps) {
                 >
                   {product.images.edges.map((image: any, index: number) => (
                     <div key={index} className="aspect-square relative">
-                      <Image
-                        src={image.node.originalSrc}
-                        alt={image.node.altText || product.title}
-                        fill
-                        sizes="100vw"
-                        className="object-cover"
-                        priority={index === 0}
-                      />
+                      <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-accent/10">
+                        {image.node.originalSrc ? (
+                          <Image
+                            src={image.node.originalSrc}
+                            alt={image.node.altText || product.title}
+                            fill
+                            className="object-cover"
+                            priority
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center bg-accent/20">
+                            <CgShoppingBag className="text-text/50 text-5xl" />
+                          </div>
+                        )}
+                      </div>
                     </div>
                   ))}
                 </Carousel>
@@ -476,14 +492,21 @@ export default function ProductPage({ params }: ProductPageProps) {
               >
                 {product.images.edges.map((image: any, index: number) => (
                   <div key={index} className="aspect-square relative">
-                    <Image
-                      src={image.node.originalSrc}
-                      alt={image.node.altText || product.title}
-                      fill
-                      sizes="100vw"
-                      className="object-cover"
-                      priority={index === 0}
-                    />
+                    <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-accent/10">
+                      {image.node.originalSrc ? (
+                        <Image
+                          src={image.node.originalSrc}
+                          alt={image.node.altText || product.title}
+                          fill
+                          className="object-cover"
+                          priority
+                        />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center bg-accent/20">
+                          <CgShoppingBag className="text-text/50 text-5xl" />
+                        </div>
+                      )}
+                    </div>
                   </div>
                 ))}
               </Carousel>
@@ -519,13 +542,20 @@ export default function ProductPage({ params }: ProductPageProps) {
                       : 'border-transparent hover:opacity-80 opacity-30'
                   }`}
                 >
-                  <Image
-                    src={image.node.originalSrc}
-                    alt={image.node.altText || product.title}
-                    fill
-                    sizes="(max-width: 640px) 20vw, 50px"
-                    className="object-cover"
-                  />
+                  <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-accent/10">
+                    {image.node.originalSrc ? (
+                      <Image
+                        src={image.node.originalSrc}
+                        alt={image.node.altText || product.title}
+                        fill
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex items-center justify-center bg-accent/20">
+                        <CgShoppingBag className="text-text/50 text-5xl" />
+                      </div>
+                    )}
+                  </div>
                 </button>
               ))}
             </div>

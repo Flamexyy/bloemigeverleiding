@@ -379,13 +379,20 @@ export default function Profile() {
                                 href={`/products/${item.title.toLowerCase().replace(/\s+/g, '-')}`}
                                 className="w-20 h-20 bg-accent rounded-xl shrink-0 relative overflow-hidden hover:opacity-80 transition-opacity"
                               >
-                                <Image
-                                  src={item.imageUrl || '/placeholder.jpg'}
-                                  alt={item.title}
-                                  fill
-                                  className="object-cover"
-                                  sizes="80px"
-                                />
+                                {item.imageUrl ? (
+                                  <Image
+                                    src={item.imageUrl}
+                                    alt={item.title}
+                                    fill
+                                    className="object-cover"
+                                    sizes="80px"
+                                  />
+                                ) : (
+                                  // Placeholder with shopping bag icon when no image is available
+                                  <div className="w-full h-full flex items-center justify-center bg-accent/20">
+                                    <CgShoppingBag className="text-text/50 text-2xl" />
+                                  </div>
+                                )}
                               </Link>
                               <div className="flex justify-between flex-col max-w-fit">
                                 <div>

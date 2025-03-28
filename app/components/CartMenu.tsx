@@ -6,6 +6,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import { CgShoppingBag } from "react-icons/cg";
 
 export default function CartMenu() {
   const router = useRouter();
@@ -121,17 +122,25 @@ export default function CartMenu() {
                     className="flex gap-4 pb-4 border-b"
                   >
                     <Link 
-                      href={`/products/${item.handle}`}
+                      href={`/products/${item.handle}`} 
                       onClick={() => setIsOpen(false)}
                       className="w-20 h-20 bg-accent rounded-xl shrink-0 relative overflow-hidden hover:opacity-80 transition-opacity mt-1"
                     >
-                      <Image 
-                        src={item.imageUrl} 
-                        alt={item.title}
-                        fill
-                        className="object-cover"
-                      />
+                      {item.imageUrl ? (
+                        <Image
+                          src={item.imageUrl}
+                          alt={item.title}
+                          fill
+                          className="object-cover"
+                        />
+                      ) : (
+                        // Placeholder with shopping bag icon when no image is available
+                        <div className="w-full h-full flex items-center justify-center bg-accent/20">
+                          <CgShoppingBag className="text-text/50 text-2xl" />
+                        </div>
+                      )}
                     </Link>
+                    
                     <div className="flex-1 text-text">
                       <div className="flex justify-between items-start gap-4">
                         <div>

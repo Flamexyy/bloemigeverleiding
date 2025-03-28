@@ -6,6 +6,7 @@ import { useCart } from '../context/CartContext';
 import { useState, useEffect } from 'react';
 import { useLiked } from '../context/LikedContext';
 import FadeInImage from './FadeInImage';
+import { CgShoppingBag } from 'react-icons/cg';
 
 interface ProductCardProps {
   product: {
@@ -106,42 +107,53 @@ export default function ProductCard({ product }: ProductCardProps) {
   return (
     <div className="flex flex-col h-full">
       {/* Image container with relative positioning for heart icon */}
-      <Link 
-        href={`/products/${product.handle}`}
-        className="relative block aspect-square rounded-[25px] overflow-hidden mb-4 bg-white"
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-      >
-        <FadeInImage
-          src={product.imageUrl}
-          alt={product.title}
-          width={400}
-          height={400}
-          className="w-full h-full object-cover rounded-[25px]"
-        />
-        
-        {/* Heart icon for wishlist */}
-        <button
-          onClick={toggleLiked}
-          className="absolute top-3 right-3 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center z-10 transition-colors hover:bg-white"
-          aria-label={isLiked(product.id) ? "Remove from wishlist" : "Add to wishlist"}
+      <div className="group relative">
+        <Link 
+          href={`/products/${product.handle}`}
+          className="relative block aspect-square rounded-[25px] overflow-hidden mb-4 bg-white"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
-          <div className={isHeartAnimating ? 'heart-animate' : ''}>
-            {isLiked(product.id) ? (
-              <IoMdHeart className="text-red-400 text-2xl" />
+          <div className="relative aspect-square overflow-hidden rounded-2xl bg-accent/10">
+            {product.imageUrl ? (
+              <Image
+                src={product.imageUrl}
+                alt={product.title}
+                fill
+                sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
+              />
             ) : (
-              <IoMdHeartEmpty className="text-text text-2xl" />
+              // Placeholder with shopping bag icon when no image is available
+              <div className="w-full h-full flex items-center justify-center bg-accent/20">
+                <CgShoppingBag className="text-text/50 text-4xl" />
+              </div>
             )}
           </div>
-        </button>
-        
-        {/* Sale badge */}
-        {product.compareAtPrice && parseFloat(product.compareAtPrice.toString()) > priceAsNumber && (
-          <div className='absolute bottom-3 right-3 px-4 py-2 bg-text text-cream rounded-[100px] text-sm'>
-            Aanbieding
-          </div>
-        )}
-      </Link>
+          
+          {/* Heart icon for wishlist */}
+          <button
+            onClick={toggleLiked}
+            className="absolute top-3 right-3 w-10 h-10 rounded-full bg-white/80 backdrop-blur-sm flex items-center justify-center z-10 transition-colors hover:bg-white"
+            aria-label={isLiked(product.id) ? "Remove from wishlist" : "Add to wishlist"}
+          >
+            <div className={isHeartAnimating ? 'heart-animate' : ''}>
+              {isLiked(product.id) ? (
+                <IoMdHeart className="text-red-400 text-2xl" />
+              ) : (
+                <IoMdHeartEmpty className="text-text text-2xl" />
+              )}
+            </div>
+          </button>
+          
+          {/* Sale badge */}
+          {product.compareAtPrice && parseFloat(product.compareAtPrice.toString()) > priceAsNumber && (
+            <div className='absolute bottom-3 right-3 px-4 py-2 bg-text text-cream rounded-[100px] text-sm'>
+              Aanbieding
+            </div>
+          )}
+        </Link>
+      </div>
       
       {/* Content area with flex structure */}
       <div className="flex flex-col flex-grow">
