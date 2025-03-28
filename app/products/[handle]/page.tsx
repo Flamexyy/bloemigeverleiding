@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useCart } from '@/app/context/CartContext';
 import { getProduct, getProducts } from '@/app/utils/shopify';
 import Image from 'next/image';
@@ -55,6 +55,30 @@ export default function ProductPage({ params }: ProductPageProps) {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<{[key: string]: string}>({});
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+
+  // Add auto-scroll functionality to thumbnails
+
+  // First, add a useRef for the thumbnail container
+  const thumbnailContainerRef = useRef<HTMLDivElement>(null);
+
+  // Then, add a useEffect to handle scrolling when selectedImage changes
+  useEffect(() => {
+    if (thumbnailContainerRef.current) {
+      const container = thumbnailContainerRef.current;
+      const thumbnailHeight = 60; // Height of each thumbnail
+      const gap = 4; // Gap between thumbnails
+      const padding = 16; // Extra padding
+      
+      // Calculate the position to scroll to
+      const scrollPosition = (thumbnailHeight + gap) * selectedImage - padding;
+      
+      // Smooth scroll to the position
+      container.scrollTo({
+        top: scrollPosition,
+        behavior: 'smooth'
+      });
+    }
+  }, [selectedImage]);
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -352,7 +376,10 @@ export default function ProductPage({ params }: ProductPageProps) {
           <div className="hidden lg:flex gap-4">
             {/* Thumbnails - Side */}
             <div className="relative flex flex-col gap-2 h-[500px]">
-              <div className="flex flex-col gap-1 overflow-y-auto overflow-x-hidden pr-3 h-full scrollbar-thin scrollbar-thumb-accent/40 scrollbar-track-transparent">
+              <div 
+                ref={thumbnailContainerRef}
+                className="flex flex-col gap-1 overflow-y-auto overflow-x-hidden pr-3 h-full scrollbar-thin scrollbar-thumb-accent/40 scrollbar-track-transparent"
+              >
                 {product.images.edges.map((image: any, index: number) => (
                   <button
                     key={index}
