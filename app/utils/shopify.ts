@@ -308,6 +308,9 @@ export async function getProducts({
             const variant = product.variants.edges[0]?.node;
             const image = product.images.edges[0]?.node;
 
+            const hasVariants = product.variants.edges.length > 1;
+            console.log(`Product ${product.title} has ${product.variants.edges.length} variants. hasVariants: ${hasVariants}`);
+
             return {
               id: product.id,
               title: product.title,
@@ -322,7 +325,8 @@ export async function getProducts({
               imageAlt: image?.altText || product.title,
               availableForSale: variant?.availableForSale || false,
               variantId: variant?.id || '',
-              quantityAvailable: variant?.quantityAvailable || 0
+              quantityAvailable: variant?.quantityAvailable || 0,
+              hasVariants: hasVariants
             };
           });
         }
@@ -373,10 +377,11 @@ export async function getProducts({
                 }
               }
             }
-            variants(first: 1) {
+            variants(first: 10) {
               edges {
                 node {
                   id
+                  title
                   availableForSale
                   quantityAvailable
                   price {
@@ -447,7 +452,7 @@ export async function getProducts({
 
   console.log(`Found ${response.products.edges.length} products with query`);
 
-  return response.products.edges.map((edge: any) => {
+  const processedProducts = response.products.edges.map((edge: any) => {
     const product = edge.node;
     const variant = product.variants.edges[0]?.node;
     const image = product.images.edges[0]?.node;
@@ -458,6 +463,12 @@ export async function getProducts({
       title: colEdge.node.title,
       handle: colEdge.node.handle
     }));
+
+    // Check if the product has multiple variants
+    const hasVariants = product.variants.edges.length > 1;
+    
+    // Log for debugging
+    console.log(`Product ${product.title} has ${product.variants.edges.length} variants. hasVariants: ${hasVariants}`);
 
     return {
       id: product.id,
@@ -473,9 +484,13 @@ export async function getProducts({
       imageAlt: image?.altText || product.title,
       availableForSale: variant?.availableForSale || false,
       variantId: variant?.id || '',
-      quantityAvailable: variant?.quantityAvailable || 0
+      quantityAvailable: variant?.quantityAvailable || 0,
+      hasVariants: hasVariants,
+      variantsCount: product.variants.edges.length
     };
   });
+
+  return processedProducts;
 }
 
 export async function getProduct(handle: string) {

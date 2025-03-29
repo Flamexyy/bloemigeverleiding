@@ -19,6 +19,7 @@ interface ProductCardProps {
     availableForSale: boolean;
     variantId: string;
     quantityAvailable?: number;
+    hasVariants?: boolean;
   };
 }
 
@@ -35,11 +36,22 @@ export default function ProductCard({ product }: ProductCardProps) {
 
   const priceAsNumber = typeof product.price === 'string' ? parseFloat(product.price) : product.price;
 
+  const hasVariants = () => {
+    // Check if the product has variants in Shopify
+    // This is the ONLY condition we should check
+    return product.hasVariants === true;
+  };
+
   const handleAddToCart = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
     
     if (!product.availableForSale || isAddingToCart) return;
+    
+    if (hasVariants()) {
+      window.location.href = `/products/${product.handle}`;
+      return;
+    }
 
     setIsAddingToCart(true);
     
@@ -200,7 +212,9 @@ export default function ProductCard({ product }: ProductCardProps) {
             ? 'Uitverkocht' 
             : isAddingToCart 
               ? 'Toevoegen...' 
-              : 'In winkelwagen'
+              : hasVariants()
+                ? 'Selecteer variant'
+                : 'In winkelwagen'
           }
         </button>
       </div>
