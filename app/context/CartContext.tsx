@@ -149,13 +149,17 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
 
   const createCheckout = async () => {
+    if (items.length === 0) {
+      throw new Error('No items in cart');
+    }
+
     try {
-      const response = await fetch('/api/checkout/create', {
+      const response = await fetch('/api/checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           items: items.map(item => ({
             variantId: item.variantId,
             quantity: item.quantity
@@ -163,24 +167,20 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         }),
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || 'Failed to create checkout');
-      }
-
       const data = await response.json();
-      
-      if (!data.checkoutUrl) {
-        throw new Error('Invalid checkout response');
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Error creating checkout');
       }
 
-      // Clear cart after successful checkout creation
-      clearCart();
-      
+      if (!data.checkoutUrl) {
+        throw new Error('No checkout URL received');
+      }
+
       return data.checkoutUrl;
     } catch (error) {
-      console.error('Error creating checkout:', error);
-      throw new Error('Failed to create checkout. Please try again.');
+      console.error('Checkout error:', error);
+      throw error;
     }
   };
 

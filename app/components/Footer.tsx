@@ -167,9 +167,9 @@ export default function Footer() {
                                 <Image src="/Mastercard.svg" alt="Mastercard" width={40} height={24} className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" />
                                 <Image src="/PayPal.svg" alt="PayPal" width={40} height={24} className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" />
                                 <Image src="/Maestro.svg" alt="Maestro" width={40} height={24} className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" />
-                                <Image src="/Klarna.svg" alt="Klarna" width={40} height={24} className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" />
+                                {/* <Image src="/Klarna.svg" alt="Klarna" width={40} height={24} className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" /> */}
                                 <Image src="/GooglePay.svg" alt="Google Pay" width={40} height={24} className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" />
-                                <Image src="/ShopPay.svg" alt="Shop Pay" width={40} height={24} className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" />
+                                {/* <Image src="/ShopPay.svg" alt="Shop Pay" width={40} height={24} className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" /> */}
                             </div>
                         </div>
                     </div>

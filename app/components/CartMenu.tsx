@@ -83,17 +83,17 @@ export default function CartMenu() {
     <>
       {/* Overlay */}
       <div
-        onClick={() => setIsOpen(false)}
-        className={`fixed inset-0 bg-black/50 transition-opacity duration-300 ease-in-out z-50 ${
+        className={`fixed inset-0 bg-black/50 z-40 transition-opacity duration-300 ease-in-out ${
           isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
         }`}
+        onClick={() => setIsOpen(false)}
       />
 
       {/* Cart Panel */}
       <div 
-        className={`fixed inset-y-0 right-0 w-full md:w-[400px] bg-white shadow-xl transition-transform duration-300 ease-in-out transform z-50 ${
+        className={`fixed top-0 right-0 bottom-0 w-full sm:w-[400px] bg-white z-50 shadow-xl transition-transform duration-300 ease-in-out ${
           isOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
+        } flex flex-col`}
       >
         <div className="h-full flex flex-col">
           {/* Header */}
@@ -211,9 +211,9 @@ export default function CartMenu() {
 
           {/* Footer */}
           {items.length > 0 && (
-            <div className="border-t border-text/20 p-4 space-y-4 text-text">
+            <div className="p-4 border-t border-text/10 text-text bg-white">
               {/* First Section - Original Price and Discount */}
-              <div className="space-y-2">
+              <div className="space-y-1 pb-4">
                 <div className="flex justify-between items-center">
                   <span>Subtotaal:</span>
                   <span className="font-medium">
@@ -242,7 +242,7 @@ export default function CartMenu() {
               </div>
 
               {/* Second Section - Final Total */}
-              <div className="pt-3 border-t border-text/20">
+              <div className="pt-3 border-t border-text/20 text-text">
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-medium">Totaal:</span>
                   <span className="text-xl font-bold">€{total.toFixed(2)}</span>
@@ -250,16 +250,16 @@ export default function CartMenu() {
                 <p className="text-sm text-text/70 text-right mt-1">Inclusief BTW</p>
               </div>
 
-              {/* Checkout Button */}
-              <button 
-                onClick={handleCheckout}
-                disabled={isLoading}
-                className={`w-full bg-accent text-text rounded-[50px] p-4 hover:bg-accent/70 transition-colors ${
-                  isLoading ? 'opacity-50 cursor-not-allowed' : ''
-                }`}
-              >
-                {isLoading ? 'Afrekenen...' : 'Afrekenen'}
-              </button>
+              {/* Add View Cart button */}
+              <div className="flex flex-col sm:flex-row gap-3 mt-4">
+                <Link 
+                  href="/cart"
+                  className="flex-1 py-3 px-4 bg-accent text-text rounded-[50px] hover:bg-accent/70 transition-colors text-center"
+                  onClick={() => setIsOpen(false)}
+                >
+                  Bekijk winkelwagen
+                </Link>
+              </div>
             </div>
           )}
         </div>
