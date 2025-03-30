@@ -78,7 +78,7 @@ export default function CartPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex justify-between">
                       <Link href={`/products/${item.handle}`} className="hover:underline">
-                        <h3 className="font-medium text-text truncate">{item.title}</h3>
+                        <h3 className="font-bold text-text line-clamp-2">{item.title}</h3>
                       </Link>
                       <button 
                         onClick={() => removeFromCart(item.id)}
@@ -95,7 +95,7 @@ export default function CartPage() {
                     
                     {/* Price */}
                     <div className="mt-2 flex items-center">
-                      <span className={`font-medium ${isDiscounted ? 'text-red-400' : 'text-text'}`}>
+                      <span className={`font-bold ${isDiscounted ? 'text-red-400' : 'text-text'}`}>
                         €{parseFloat(item.price.toString()).toFixed(2)}
                       </span>
                       {item.compareAtPrice && (
