@@ -25,8 +25,10 @@ export default function CartPage() {
     
     try {
       const checkoutUrl = await createCheckout();
+      console.log("Redirecting to checkout:", checkoutUrl);
       window.location.href = checkoutUrl;
     } catch (err) {
+      console.error("Checkout error:", err);
       setError(err instanceof Error ? err.message : 'Er is een fout opgetreden bij het afrekenen');
     } finally {
       setIsLoading(false);

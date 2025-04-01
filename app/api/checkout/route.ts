@@ -17,11 +17,25 @@ export async function POST(request: Request) {
       );
     }
 
-    // Create a cart using the new Cart API
+    // Format variant IDs correctly for Shopify
+    const lines = items.map(item => {
+      // Ensure the variant ID is in the correct format
+      let variantId = item.variantId;
+      if (!variantId.startsWith('gid://')) {
+        variantId = `gid://shopify/ProductVariant/${variantId}`;
+      }
+      
+      return {
+        merchandiseId: variantId,
+        quantity: item.quantity
+      };
+    });
+
+    // Create a cart with items directly (one API call)
     const createCartQuery = {
       query: `
-        mutation cartCreate {
-          cartCreate {
+        mutation cartCreate($input: CartInput!) {
+          cartCreate(input: $input) {
             cart {
               id
               checkoutUrl
@@ -33,12 +47,18 @@ export async function POST(request: Request) {
             }
           }
         }
-      `
+      `,
+      variables: {
+        input: { lines }
+      }
     };
 
-    const shopifyUrl = `https://${process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN}/api/2024-01/graphql.json`;
+    const shopifyDomain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
+    const shopifyUrl = `https://${shopifyDomain}/api/2024-01/graphql.json`;
     
-    // First create an empty cart
+    console.log('Sending request to Shopify:', shopifyUrl);
+    
+    // Create cart with items in one step
     const createCartResponse = await fetch(shopifyUrl, {
       method: 'POST',
       headers: {
@@ -55,73 +75,44 @@ export async function POST(request: Request) {
       throw new Error(`GraphQL Errors: ${JSON.stringify(createCartData.errors)}`);
     }
 
-    const cartId = createCartData.data?.cartCreate?.cart?.id;
-    if (!cartId) {
-      throw new Error('Failed to create cart');
+    if (createCartData.data?.cartCreate?.userErrors?.length > 0) {
+      throw new Error(`Cart Errors: ${JSON.stringify(createCartData.data.cartCreate.userErrors)}`);
     }
 
-    // Clean up variant IDs and prepare cart lines
-    const lines = items.map((item: CartItem) => {
-      // Remove any existing 'gid://' prefix if present
-      const cleanVariantId = item.variantId.replace('gid://shopify/ProductVariant/', '');
-      
-      return {
-        merchandiseId: `gid://shopify/ProductVariant/${cleanVariantId}`,
-        quantity: item.quantity
-      };
-    });
-
-    // Add items to the cart
-    const addItemsQuery = {
-      query: `
-        mutation cartLinesAdd($cartId: ID!, $lines: [CartLineInput!]!) {
-          cartLinesAdd(cartId: $cartId, lines: $lines) {
-            cart {
-              checkoutUrl
-            }
-            userErrors {
-              message
-              field
-              code
-            }
-          }
-        }
-      `,
-      variables: {
-        cartId,
-        lines
-      }
-    };
-
-    const addItemsResponse = await fetch(shopifyUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Shopify-Storefront-Access-Token': process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN!
-      },
-      body: JSON.stringify(addItemsQuery)
-    });
-
-    const addItemsData = await addItemsResponse.json();
-    console.log('Add Items Response:', addItemsData);
-
-    if (addItemsData.errors) {
-      throw new Error(`GraphQL Errors: ${JSON.stringify(addItemsData.errors)}`);
-    }
-
-    if (addItemsData.data?.cartLinesAdd?.userErrors?.length > 0) {
-      throw new Error(`Cart Errors: ${JSON.stringify(addItemsData.data.cartLinesAdd.userErrors)}`);
-    }
-
-    const checkoutUrl = addItemsData.data?.cartLinesAdd?.cart?.checkoutUrl;
-    if (!checkoutUrl) {
+    const originalCheckoutUrl = createCartData.data?.cartCreate?.cart?.checkoutUrl;
+    if (!originalCheckoutUrl) {
       throw new Error('No checkout URL in response');
     }
 
-    return NextResponse.json({ checkoutUrl });
+    console.log('Original Checkout URL from Shopify:', originalCheckoutUrl);
+
+    // Extract just the path part from the checkout URL
+    let checkoutPath = '';
+    try {
+      // Try to parse the URL to extract just the path
+      const url = new URL(originalCheckoutUrl);
+      checkoutPath = url.pathname + url.search;
+    } catch (e) {
+      // If parsing fails, try to extract the path using regex
+      const match = originalCheckoutUrl.match(/\/cart\/c\/([^?]+)(?:\?key=(.+))?/);
+      if (match) {
+        const token = match[1];
+        const key = match[2] || '';
+        checkoutPath = `/cart/c/${token}${key ? `?key=${key}` : ''}`;
+      } else {
+        // If all else fails, just use the original URL
+        checkoutPath = originalCheckoutUrl;
+      }
+    }
+
+    // Construct a clean URL using the Shopify domain and the extracted path
+    const finalCheckoutUrl = `https://${shopifyDomain}${checkoutPath.startsWith('/') ? '' : '/'}${checkoutPath}`;
+    console.log('Final Checkout URL:', finalCheckoutUrl);
+
+    return NextResponse.json({ checkoutUrl: finalCheckoutUrl });
 
   } catch (error) {
-    console.error('Detailed checkout error:', error);
+    console.error('Checkout error:', error);
     return NextResponse.json(
       { 
         message: error instanceof Error ? error.message : 'Error creating checkout',
