@@ -90,41 +90,17 @@ export async function POST(request: Request) {
 
     // Extract the token and key from the checkout URL
     // This is a more robust approach to handle different URL formats
-    let token = '';
-    let key = '';
     
     // Try to extract token and key using regex
     const cartMatch = originalCheckoutUrl.match(/\/cart\/c\/([^?\/]+)(?:\?key=(.+))?/);
-    const checkoutMatch = originalCheckoutUrl.match(/\/checkouts\/cn\/([^?\/]+)(?:\?key=(.+))?/);
-    
-    if (cartMatch) {
-      token = cartMatch[1];
-      key = cartMatch[2] || '';
-    } else if (checkoutMatch) {
-      token = checkoutMatch[1];
-      key = checkoutMatch[2] || '';
-    } else {
-      // If we can't extract the token and key, just return the original URL
-      // But make sure it's a full URL
-      if (originalCheckoutUrl.startsWith('https://')) {
-        return NextResponse.json({ checkoutUrl: originalCheckoutUrl });
-      } else {
-        return NextResponse.json({ 
-          checkoutUrl: `https://${shopifyDomain}${originalCheckoutUrl.startsWith('/') ? '' : '/'}${originalCheckoutUrl}` 
-        });
-      }
-    }
-    
-    // Get the return URL from environment variables
-    const returnUrl = process.env.NEXT_PUBLIC_CHECKOUT_RETURN_URL || 'https://bloemigeverleiding.nl/thank-you';
-    
-    // Construct a direct URL to Shopify with return_to parameter
-    // Use the cart/c path which is more reliable
-    const finalCheckoutUrl = `https://${shopifyDomain}/cart/c/${token}?${key ? `key=${key}&` : ''}return_to=${encodeURIComponent(returnUrl)}`;
-    console.log('🔗 Final Checkout URL:', finalCheckoutUrl);
-    
-    return NextResponse.json({ checkoutUrl: finalCheckoutUrl });
 
+    console.log(`https://${process.env.NEXT_PUBLIC_CHECKOUT_DOMAIN!}${cartMatch[0]}`)
+
+    if (cartMatch.length >= 1) {
+      return NextResponse.json({ checkoutUrl: `https://${process.env.NEXT_PUBLIC_CHECKOUT_DOMAIN!}${cartMatch[0]}` });
+    } else {
+      return NextResponse.json({ checkoutUrl: originalCheckoutUrl });
+    }
   } catch (error) {
     console.error('❌ Checkout error:', error);
     return NextResponse.json(
