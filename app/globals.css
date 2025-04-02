@@ -118,7 +118,7 @@ html {
 
 /* Override autofill styles */
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
+input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px #ffe5f1 inset !important; /* Your pink accent color */
@@ -185,7 +185,9 @@ input[type="email"]:valid {
   animation: heart-pulse 0.6s ease-in-out;
 }
 
-input, select, textarea {
+input,
+select,
+textarea {
   font-size: 16px; /* Minimum font size to prevent zoom on iOS */
   touch-action: manipulation;
 }
