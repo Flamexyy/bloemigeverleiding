@@ -8,7 +8,7 @@ interface CartItem {
 export async function POST(request: Request) {
   try {
     const { items } = await request.json() as { items: CartItem[] };
-    console.log('Received items:', items);
+    console.log('🛒 Received items:', items);
 
     if (!items || items.length === 0) {
       return NextResponse.json(
@@ -24,6 +24,7 @@ export async function POST(request: Request) {
       if (!variantId.startsWith('gid://')) {
         variantId = `gid://shopify/ProductVariant/${variantId}`;
       }
+      console.log("✅ Sending variant ID:", variantId);
       
       return {
         merchandiseId: variantId,
@@ -53,10 +54,11 @@ export async function POST(request: Request) {
       }
     };
 
-    const shopifyDomain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN;
+    // IMPORTANT: Use the exact Shopify store domain, not your custom domain
+    const shopifyDomain = "6s5ipy-02.myshopify.com";
     const shopifyUrl = `https://${shopifyDomain}/api/2024-01/graphql.json`;
     
-    console.log('Sending request to Shopify:', shopifyUrl);
+    console.log('🔗 Sending request to Shopify:', shopifyUrl);
     
     // Create cart with items in one step
     const createCartResponse = await fetch(shopifyUrl, {
@@ -69,7 +71,7 @@ export async function POST(request: Request) {
     });
 
     const createCartData = await createCartResponse.json();
-    console.log('Create Cart Response:', createCartData);
+    console.log('📦 Create Cart Response:', createCartData);
 
     if (createCartData.errors) {
       throw new Error(`GraphQL Errors: ${JSON.stringify(createCartData.errors)}`);
@@ -84,35 +86,47 @@ export async function POST(request: Request) {
       throw new Error('No checkout URL in response');
     }
 
-    console.log('Original Checkout URL from Shopify:', originalCheckoutUrl);
+    console.log('🔗 Original Checkout URL from Shopify:', originalCheckoutUrl);
 
-    // Extract just the path part from the checkout URL
-    let checkoutPath = '';
-    try {
-      // Try to parse the URL to extract just the path
-      const url = new URL(originalCheckoutUrl);
-      checkoutPath = url.pathname + url.search;
-    } catch (e) {
-      // If parsing fails, try to extract the path using regex
-      const match = originalCheckoutUrl.match(/\/cart\/c\/([^?]+)(?:\?key=(.+))?/);
-      if (match) {
-        const token = match[1];
-        const key = match[2] || '';
-        checkoutPath = `/cart/c/${token}${key ? `?key=${key}` : ''}`;
+    // Extract the token and key from the checkout URL
+    // This is a more robust approach to handle different URL formats
+    let token = '';
+    let key = '';
+    
+    // Try to extract token and key using regex
+    const cartMatch = originalCheckoutUrl.match(/\/cart\/c\/([^?\/]+)(?:\?key=(.+))?/);
+    const checkoutMatch = originalCheckoutUrl.match(/\/checkouts\/cn\/([^?\/]+)(?:\?key=(.+))?/);
+    
+    if (cartMatch) {
+      token = cartMatch[1];
+      key = cartMatch[2] || '';
+    } else if (checkoutMatch) {
+      token = checkoutMatch[1];
+      key = checkoutMatch[2] || '';
+    } else {
+      // If we can't extract the token and key, just return the original URL
+      // But make sure it's a full URL
+      if (originalCheckoutUrl.startsWith('https://')) {
+        return NextResponse.json({ checkoutUrl: originalCheckoutUrl });
       } else {
-        // If all else fails, just use the original URL
-        checkoutPath = originalCheckoutUrl;
+        return NextResponse.json({ 
+          checkoutUrl: `https://${shopifyDomain}${originalCheckoutUrl.startsWith('/') ? '' : '/'}${originalCheckoutUrl}` 
+        });
       }
     }
-
-    // Construct a clean URL using the Shopify domain and the extracted path
-    const finalCheckoutUrl = `https://${shopifyDomain}${checkoutPath.startsWith('/') ? '' : '/'}${checkoutPath}`;
-    console.log('Final Checkout URL:', finalCheckoutUrl);
-
+    
+    // Get the return URL from environment variables
+    const returnUrl = process.env.NEXT_PUBLIC_CHECKOUT_RETURN_URL || 'https://bloemigeverleiding.nl/thank-you';
+    
+    // Construct a direct URL to Shopify with return_to parameter
+    // Use the cart/c path which is more reliable
+    const finalCheckoutUrl = `https://${shopifyDomain}/cart/c/${token}?${key ? `key=${key}&` : ''}return_to=${encodeURIComponent(returnUrl)}`;
+    console.log('🔗 Final Checkout URL:', finalCheckoutUrl);
+    
     return NextResponse.json({ checkoutUrl: finalCheckoutUrl });
 
   } catch (error) {
-    console.error('Checkout error:', error);
+    console.error('❌ Checkout error:', error);
     return NextResponse.json(
       { 
         message: error instanceof Error ? error.message : 'Error creating checkout',
