@@ -8,6 +8,7 @@ import { IoClose, IoFlowerOutline } from "react-icons/io5";
 import ProductCard from '../components/ProductCard';
 import { getProducts, getCollections } from '../utils/shopify';
 import { ProductCardSkeleton } from '../components/SkeletonLoader';
+import Head from 'next/head';
 
 interface ShopifyProduct {
   id: string;

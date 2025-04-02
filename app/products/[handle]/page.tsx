@@ -20,6 +20,7 @@ import { IoFlowerOutline } from "react-icons/io5";
 import { IoCartOutline } from "react-icons/io5";
 import { HiMiniChevronUp, HiMiniChevronDown } from "react-icons/hi2";
 import { CgShoppingBag } from "react-icons/cg";
+import Head from 'next/head';
 
 interface ProductPageProps {
   params: {
@@ -317,6 +318,13 @@ export default function ProductPage({ params }: ProductPageProps) {
       container.style.paddingRight = hasScrollbar ? '12px' : '0px';
     }
   }, [product, thumbnailContainerRef.current?.scrollHeight]);
+
+  // Add a title effect
+  useEffect(() => {
+    if (product?.title) {
+      document.title = `${product.title} | Bloemigeverleiding`;
+    }
+  }, [product]);
 
   if (!product) return (
     <div className="max-w-[1600px] mx-auto">

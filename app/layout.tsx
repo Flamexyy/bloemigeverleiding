@@ -27,7 +27,10 @@ const pacifico = Pacifico({
 });
 
 export const metadata: Metadata = {
-  title: "Bloemigeverleiding",
+  title: {
+    template: "%s | Bloemigeverleiding",
+    default: "Bloemigeverleiding | De liefde voor bloemen die altijd bloeien",
+  },
   description: "De liefde voor bloemen die altijd bloeien",
 };
 
