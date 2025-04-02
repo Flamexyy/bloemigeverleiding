@@ -37,7 +37,7 @@ export default function Login() {
       localStorage.setItem('user', JSON.stringify(data.user));
       setUser(data.user);
       
-      router.push('/profile');
+      router.push('/account');
     } catch (error) {
       setError(error instanceof Error ? error.message : 'Login failed');
     } finally {
