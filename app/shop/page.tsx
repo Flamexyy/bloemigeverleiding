@@ -527,7 +527,7 @@ export default function Shop() {
                   {/* Filter and Grid View Toggle */}
                   <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                     <div className="flex items-center gap-2">
-                      <div className="flex md:hidden">
+                      <div className="flex sm:hidden">
                         <div className="flex rounded-full bg-cream p-1">
                           <button
                             onClick={() => setGridView("single")}
