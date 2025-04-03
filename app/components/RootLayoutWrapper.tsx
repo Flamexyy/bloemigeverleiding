@@ -3,6 +3,7 @@ import { usePathname } from 'next/navigation';
 import Header from './Header';
 import Footer from './Footer';
 import Link from 'next/link';
+import CheckoutFavicon from './CheckoutFavicon';
 
 export default function RootLayoutWrapper({
   children,
@@ -14,6 +15,7 @@ export default function RootLayoutWrapper({
 
   return (
     <div className="flex flex-col min-h-screen">
+      <CheckoutFavicon />
       {!isAuthPage && (
         <>
           {/* Simple Banner */}

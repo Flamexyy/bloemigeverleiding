@@ -377,286 +377,291 @@ export default function Shop() {
   };
 
   return (
-    <div className="mx-auto max-w-[1600px] px-4 py-12 md:py-20 lg:px-8">
-      <div className="mb-10 flex flex-col items-start gap-6 text-text">
-        <h1 className="text-3xl font-bold md:text-4xl">ONZE COLLECTIE</h1>
-        <p className="max-w-3xl text-text/70">
-          Ontdek onze prachtige collectie handgemaakte boeketten. Elk boeket is met zorg samengesteld met de mooiste bloemen van het seizoen.
-        </p>
-      </div>
+    <>
+      <Head>
+        <title>Shop | Bloemigeverleiding</title>
+      </Head>
+      <div className="mx-auto max-w-[1600px] px-4 py-12 md:py-20 lg:px-8">
+        <div className="mb-10 flex flex-col items-start gap-6 text-text">
+          <h1 className="text-3xl font-bold md:text-4xl">ONZE COLLECTIE</h1>
+          <p className="max-w-3xl text-text/70">
+            Ontdek onze prachtige collectie handgemaakte boeketten. Elk boeket is met zorg samengesteld met de mooiste bloemen van het seizoen.
+          </p>
+        </div>
 
-      <div className="flex flex-col gap-6 xl:flex-row">
-        {showDesktopFilter && (
-          <div className="hidden w-[200px] shrink-0 xl:block">
-            <div className="sticky top-[130px]">
-              {filterLoading ? (
-                <div className="animate-pulse space-y-6">
-                  <div className="h-6 w-3/4 rounded bg-cream/50"></div>
-                  <div className="space-y-2">
-                    <div className="h-4 w-full rounded bg-cream/50"></div>
-                    <div className="h-4 w-5/6 rounded bg-cream/50"></div>
-                    <div className="h-4 w-4/6 rounded bg-cream/50"></div>
+        <div className="flex flex-col gap-6 xl:flex-row">
+          {showDesktopFilter && (
+            <div className="hidden w-[200px] shrink-0 xl:block">
+              <div className="sticky top-[130px]">
+                {filterLoading ? (
+                  <div className="animate-pulse space-y-6">
+                    <div className="h-6 w-3/4 rounded bg-cream/50"></div>
+                    <div className="space-y-2">
+                      <div className="h-4 w-full rounded bg-cream/50"></div>
+                      <div className="h-4 w-5/6 rounded bg-cream/50"></div>
+                      <div className="h-4 w-4/6 rounded bg-cream/50"></div>
+                    </div>
+                    <div className="h-6 w-3/4 rounded bg-cream/50"></div>
+                    <div className="space-y-2">
+                      <div className="h-4 w-full rounded bg-cream/50"></div>
+                      <div className="h-4 w-5/6 rounded bg-cream/50"></div>
+                    </div>
+                    <div className="h-6 w-3/4 rounded bg-cream/50"></div>
+                    <div className="h-10 w-full rounded bg-cream/50"></div>
                   </div>
-                  <div className="h-6 w-3/4 rounded bg-cream/50"></div>
-                  <div className="space-y-2">
-                    <div className="h-4 w-full rounded bg-cream/50"></div>
-                    <div className="h-4 w-5/6 rounded bg-cream/50"></div>
-                  </div>
-                  <div className="h-6 w-3/4 rounded bg-cream/50"></div>
-                  <div className="h-10 w-full rounded bg-cream/50"></div>
-                </div>
-              ) : (
-                <ProductFilter
-                  onPriceFilter={handlePriceFilter}
-                  onSortChange={handleSortChange}
-                  onCollectionChange={handleCollectionChange}
-                  onExactPriceChange={handleExactPriceChange}
-                  onReset={handleReset}
-                  isMobile={false}
-                  shouldReset={shouldResetFilters}
-                  collections={collections}
-                  selectedCollection={selectedCollection}
-                />
-              )}
+                ) : (
+                  <ProductFilter
+                    onPriceFilter={handlePriceFilter}
+                    onSortChange={handleSortChange}
+                    onCollectionChange={handleCollectionChange}
+                    onExactPriceChange={handleExactPriceChange}
+                    onReset={handleReset}
+                    isMobile={false}
+                    shouldReset={shouldResetFilters}
+                    collections={collections}
+                    selectedCollection={selectedCollection}
+                  />
+                )}
+              </div>
             </div>
-          </div>
-        )}
+          )}
 
-        <div className="flex-1">
-          <div className="flex flex-col gap-4">
-            {/* Search Bar and Filters */}
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center gap-2">
-                <div className="flex max-w-md flex-1 items-center gap-2">
-                  <div className="relative flex-1">
-                    <BiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-text" />
-                    <input
-                      type="text"
-                      placeholder="Zoeken"
-                      value={filters.search}
-                      onChange={(e) => setFilters((prev) => ({ ...prev, search: e.target.value }))}
-                      className="w-full rounded-[25px] bg-cream py-2.5 pl-10 pr-4 text-sm text-text placeholder:text-text focus:outline-none"
-                    />
-                  </div>
-                  <button
-                    onClick={toggleFilter}
-                    className="flex h-[40px] items-center gap-2 rounded-[25px] bg-cream px-4 transition-colors hover:bg-cream/70"
-                  >
-                    {showDesktopFilter || showMobileFilter ? <RiFilterOffLine className="text-text" /> : <RiFilterLine className="text-text" />}
-                    <span className="text-sm font-medium text-text">Filter</span>
-                  </button>
-                </div>
-                <div className="hidden items-center gap-2 md:flex">
-                  <button
-                    onClick={() => {
-                      const newSortOrder = filters.sort === "price-asc" ? "price-desc" : "price-asc";
-                      setFilters((prev) => ({ ...prev, sort: newSortOrder }));
-                      setSortOption(newSortOrder);
-                    }}
-                    className="flex h-[40px] items-center gap-2 rounded-[25px] bg-cream px-4 transition-colors hover:bg-cream/70"
-                  >
-                    <svg
-                      className={`h-4 w-4 text-text transition-transform ${filters.sort === "price-desc" ? "rotate-180" : ""}`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
+          <div className="flex-1">
+            <div className="flex flex-col gap-4">
+              {/* Search Bar and Filters */}
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <div className="flex max-w-md flex-1 items-center gap-2">
+                    <div className="relative flex-1">
+                      <BiSearch className="absolute left-3 top-1/2 -translate-y-1/2 text-text" />
+                      <input
+                        type="text"
+                        placeholder="Zoeken"
+                        value={filters.search}
+                        onChange={(e) => setFilters((prev) => ({ ...prev, search: e.target.value }))}
+                        className="w-full rounded-[25px] bg-cream py-2.5 pl-10 pr-4 text-sm text-text placeholder:text-text focus:outline-none"
                       />
-                    </svg>
-                    <span className="text-sm font-medium text-text">
-                      {filters.sort === "price-desc" ? "Prijs: Hoog naar Laag" : "Prijs: Laag naar Hoog"}
-                    </span>
-                  </button>
-                  <button
-                    onClick={() => {
-                      // Add a class to trigger rotation animation
-                      const resetButton = document.getElementById("reset-button");
-                      if (resetButton) {
-                        resetButton.classList.add("animate-spin-reverse");
+                    </div>
+                    <button
+                      onClick={toggleFilter}
+                      className="flex h-[40px] items-center gap-2 rounded-[25px] bg-cream px-4 transition-colors hover:bg-cream/70"
+                    >
+                      {showDesktopFilter || showMobileFilter ? <RiFilterOffLine className="text-text" /> : <RiFilterLine className="text-text" />}
+                      <span className="text-sm font-medium text-text">Filter</span>
+                    </button>
+                  </div>
+                  <div className="hidden items-center gap-2 md:flex">
+                    <button
+                      onClick={() => {
+                        const newSortOrder = filters.sort === "price-asc" ? "price-desc" : "price-asc";
+                        setFilters((prev) => ({ ...prev, sort: newSortOrder }));
+                        setSortOption(newSortOrder);
+                      }}
+                      className="flex h-[40px] items-center gap-2 rounded-[25px] bg-cream px-4 transition-colors hover:bg-cream/70"
+                    >
+                      <svg
+                        className={`h-4 w-4 text-text transition-transform ${filters.sort === "price-desc" ? "rotate-180" : ""}`}
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"
+                        />
+                      </svg>
+                      <span className="text-sm font-medium text-text">
+                        {filters.sort === "price-desc" ? "Prijs: Hoog naar Laag" : "Prijs: Laag naar Hoog"}
+                      </span>
+                    </button>
+                    <button
+                      onClick={() => {
+                        // Add a class to trigger rotation animation
+                        const resetButton = document.getElementById("reset-button");
+                        if (resetButton) {
+                          resetButton.classList.add("animate-spin-reverse");
+                          setTimeout(() => {
+                            resetButton.classList.remove("animate-spin-reverse");
+                          }, 300);
+                        }
+
+                        // Reset all filters
+                        handleReset();
+
+                        // Reset search input
+                        setFilters((prev) => ({ ...prev, search: "" }));
+
+                        // Reset selected collection (which will update the category text)
+                        setSelectedCollection("");
+
+                        // Also trigger the reset in the filter component
+                        setShouldResetFilters(true);
+
+                        // Reset after a short delay to allow the component to process
                         setTimeout(() => {
-                          resetButton.classList.remove("animate-spin-reverse");
-                        }, 300);
-                      }
-
-                      // Reset all filters
-                      handleReset();
-
-                      // Reset search input
-                      setFilters((prev) => ({ ...prev, search: "" }));
-
-                      // Reset selected collection (which will update the category text)
-                      setSelectedCollection("");
-
-                      // Also trigger the reset in the filter component
-                      setShouldResetFilters(true);
-
-                      // Reset after a short delay to allow the component to process
-                      setTimeout(() => {
-                        setShouldResetFilters(false);
-                      }, 100);
-                    }}
-                    className="flex h-[40px] w-10 items-center justify-center rounded-[25px] bg-cream transition-colors hover:bg-cream/70"
-                  >
-                    <svg
-                      id="reset-button"
-                      className="h-5 w-5 text-text transition-transform duration-300"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
+                          setShouldResetFilters(false);
+                        }, 100);
+                      }}
+                      className="flex h-[40px] w-10 items-center justify-center rounded-[25px] bg-cream transition-colors hover:bg-cream/70"
                     >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                      />
-                    </svg>
-                  </button>
+                      <svg
+                        id="reset-button"
+                        className="h-5 w-5 text-text transition-transform duration-300"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                        />
+                      </svg>
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* Selected Category Display */}
-            <div>
-              <div className="text-sm text-text/50">
-                Categorie:{" "}
-                <span className="font-medium text-text/80">
-                  {selectedCollection ? collections.find((c) => c.id === selectedCollection)?.title || "" : "Alle collecties"}
-                </span>
-              </div>
-              <div className="flex items-center justify-between">
-                <div className="w-full">
-                  <div className="flex items-center gap-2">
-                    <div className="flex w-full items-center justify-between">
-                      <div className="text-sm text-text/50">{getActiveSortDisplayName()}</div>
-                      <div>
-                        <span className="text-sm text-text/50">Resultaten </span>
-                        <span className="text-sm text-text/50">({filteredProducts.length})</span>
+              {/* Selected Category Display */}
+              <div>
+                <div className="text-sm text-text/50">
+                  Categorie:{" "}
+                  <span className="font-medium text-text/80">
+                    {selectedCollection ? collections.find((c) => c.id === selectedCollection)?.title || "" : "Alle collecties"}
+                  </span>
+                </div>
+                <div className="flex items-center justify-between">
+                  <div className="w-full">
+                    <div className="flex items-center gap-2">
+                      <div className="flex w-full items-center justify-between">
+                        <div className="text-sm text-text/50">{getActiveSortDisplayName()}</div>
+                        <div>
+                          <span className="text-sm text-text/50">Resultaten </span>
+                          <span className="text-sm text-text/50">({filteredProducts.length})</span>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
+
+              {/* Product Grid */}
+              <div className="grid grid-cols-2 gap-3 gap-y-10 md:grid-cols-3 md:gap-4 md:gap-y-10 lg:grid-cols-4">
+                {loading
+                  ? // Skeleton loaders
+                    Array.from({ length: 8 }).map((_, index) => <ProductCardSkeleton key={index} />)
+                  : // Products with fade-in animation
+                    filteredProducts.slice(0, visibleProducts).map((product) => (
+                      <div
+                        key={product.id}
+                        className={`transition-opacity duration-300 ease-in-out ${productsReady ? "opacity-100" : "opacity-0"}`}
+                      >
+                        <ProductCard product={product} />
+                      </div>
+                    ))}
+              </div>
+
+              {!loading && filteredProducts.length === 0 && (
+                <div className="py-8 text-center">
+                  <p className="text-sm text-text/50">Geen producten gevonden</p>
+                </div>
+              )}
+
+              {visibleProducts < filteredProducts.length && (
+                <div className="mt-10 flex flex-col items-center">
+                  <button
+                    onClick={loadMoreProducts}
+                    disabled={loadingMore}
+                    className="group flex items-center justify-center gap-2 rounded-[100px] border-2 border-accent bg-transparent px-10 py-3 font-medium text-text transition-all duration-300 hover:bg-accent"
+                  >
+                    {loadingMore ? (
+                      <>
+                        <span className="mr-2 animate-spin">
+                          <IoFlowerOutline className="text-xl" />
+                        </span>
+                        Laden...
+                      </>
+                    ) : (
+                      <>Meer producten laden</>
+                    )}
+                  </button>
+                  <p className="mt-3 text-sm text-text/70">
+                    {visibleProducts} van {filteredProducts.length} producten geladen
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Filter */}
+        <div
+          className={`fixed inset-x-0 bottom-0 top-0 z-[100] transform bg-white transition-transform duration-200 ease-out xl:hidden ${
+            showMobileFilter ? "translate-y-0" : "translate-y-full"
+          }`}
+        >
+          <div className="flex h-full flex-col">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-text/20 p-4">
+              <h2 className="text-xl font-bold text-text">Filters</h2>
+              <button
+                onClick={() => setShowMobileFilter(false)}
+                className="rounded-full p-2 transition-colors hover:bg-accent"
+              >
+                <IoClose className="text-2xl text-text" />
+              </button>
             </div>
 
-            {/* Product Grid */}
-            <div className="grid grid-cols-2 gap-3 gap-y-10 md:grid-cols-3 md:gap-4 md:gap-y-10 lg:grid-cols-4">
-              {loading
-                ? // Skeleton loaders
-                  Array.from({ length: 8 }).map((_, index) => <ProductCardSkeleton key={index} />)
-                : // Products with fade-in animation
-                  filteredProducts.slice(0, visibleProducts).map((product) => (
-                    <div
-                      key={product.id}
-                      className={`transition-opacity duration-300 ease-in-out ${productsReady ? "opacity-100" : "opacity-0"}`}
-                    >
-                      <ProductCard product={product} />
-                    </div>
-                  ))}
+            {/* Content */}
+            <div className="flex-1 overflow-y-auto">
+              <ProductFilter
+                onPriceFilter={handlePriceFilter}
+                onSortChange={handleSortChange}
+                onCollectionChange={handleCollectionChange}
+                onExactPriceChange={handleExactPriceChange}
+                isMobile={true}
+                onReset={handleReset}
+                shouldReset={shouldResetFilters}
+                collections={collections}
+                selectedCollection={selectedCollection}
+              />
             </div>
 
-            {!loading && filteredProducts.length === 0 && (
-              <div className="py-8 text-center">
-                <p className="text-sm text-text/50">Geen producten gevonden</p>
-              </div>
-            )}
-
-            {visibleProducts < filteredProducts.length && (
-              <div className="mt-10 flex flex-col items-center">
-                <button
-                  onClick={loadMoreProducts}
-                  disabled={loadingMore}
-                  className="group flex items-center justify-center gap-2 rounded-[100px] border-2 border-accent bg-transparent px-10 py-3 font-medium text-text transition-all duration-300 hover:bg-accent"
-                >
-                  {loadingMore ? (
-                    <>
-                      <span className="mr-2 animate-spin">
-                        <IoFlowerOutline className="text-xl" />
-                      </span>
-                      Laden...
-                    </>
-                  ) : (
-                    <>Meer producten laden</>
-                  )}
-                </button>
-                <p className="mt-3 text-sm text-text/70">
-                  {visibleProducts} van {filteredProducts.length} producten geladen
-                </p>
-              </div>
-            )}
+            {/* Footer */}
+            <div className="flex-btn flex gap-3 border-t border-text/20 p-4">
+              <button
+                onClick={() => {
+                  handleReset();
+                }}
+                className="text-md flex-1 rounded-[100px] border border-text/20 px-4 py-2.5 font-medium text-text transition-colors hover:bg-accent"
+              >
+                Filters herstellen
+              </button>
+              <button
+                onClick={() => setShowMobileFilter(false)}
+                className="text-md flex-1 rounded-[100px] bg-accent px-4 py-2.5 font-medium text-text transition-colors hover:bg-accent/70"
+              >
+                Filters toepassen
+              </button>
+            </div>
           </div>
         </div>
+
+        {error && (
+          <div className="py-10 text-center text-red-400">
+            <p>Error loading products: {error}</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="mt-4 rounded-lg bg-gray-200 px-4 py-2 hover:bg-gray-300"
+            >
+              Try Again
+            </button>
+          </div>
+        )}
       </div>
-
-      {/* Mobile Filter */}
-      <div
-        className={`fixed inset-x-0 bottom-0 top-0 z-[100] transform bg-white transition-transform duration-200 ease-out xl:hidden ${
-          showMobileFilter ? "translate-y-0" : "translate-y-full"
-        }`}
-      >
-        <div className="flex h-full flex-col">
-          {/* Header */}
-          <div className="flex items-center justify-between border-b border-text/20 p-4">
-            <h2 className="text-xl font-bold text-text">Filters</h2>
-            <button
-              onClick={() => setShowMobileFilter(false)}
-              className="rounded-full p-2 transition-colors hover:bg-accent"
-            >
-              <IoClose className="text-2xl text-text" />
-            </button>
-          </div>
-
-          {/* Content */}
-          <div className="flex-1 overflow-y-auto">
-            <ProductFilter
-              onPriceFilter={handlePriceFilter}
-              onSortChange={handleSortChange}
-              onCollectionChange={handleCollectionChange}
-              onExactPriceChange={handleExactPriceChange}
-              isMobile={true}
-              onReset={handleReset}
-              shouldReset={shouldResetFilters}
-              collections={collections}
-              selectedCollection={selectedCollection}
-            />
-          </div>
-
-          {/* Footer */}
-          <div className="flex-btn flex gap-3 border-t border-text/20 p-4">
-            <button
-              onClick={() => {
-                handleReset();
-              }}
-              className="text-md flex-1 rounded-[100px] border border-text/20 px-4 py-2.5 font-medium text-text transition-colors hover:bg-accent"
-            >
-              Filters herstellen
-            </button>
-            <button
-              onClick={() => setShowMobileFilter(false)}
-              className="text-md flex-1 rounded-[100px] bg-accent px-4 py-2.5 font-medium text-text transition-colors hover:bg-accent/70"
-            >
-              Filters toepassen
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {error && (
-        <div className="py-10 text-center text-red-400">
-          <p>Error loading products: {error}</p>
-          <button
-            onClick={() => window.location.reload()}
-            className="mt-4 rounded-lg bg-gray-200 px-4 py-2 hover:bg-gray-300"
-          >
-            Try Again
-          </button>
-        </div>
-      )}
-    </div>
+    </>
   );
 }
