@@ -5,7 +5,6 @@ import Image from "next/image";
 import { useCart } from "../context/CartContext";
 import { useState, useEffect } from "react";
 import { useLiked } from "../context/LikedContext";
-import FadeInImage from "./FadeInImage";
 import { CgShoppingBag } from "react-icons/cg";
 
 interface ProductCardProps {
