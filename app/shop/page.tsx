@@ -5,6 +5,7 @@ import ProductFilter from "../components/productfilter";
 import { BiSearch, BiFilter } from "react-icons/bi";
 import { RiFilterOffLine, RiFilterLine } from "react-icons/ri";
 import { IoClose, IoFlowerOutline } from "react-icons/io5";
+import { BsGrid, BsGrid3X3 } from "react-icons/bs";
 import ProductCard from "../components/ProductCard";
 import { getProducts, getCollections } from "../utils/shopify";
 import { ProductCardSkeleton } from "../components/SkeletonLoader";
@@ -68,6 +69,7 @@ export default function Shop() {
   const [initialLoad, setInitialLoad] = useState(true);
   const [productsReady, setProductsReady] = useState(false);
   const [previousProducts, setPreviousProducts] = useState<ShopifyProduct[]>([]);
+  const [gridView, setGridView] = useState<"single" | "double">("double");
 
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -522,6 +524,33 @@ export default function Shop() {
                       </svg>
                     </button>
                   </div>
+                  {/* Filter and Grid View Toggle */}
+                  <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                    <div className="flex items-center gap-2">
+                      <div className="flex md:hidden">
+                        <div className="flex rounded-full bg-cream p-1">
+                          <button
+                            onClick={() => setGridView("single")}
+                            className={`flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
+                              gridView === "single" ? "bg-pink-200 text-text" : "text-text/60"
+                            }`}
+                            aria-label="Single column view"
+                          >
+                            <BsGrid className="text-lg" />
+                          </button>
+                          <button
+                            onClick={() => setGridView("double")}
+                            className={`flex h-8 w-8 items-center justify-center rounded-full transition-colors ${
+                              gridView === "double" ? "bg-pink-200 text-text" : "text-text/60"
+                            }`}
+                            aria-label="Double column view"
+                          >
+                            <BsGrid3X3 className="text-lg" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
 
@@ -549,7 +578,11 @@ export default function Shop() {
               </div>
 
               {/* Product Grid */}
-              <div className="grid grid-cols-2 gap-3 gap-y-10 md:grid-cols-3 md:gap-4 md:gap-y-10 lg:grid-cols-4">
+              <div
+                className={`grid gap-3 gap-y-10 md:grid-cols-3 md:gap-4 md:gap-y-10 lg:grid-cols-4 ${
+                  gridView === "single" ? "grid-cols-1" : "grid-cols-2"
+                }`}
+              >
                 {loading
                   ? // Skeleton loaders
                     Array.from({ length: 8 }).map((_, index) => <ProductCardSkeleton key={index} />)
