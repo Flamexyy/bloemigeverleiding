@@ -152,7 +152,7 @@ export default function ProductCard({ product }: ProductCardProps) {
 
           {/* Sale badge */}
           {product.compareAtPrice && parseFloat(product.compareAtPrice.toString()) > priceAsNumber && (
-            <div className="absolute bottom-3 right-3 rounded-[100px] bg-text px-2.5 py-1.5 text-xs text-cream">Aanbieding</div>
+            <div className="absolute bottom-3 right-3 rounded-[100px] bg-text px-4 py-2 text-sm text-cream">Aanbieding</div>
           )}
         </Link>
       </div>
