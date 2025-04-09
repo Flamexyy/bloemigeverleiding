@@ -43,7 +43,7 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="text-lg font-bold text-text">Telefoon</h3>
-                  <p className="text-text/70">+31 (0)20 123 4567</p>
+                  <p className="text-text/70">+31 6 48973086</p>
                 </div>
               </div>
 
@@ -72,20 +72,6 @@ export default function ContactPage() {
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
               ></iframe>
-            </div>
-
-            <div className="rounded-[25px] border-2 border-accent/20 bg-accent/5 p-6">
-              <h3 className="mb-4 text-lg font-bold text-text">Bezoek onze winkel</h3>
-              <p className="mb-4 text-text/70">
-                Kom langs in onze winkel om onze prachtige collectie bloemen en planten te bekijken. Onze medewerkers helpen u graag bij het maken van
-                de perfecte keuze.
-              </p>
-              <Link
-                href="/shop"
-                className="inline-block rounded-[100px] bg-accent px-6 py-2 text-text transition-colors hover:bg-accent/70"
-              >
-                Bekijk onze collectie
-              </Link>
             </div>
           </div>
         </div>

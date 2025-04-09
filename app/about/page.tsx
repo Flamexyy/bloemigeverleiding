@@ -20,7 +20,7 @@ export default function AboutPage() {
             </div>
           </div>
           <p className="max-w-[800px] text-text/70">
-            Ontdek het verhaal achter Bloemigeverleiding, waar passie voor bloemen en creativiteit samenkomen.
+            Ontdek het verhaal achter Bloemige verleiding, waar passie voor bloemen en creativiteit samenkomen.
           </p>
         </div>
 
@@ -35,16 +35,16 @@ export default function AboutPage() {
             />
           </div>
           <div className="flex flex-col justify-center space-y-6 text-text/70">
-            <h2 className="text-2xl font-bold text-text">Onze Passie voor Bloemen</h2>
+            <h2 className="text-2xl font-bold text-text">Onze passie voor bloemen</h2>
             <p>
-              Bloemigeverleiding is ontstaan uit een diepe liefde voor de schoonheid van bloemen en de vreugde die ze brengen in het leven van mensen.
-              Wat begon als een kleine droom is uitgegroeid tot een bloeiende onderneming met een missie: het creëren van prachtige bloemstukken die
-              emoties overbrengen en momenten onvergetelijk maken.
+              Bij Bloemige verleiding geloven we in de kracht van bloemen om emoties uit te drukken en herinneringen te creëren. Of het nu gaat om een
+              verjaardag, bruiloft of gewoon een blijk van waardering, onze handgemaakte zijden boeketten zijn ontworpen om elke gelegenheid speciaal
+              te maken.
             </p>
             <p>
-              Ons team van gepassioneerde bloemisten werkt elke dag met toewijding om de mooiste en verste bloemen te selecteren en deze om te toveren
-              tot kunstwerken die spreken tot het hart. We geloven dat bloemen meer zijn dan decoratie – ze vertellen verhalen, drukken gevoelens uit
-              en verbinden mensen.
+              Onze passie voor bloemen begon jaren geleden, en sindsdien zijn we toegewijd aan het leveren van de mooiste zijden boeketten met de
+              hoogste kwaliteit. Elk boeket is met liefde en zorg samengesteld, zodat u kunt genieten van de schoonheid van bloemen in uw huis of op
+              uw speciale dag.
             </p>
             <div className="pt-4">
               <Link
@@ -58,39 +58,16 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Values Section */}
-        <div className="mb-16">
-          <h2 className="mb-8 text-2xl font-bold text-text">Onze Waarden</h2>
-          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            <div className="rounded-[25px] border-2 border-accent/20 bg-accent/5 p-6 transition-colors hover:border-accent/40">
-              <h3 className="mb-4 text-lg font-bold text-text">Kwaliteit</h3>
-              <p className="text-text/70">
-                We selecteren alleen de verste en mooiste bloemen voor onze arrangementen, zodat u zo lang mogelijk kunt genieten van uw boeket.
-              </p>
-            </div>
-            <div className="rounded-[25px] border-2 border-accent/20 bg-accent/5 p-6 transition-colors hover:border-accent/40">
-              <h3 className="mb-4 text-lg font-bold text-text">Creativiteit</h3>
-              <p className="text-text/70">Elk bloemstuk is een uniek kunstwerk, zorgvuldig samengesteld met oog voor kleur, textuur en compositie.</p>
-            </div>
-            <div className="rounded-[25px] border-2 border-accent/20 bg-accent/5 p-6 transition-colors hover:border-accent/40">
-              <h3 className="mb-4 text-lg font-bold text-text">Duurzaamheid</h3>
-              <p className="text-text/70">
-                We streven naar milieuvriendelijke praktijken, van het inkopen van lokale bloemen tot het gebruik van duurzame verpakkingen.
-              </p>
-            </div>
-          </div>
-        </div>
-
         {/* Why Choose Us */}
         <div className="mb-16 rounded-[25px] border-2 border-accent/20 bg-accent/5 p-8">
-          <h2 className="mb-6 text-2xl font-bold text-text">Waarom Kiezen voor Bloemigeverleiding?</h2>
+          <h2 className="mb-6 text-2xl font-bold text-text">Waarom kiezen voor Bloemige verleiding?</h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <ul className="space-y-4">
               {[
-                "Handgemaakte boeketten met verse bloemen",
-                "Snelle bezorging in heel Nederland",
+                "Handgemaakte zijden boeketten met kwaliteit bloemen",
+                "Snelle bezorging in heel Nederland en België",
                 "Persoonlijke service en advies",
-                "Seizoensgebonden collecties",
+                // "Seizoensgebonden collecties",
               ].map((item, index) => (
                 <li
                   key={index}
@@ -104,12 +81,7 @@ export default function AboutPage() {
               ))}
             </ul>
             <ul className="space-y-4">
-              {[
-                "Unieke ontwerpen voor elke gelegenheid",
-                "Duurzame en milieuvriendelijke praktijken",
-                "Tevredenheidsgarantie",
-                "Abonnementsopties beschikbaar",
-              ].map((item, index) => (
+              {["Unieke ontwerpen voor elke gelegenheid", "Duurzaam en milieuvriendelijk", "Tevredenheidsgarantie"].map((item, index) => (
                 <li
                   key={index}
                   className="flex items-start gap-3 text-text/70"
@@ -126,9 +98,9 @@ export default function AboutPage() {
 
         {/* CTA Section */}
         <div className="py-10 text-center">
-          <h2 className="mb-4 text-2xl font-bold text-text">Klaar om te Bestellen?</h2>
+          <h2 className="mb-4 text-2xl font-bold text-text">Klaar om te bestellen?</h2>
           <p className="mx-auto mb-6 max-w-2xl text-text/70">
-            Ontdek onze collectie handgemaakte boeketten en laat ons uw dag opfleuren met de schoonheid van verse bloemen.
+            Ontdek onze collectie handgemaakte zijden boeketten en laat ons uw dag opfleuren met de schoonheid van bloemen.
           </p>
           <Link
             href="/shop"

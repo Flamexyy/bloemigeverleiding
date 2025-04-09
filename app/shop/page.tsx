@@ -387,7 +387,7 @@ export default function Shop() {
         <div className="mb-10 flex flex-col items-start gap-6 text-text">
           <h1 className="text-3xl font-bold md:text-4xl">ONZE COLLECTIE</h1>
           <p className="max-w-3xl text-text/70">
-            Ontdek onze prachtige collectie handgemaakte boeketten. Elk boeket is met zorg samengesteld met de mooiste bloemen van het seizoen.
+            Ontdek onze prachtige collectie handgemaakte zijden boeketten. Elk boeket is met liefde en zorg samengesteld met de mooiste bloemen.
           </p>
         </div>
 

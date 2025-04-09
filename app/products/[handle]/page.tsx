@@ -738,14 +738,6 @@ export default function ProductPage({ params }: ProductPageProps) {
           >
             Verzending & Levering
           </button>
-          <button
-            onClick={() => setActiveTab("care")}
-            className={`whitespace-nowrap px-6 py-3 font-medium transition-colors ${
-              activeTab === "care" ? "border-b-2 border-accent text-text" : "text-text/70 hover:text-text"
-            }`}
-          >
-            Verzorgingstips
-          </button>
         </div>
 
         <div className="max-w-[1600px]">
@@ -758,14 +750,14 @@ export default function ProductPage({ params }: ProductPageProps) {
               </p>
 
               {/* Product Features */}
-              <div className="mt-6 border-t border-text/10 pt-6">
+              {/* <div className="mt-6 border-t border-text/10 pt-6">
                 <h3 className="mb-4 text-lg font-bold text-text">Productkenmerken</h3>
                 <ul className="space-y-3">
                   <li className="flex items-start gap-3">
                     <div className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/20">
                       <IoCheckmark className="text-sm text-text" />
                     </div>
-                    <span>Handgemaakt met verse bloemen</span>
+                    <span>Handgemaakt met liefde en zorg</span>
                   </li>
                   <li className="flex items-start gap-3">
                     <div className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/20">
@@ -777,28 +769,19 @@ export default function ProductPage({ params }: ProductPageProps) {
                     <div className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/20">
                       <IoCheckmark className="text-sm text-text" />
                     </div>
-                    <span>Inclusief verzorgingstips</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/20">
-                      <IoCheckmark className="text-sm text-text" />
-                    </div>
                     <span>Gratis wenskaart bij bestelling</span>
                   </li>
                 </ul>
-              </div>
+              </div> */}
             </div>
           )}
 
           {activeTab === "delivery" && (
             <div className="space-y-6 text-text/70">
               <div>
-                <h3 className="mb-2 text-lg font-bold text-text">Bezorgopties</h3>
-                <p>We bieden verschillende bezorgopties aan om aan uw wensen te voldoen:</p>
+                <h3 className="mb-2 text-lg font-bold text-text">Bezorgtijd</h3>
                 <ul className="mt-2 list-disc space-y-1 pl-5">
-                  <li>Standaard bezorging (1-2 werkdagen)</li>
-                  <li>Express bezorging (binnen 24 uur)</li>
-                  <li>Bezorging op specifieke datum</li>
+                  <li>Bezorging (5-7 werkdagen)</li>
                 </ul>
               </div>
 
@@ -806,48 +789,15 @@ export default function ProductPage({ params }: ProductPageProps) {
                 <h3 className="mb-2 text-lg font-bold text-text">Verzendkosten</h3>
                 <p>De verzendkosten zijn afhankelijk van de gekozen bezorgoptie en de bestemming:</p>
                 <ul className="mt-2 list-disc space-y-1 pl-5">
-                  <li>Standaard bezorging: €4,95</li>
-                  <li>Express bezorging: €9,95</li>
+                  <li>Bezorging binnen Nederland: €6,95</li>
+                  <li>Bezorging binnen België: €11,95</li>
                   <li>Gratis verzending bij bestellingen boven €150</li>
                 </ul>
               </div>
 
               <div>
                 <h3 className="mb-2 text-lg font-bold text-text">Leveringsgebied</h3>
-                <p>Wij bezorgen in heel Nederland. Voor internationale leveringen, neem contact met ons op.</p>
-              </div>
-            </div>
-          )}
-
-          {activeTab === "care" && (
-            <div className="space-y-6 text-text/70">
-              <p>Om zo lang mogelijk van uw bloemen te genieten, volg deze verzorgingstips:</p>
-
-              <div>
-                <h3 className="mb-2 text-lg font-bold text-text">Bij ontvangst</h3>
-                <ul className="list-disc space-y-1 pl-5">
-                  <li>Haal het boeket voorzichtig uit de verpakking</li>
-                  <li>Snijd de stelen schuin af met een scherp mes (ongeveer 2 cm)</li>
-                  <li>Verwijder bladeren die onder water komen te staan</li>
-                  <li>Gebruik een schone vaas met vers, koud water</li>
-                  <li>Voeg het meegeleverde voedingszakje toe aan het water</li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className="mb-2 text-lg font-bold text-text">Dagelijkse verzorging</h3>
-                <ul className="list-disc space-y-1 pl-5">
-                  <li>Plaats het boeket niet in direct zonlicht of bij een warmtebron</li>
-                  <li>Ververs het water om de 2-3 dagen</li>
-                  <li>Verwijder verwelkte bloemen om de levensduur van de andere bloemen te verlengen</li>
-                  <li>Snijd de stelen elke keer als u het water ververst opnieuw schuin af</li>
-                </ul>
-              </div>
-
-              <div className="mt-4 rounded-[15px] bg-accent p-4">
-                <p className="font-medium text-text">
-                  Tip: Sommige bloemen, zoals tulpen, blijven groeien in de vaas. Houd hier rekening mee bij het plaatsen van uw boeket.
-                </p>
+                <p>Wij bezorgen in heel Nederland en België. Internationale levering is bij ons niet mogelijk.</p>
               </div>
             </div>
           )}
@@ -915,7 +865,7 @@ export default function ProductPage({ params }: ProductPageProps) {
               </Link>
             </div>
           </div>
-          <p className="max-w-[800px] text-text/70">Ontdek meer prachtige boeketten die perfect passen bij elke gelegenheid.</p>
+          <p className="max-w-[800px] text-text/70">Ontdek meer prachtige zijden boeketten die perfect passen bij elke gelegenheid.</p>
         </div>
 
         <div className="grid grid-cols-2 gap-3 gap-y-10 border-b border-text/10 pb-10 md:grid-cols-3 md:gap-4 md:gap-y-10 lg:grid-cols-4">
