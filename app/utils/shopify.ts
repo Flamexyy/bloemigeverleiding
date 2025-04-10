@@ -464,7 +464,7 @@ export async function getProduct(handle: string) {
         id
         title
         handle
-        description
+        descriptionHtml
         images(first: 10) {
           edges {
             node {
@@ -486,8 +486,17 @@ export async function getProduct(handle: string) {
               }
               availableForSale
               quantityAvailable
+              selectedOptions {
+                name
+                value
+              }
             }
           }
+        }
+        options {
+          id
+          name
+          values
         }
         priceRange {
           minVariantPrice {
@@ -522,6 +531,8 @@ export async function getProduct(handle: string) {
     if (!response?.product) {
       throw new Error("Product not found");
     }
+
+    console.log("Fetched Product Data:", JSON.stringify(response.product, null, 2));
 
     return response.product;
   } catch (error) {
