@@ -68,7 +68,7 @@ export default function Header() {
               alt="Logo"
               width={150}
               height={100}
-              className="object-contain"
+              className="h-full object-contain"
             />
           </Link>
 

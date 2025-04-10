@@ -49,7 +49,7 @@ export default function AboutPage() {
             <div className="pt-4">
               <Link
                 href="/shop"
-                className="group inline-flex w-fit items-center gap-2 font-medium text-text"
+                className="group inline-flex w-fit items-center gap-2 rounded-[100px] border-2 border-accent px-8 py-3 font-medium text-text transition-all duration-300 hover:bg-accent"
               >
                 Bekijk onze collectie
                 <RiArrowRightUpLine className="text-xl transition-transform duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px]" />
