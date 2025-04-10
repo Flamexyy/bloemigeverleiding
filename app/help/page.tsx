@@ -90,8 +90,7 @@ export default function HelpPage() {
             <div>
               <p>Onze verzendkosten zijn als volgt:</p>
               <ul className="mt-2 list-disc space-y-1 pl-5">
-                <li>Verzending binnen Nederland: €6,95</li>
-                <li>Verzending binnen België: €11,95</li>
+                <li>Verzendkosten: €9,95</li>
                 <li>Gratis verzending bij bestellingen boven €150</li>
               </ul>
             </div>

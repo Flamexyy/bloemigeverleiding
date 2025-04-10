@@ -793,8 +793,7 @@ export default function ProductPage({ params }: ProductPageProps) {
                 <h3 className="mb-2 text-lg font-bold text-text">Verzendkosten</h3>
                 <p>De verzendkosten zijn afhankelijk van de gekozen bezorgoptie en de bestemming:</p>
                 <ul className="mt-2 list-disc space-y-1 pl-5">
-                  <li>Bezorging binnen Nederland: €6,95</li>
-                  <li>Bezorging binnen België: €11,95</li>
+                  <li>Verzendkosten €9,95</li>
                   <li>Gratis verzending bij bestellingen boven €150</li>
                 </ul>
               </div>

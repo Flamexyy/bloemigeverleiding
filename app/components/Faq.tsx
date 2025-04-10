@@ -22,7 +22,7 @@ const defaultFaqs: FaqItem[] = [
   {
     question: "Wat zijn de kosten voor verzending?",
     answer:
-      "Wij leveren binnen Nederland en België. De verzendkosten bedragen €6,95 binnen Nederland en €11,95 naar België. Bij bestellingen boven de €150 worden geen verzendkosten in rekening gebracht.",
+      "Wij leveren binnen Nederland en België. De verzendkosten bedragen €9,95. Bij bestellingen boven de €150 worden geen verzendkosten in rekening gebracht.",
   },
   {
     question: "Kan ik mijn bestelling retourneren?",
