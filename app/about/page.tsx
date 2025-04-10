@@ -20,7 +20,7 @@ export default function AboutPage() {
             </div>
           </div>
           <p className="max-w-[800px] text-text/70">
-            Ontdek het verhaal achter Bloemige verleiding, waar passie voor bloemen en creativiteit samenkomen.
+            Ontdek het verhaal achter Bloemige verleiding, waar zorg en liefde voor bloemen en creativiteit samenkomen.
           </p>
         </div>
 
@@ -35,16 +35,14 @@ export default function AboutPage() {
             />
           </div>
           <div className="flex flex-col justify-center space-y-6 text-text/70">
-            <h2 className="text-2xl font-bold text-text">Onze passie voor bloemen</h2>
+            <h2 className="text-2xl font-bold text-text">Onze zorg en liefde voor bloemen</h2>
             <p>
-              Bij Bloemige verleiding geloven we in de kracht van bloemen om emoties uit te drukken en herinneringen te creëren. Of het nu gaat om een
-              verjaardag, bruiloft of gewoon een blijk van waardering, onze handgemaakte zijden boeketten zijn ontworpen om elke gelegenheid speciaal
-              te maken.
+              Bij Bloemige Verleiding draait alles om de liefde voor bloemen die altijd bloeien. Onze handgemaakte zijden boeketten zijn met zorg en
+              zorg en liefde samengesteld om sfeer te brengen en momenten een blijvende betekenis te geven.
             </p>
             <p>
-              Onze passie voor bloemen begon jaren geleden, en sindsdien zijn we toegewijd aan het leveren van de mooiste zijden boeketten met de
-              hoogste kwaliteit. Elk boeket is met liefde en zorg samengesteld, zodat u kunt genieten van de schoonheid van bloemen in uw huis of op
-              uw speciale dag.
+              Of het nu gaat om een verjaardag, bruiloft, een cadeau voor jezelf of een stijlvol boeket voor op tafel—met onze blijvend mooie bloemen
+              maak je van elk moment iets bijzonders.
             </p>
             <div className="pt-4">
               <Link

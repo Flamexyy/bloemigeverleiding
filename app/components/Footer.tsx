@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaInstagram, FaTiktok, FaFacebook } from "react-icons/fa";
+import { RiArrowRightUpLine } from "react-icons/ri";
 
 export default function Footer() {
   return (
@@ -56,41 +57,46 @@ export default function Footer() {
                 <li>
                   <Link
                     href="/help"
-                    className="transition-colors hover:text-text"
+                    className="group inline-flex items-center transition-colors hover:text-text"
                   >
                     Bestelstatus
+                    <RiArrowRightUpLine className="ml-1 opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/help"
-                    className="transition-colors hover:text-text"
+                    className="group inline-flex items-center transition-colors hover:text-text"
                   >
                     Verzending & Levering
+                    <RiArrowRightUpLine className="ml-1 opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/help"
-                    className="transition-colors hover:text-text"
+                    className="group inline-flex items-center transition-colors hover:text-text"
                   >
                     Retourneren
+                    <RiArrowRightUpLine className="ml-1 opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/help"
-                    className="transition-colors hover:text-text"
+                    className="group inline-flex items-center transition-colors hover:text-text"
                   >
                     Betaalmethoden
+                    <RiArrowRightUpLine className="ml-1 opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/contact"
-                    className="transition-colors hover:text-text"
+                    className="group inline-flex items-center transition-colors hover:text-text"
                   >
                     Contact
+                    <RiArrowRightUpLine className="ml-1 opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
                   </Link>
                 </li>
               </ul>
@@ -101,36 +107,40 @@ export default function Footer() {
                 <li>
                   <Link
                     href="/about"
-                    className="transition-colors hover:text-text"
+                    className="group inline-flex items-center transition-colors hover:text-text"
                   >
                     Over Ons
+                    <RiArrowRightUpLine className="ml-1 opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="https://www.instagram.com/bloemige_verleiding"
                     target="_blank"
-                    className="transition-colors hover:text-text"
+                    className="group inline-flex items-center transition-colors hover:text-text"
                   >
                     Instagram
+                    <RiArrowRightUpLine className="ml-1 opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="https://www.tiktok.com/@selina_christina?_t=ZN-8vQ3MtDsYTq&_r=1"
                     target="_blank"
-                    className="transition-colors hover:text-text"
+                    className="group inline-flex items-center transition-colors hover:text-text"
                   >
                     Tiktok
+                    <RiArrowRightUpLine className="ml-1 opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="https://www.instagram.com/bloemige_verleiding"
                     target="_blank"
-                    className="transition-colors hover:text-text"
+                    className="group inline-flex items-center transition-colors hover:text-text"
                   >
                     Facebook
+                    <RiArrowRightUpLine className="ml-1 opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
                   </Link>
                 </li>
               </ul>
@@ -141,25 +151,28 @@ export default function Footer() {
                 <li>
                   <Link
                     href="/terms-of-service"
-                    className="transition-colors hover:text-text"
+                    className="group inline-flex items-center transition-colors hover:text-text"
                   >
                     Servicevoorwaarden
+                    <RiArrowRightUpLine className="ml-1 opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/terms-of-use"
-                    className="transition-colors hover:text-text"
+                    className="group inline-flex items-center transition-colors hover:text-text"
                   >
                     Gebruiksvoorwaarden
+                    <RiArrowRightUpLine className="ml-1 opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/privacy-policy"
-                    className="transition-colors hover:text-text"
+                    className="group inline-flex items-center transition-colors hover:text-text"
                   >
                     Privacybeleid
+                    <RiArrowRightUpLine className="ml-1 opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
                   </Link>
                 </li>
               </ul>
