@@ -45,7 +45,7 @@ export default function SocialSection() {
           </div>
           <div className="flex w-full justify-end">
             <Link
-              href="https://instagram.com"
+              href="https://www.instagram.com/bloemige_verleiding"
               target="_blank"
               className="group flex min-w-fit items-center justify-end gap-2 text-text transition-colors"
             >
@@ -59,7 +59,7 @@ export default function SocialSection() {
           {[1, 2, 3, 4].map((num) => (
             <Link
               key={num}
-              href="https://instagram.com"
+              href="https://www.instagram.com/bloemige_verleiding"
               target="_blank"
               className="group relative aspect-square overflow-hidden rounded-[25px]"
             >

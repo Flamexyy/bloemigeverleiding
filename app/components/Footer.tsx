@@ -22,7 +22,7 @@ export default function Footer() {
             </p>
             <div className="flex gap-4">
               <a
-                href="https://www.instagram.com/bloemigeverleiding"
+                href="https://www.instagram.com/bloemige_verleiding"
                 target="_blank"
                 className="text-text/70 transition-colors hover:text-text"
                 aria-label="Instagram"
@@ -108,7 +108,8 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/"
+                    href="https://www.instagram.com/bloemige_verleiding"
+                    target="_blank"
                     className="transition-colors hover:text-text"
                   >
                     Instagram
@@ -116,7 +117,8 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/"
+                    href="https://www.tiktok.com/@selina_christina?_t=ZN-8vQ3MtDsYTq&_r=1"
+                    target="_blank"
                     className="transition-colors hover:text-text"
                   >
                     Tiktok
@@ -124,7 +126,8 @@ export default function Footer() {
                 </li>
                 <li>
                   <Link
-                    href="/"
+                    href="https://www.instagram.com/bloemige_verleiding"
+                    target="_blank"
                     className="transition-colors hover:text-text"
                   >
                     Facebook
