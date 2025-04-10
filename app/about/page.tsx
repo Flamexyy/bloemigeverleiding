@@ -37,11 +37,11 @@ export default function AboutPage() {
           <div className="flex flex-col justify-center space-y-6 text-text/70">
             <h2 className="text-2xl font-bold text-text">Onze zorg en liefde voor bloemen</h2>
             <p>
-              Bij Bloemige Verleiding draait alles om de liefde voor bloemen die altijd bloeien. Onze handgemaakte zijden boeketten zijn met zorg en
-              zorg en liefde samengesteld om sfeer te brengen en momenten een blijvende betekenis te geven.
+              Bij Bloemige Verleiding draait alles om de liefde voor bloemen die altijd bloeien. Onze handgemaakte zijden boeketten zijn met liefde en
+              zorg samengesteld om sfeer te brengen en momenten een blijvende betekenis te geven.
             </p>
             <p>
-              Of het nu gaat om een verjaardag, bruiloft, een cadeau voor jezelf of een stijlvol boeket voor op tafel—met onze blijvend mooie bloemen
+              Of het nu gaat om een verjaardag, bruiloft, een cadeau voor jezelf of een stijlvol boeket voor op tafel met onze blijvend mooie bloemen
               maak je van elk moment iets bijzonders.
             </p>
             <div className="pt-4">
