@@ -54,6 +54,7 @@ export default function ProductPage({ params }: ProductPageProps) {
   const [isLightboxOpen, setIsLightboxOpen] = useState(false);
   const [selectedOptions, setSelectedOptions] = useState<{ [key: string]: string }>({});
   const [activeFaq, setActiveFaq] = useState<number | null>(null);
+  const [productReady, setProductReady] = useState(false); // State for image animation
 
   // Add auto-scroll functionality to thumbnails
 
@@ -82,13 +83,21 @@ export default function ProductPage({ params }: ProductPageProps) {
   useEffect(() => {
     const fetchProduct = async () => {
       try {
+        setProductReady(false); // Reset ready state on new fetch
         const productData = await getProduct(handle);
         setProduct(productData);
 
         const allOutOfStock = productData.variants.edges.every((edge: any) => !edge.node.availableForSale || edge.node.quantityAvailable === 0);
         setIsOutOfStock(allOutOfStock);
+
+        // Set product ready after data is fetched
+        const timer = setTimeout(() => {
+          setProductReady(true);
+        }, 100); // Small delay for fade-in
+        return () => clearTimeout(timer); // Cleanup timer
       } catch (error) {
         console.error("Error fetching product:", error);
+        setProductReady(true); // Set ready even on error to remove skeleton
       }
     };
     fetchProduct();
@@ -319,7 +328,7 @@ export default function ProductPage({ params }: ProductPageProps) {
     }
   }, [product]);
 
-  if (!product)
+  if (!product && !productReady)
     return (
       <div className="mx-auto max-w-[1600px]">
         <div className="flex flex-col justify-center gap-6 px-4 py-6 md:flex-row lg:px-8 xl:py-10">
@@ -380,6 +389,19 @@ export default function ProductPage({ params }: ProductPageProps) {
       </div>
     );
 
+  if (!product && productReady)
+    return (
+      <div className="mx-auto max-w-[1600px] px-4 py-12 text-center">
+        <p className="text-text/70">Product niet gevonden.</p>
+        <Link
+          href="/shop"
+          className="mt-4 inline-block rounded-[50px] bg-accent px-8 py-3 text-text transition-colors hover:bg-accent/70"
+        >
+          Terug naar de shop
+        </Link>
+      </div>
+    );
+
   return (
     <div className="mx-auto max-w-[1600px]">
       <div className="flex flex-col justify-center gap-6 px-4 py-6 md:flex-row lg:px-8 xl:py-10">
@@ -430,7 +452,9 @@ export default function ProductPage({ params }: ProductPageProps) {
             {/* Main Image */}
             <div className="flex-1">
               <div
-                className="relative aspect-square cursor-zoom-in overflow-hidden rounded-[25px]"
+                className={`relative aspect-square cursor-zoom-in overflow-hidden rounded-[25px] transition-opacity duration-300 ease-in-out ${
+                  productReady ? "opacity-100" : "opacity-0"
+                }`}
                 onClick={openLightbox}
               >
                 <Carousel
@@ -507,7 +531,11 @@ export default function ProductPage({ params }: ProductPageProps) {
           {/* Mobile Layout */}
           <div className="lg:hidden">
             {/* Swipeable Main Image */}
-            <div className="relative overflow-hidden rounded-[30px]">
+            <div
+              className={`relative overflow-hidden rounded-[30px] transition-opacity duration-300 ease-in-out ${
+                productReady ? "opacity-100" : "opacity-0"
+              }`}
+            >
               <Carousel
                 selectedItem={selectedImage}
                 onChange={setSelectedImage}
@@ -748,31 +776,6 @@ export default function ProductPage({ params }: ProductPageProps) {
                 Onze boeketten worden met de grootste zorg samengesteld door onze ervaren bloemisten. We gebruiken alleen de mooiste en verste bloemen
                 om een prachtig arrangement te creëren dat perfect past bij elke gelegenheid.
               </p>
-
-              {/* Product Features */}
-              {/* <div className="mt-6 border-t border-text/10 pt-6">
-                <h3 className="mb-4 text-lg font-bold text-text">Productkenmerken</h3>
-                <ul className="space-y-3">
-                  <li className="flex items-start gap-3">
-                    <div className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/20">
-                      <IoCheckmark className="text-sm text-text" />
-                    </div>
-                    <span>Handgemaakt met liefde en zorg</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/20">
-                      <IoCheckmark className="text-sm text-text" />
-                    </div>
-                    <span>Bezorging binnen 24 uur mogelijk</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <div className="mt-0.5 flex h-5 w-5 flex-shrink-0 items-center justify-center rounded-full bg-accent/20">
-                      <IoCheckmark className="text-sm text-text" />
-                    </div>
-                    <span>Gratis wenskaart bij bestelling</span>
-                  </li>
-                </ul>
-              </div> */}
             </div>
           )}
 
@@ -804,50 +807,6 @@ export default function ProductPage({ params }: ProductPageProps) {
         </div>
       </div>
 
-      {/* Customer Reviews Section */}
-      {/* <div className="bg-accent/10 py-12">
-        <div className="max-w-[1600px] mx-auto px-4 lg:px-8">
-          <div className="flex flex-col gap-6 items-start mb-10 text-text">
-            <div className='w-full flex flex-col-reverse md:flex-row justify-between items-start gap-5 md:gap-10'>
-              <div className='max-w-[800px]'>
-                <h2 className="text-3xl font-bold">KLANTERVARINGEN</h2>
-              </div>
-            </div>
-            <p className='max-w-[800px] text-text/70'>
-              Ontdek wat onze klanten vinden van dit product
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
-            {[
-              { name: 'Emma de Vries', date: '12 mei 2023', rating: 5, text: 'Prachtig boeket, precies zoals op de foto. De bloemen waren vers en de bezorging was snel.' },
-              { name: 'Thomas Bakker', date: '3 april 2023', rating: 5, text: 'Al jaren bestel ik hier bloemen voor speciale gelegenheden. De kwaliteit is altijd uitstekend en de service is top.' },
-              { name: 'Sophie Jansen', date: '18 maart 2023', rating: 4, text: 'Mooi boeket, maar iets kleiner dan verwacht. Wel zeer goede kwaliteit bloemen die lang mooi blijven.' }
-            ].map((review, index) => (
-              <div key={index} className="bg-white rounded-[25px] p-6 shadow-sm">
-                <div className="flex justify-between items-start mb-3">
-                  <div>
-                    <h4 className="font-bold text-text">{review.name}</h4>
-                    <p className="text-text/50 text-sm">{review.date}</p>
-                  </div>
-                  <div className="flex">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <IoStar key={star} className={star <= review.rating ? "text-accent" : "text-text/20"} />
-                    ))}
-                  </div>
-                </div>
-                <p className="text-text/70">{review.text}</p>
-              </div>
-            ))}
-          </div>
-          
-          <div className="flex justify-center">
-            <button className="flex items-center justify-center px-8 py-3 border-2 border-accent bg-transparent text-text hover:bg-accent rounded-[100px] transition-all duration-300 font-medium">
-              Schrijf een review
-            </button>
-          </div>
-        </div>
-      </div> */}
       {/* Related Products Section */}
       <div className="mx-auto max-w-[1600px] px-4 py-12 lg:px-8">
         <div className="mb-10 flex flex-col items-start gap-6 text-text">
