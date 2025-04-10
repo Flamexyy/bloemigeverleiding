@@ -651,11 +651,11 @@ export default function ProductPage({ params }: ProductPageProps) {
             </div>
           </div>
 
-          {/* Product Description under price */}
+          {/* Product Description under price - with scrollbar */}
           <div className="space-y-2">
             {product.descriptionHtml ? (
               <div
-                className="prose prose-sm prose-pink max-w-none text-text/70 [&_a]:text-accent [&_a]:underline [&_em]:italic [&_h1]:text-xl [&_h1]:font-bold [&_h2]:text-lg [&_h2]:font-bold [&_h3]:text-base [&_h3]:font-bold [&_ol]:list-decimal [&_ol]:pl-4 [&_p]:mb-2 [&_span]:text-inherit [&_strong]:font-bold [&_table]:w-full [&_td]:border [&_td]:border-accent/20 [&_td]:p-1 [&_th]:bg-accent/10 [&_th]:p-1 [&_ul]:list-disc [&_ul]:pl-4"
+                className="prose prose-sm prose-pink scrollbar-thin scrollbar-thumb-accent/40 scrollbar-track-transparent max-h-[185px] overflow-y-auto pr-2 text-text/70 [&_a]:text-accent [&_a]:underline [&_em]:italic [&_h1]:text-xl [&_h1]:font-bold [&_h2]:text-lg [&_h2]:font-bold [&_h3]:text-base [&_h3]:font-bold [&_ol]:list-decimal [&_ol]:pl-4 [&_p]:mb-2 [&_span]:text-inherit [&_strong]:font-bold [&_table]:w-full [&_td]:border [&_td]:border-accent/20 [&_td]:p-1 [&_th]:bg-accent/10 [&_th]:p-1 [&_ul]:list-disc [&_ul]:pl-4"
                 dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
               />
             ) : (
@@ -784,13 +784,9 @@ export default function ProductPage({ params }: ProductPageProps) {
               {product.descriptionHtml ? (
                 <>
                   <div
-                    className="prose prose-pink max-w-none text-text/70 [&_a]:text-accent [&_a]:underline [&_em]:italic [&_h1]:text-2xl [&_h1]:font-bold [&_h2]:text-xl [&_h2]:font-bold [&_h3]:text-lg [&_h3]:font-bold [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-4 [&_span]:text-inherit [&_strong]:font-bold [&_table]:w-full [&_td]:border [&_td]:border-accent/20 [&_td]:p-2 [&_th]:bg-accent/10 [&_th]:p-2 [&_ul]:list-disc [&_ul]:pl-5"
+                    className="prose prose-pink scrollbar-thin scrollbar-thumb-accent/40 scrollbar-track-transparent max-h-[350px] max-w-none overflow-y-auto pr-2 text-text/70 [&_a]:text-accent [&_a]:underline [&_em]:italic [&_h1]:text-2xl [&_h1]:font-bold [&_h2]:text-xl [&_h2]:font-bold [&_h3]:text-lg [&_h3]:font-bold [&_ol]:list-decimal [&_ol]:pl-5 [&_p]:mb-4 [&_span]:text-inherit [&_strong]:font-bold [&_table]:w-full [&_td]:border [&_td]:border-accent/20 [&_td]:p-2 [&_th]:bg-accent/10 [&_th]:p-2 [&_ul]:list-disc [&_ul]:pl-5"
                     dangerouslySetInnerHTML={{ __html: product.descriptionHtml }}
                   />
-                  <p className="mt-6 border-t border-text/10 pt-4 text-text/70">
-                    Onze boeketten worden met de grootste zorg samengesteld door onze ervaren bloemisten. We gebruiken alleen de mooiste en verste
-                    bloemen om een prachtig arrangement te creëren dat perfect past bij elke gelegenheid.
-                  </p>
                 </>
               ) : (
                 <p className="text-text/70">Geen beschrijving beschikbaar.</p>
