@@ -73,7 +73,7 @@ export default function Home() {
                 </Link>
 
                 <Link href="/contact">
-                  <button className="flex items-center justify-center rounded-[100px] border-2 border-accent bg-transparent px-8 py-3 font-medium text-text transition-all duration-300 hover:bg-accent/10">
+                  <button className="flex w-fit items-center justify-center rounded-[100px] border-2 border-accent bg-transparent px-8 py-3 font-medium text-text transition-all duration-300 hover:bg-accent/10">
                     Neem contact op
                   </button>
                 </Link>

@@ -26,7 +26,7 @@ export default function SocialSection() {
             </p>
             <Link
               href="/contact"
-              className="group mt-2 flex min-w-fit items-center gap-2 transition-opacity"
+              className="group mt-2 flex w-fit min-w-fit items-center gap-2 transition-opacity"
             >
               <button className="flex items-center justify-center rounded-[100px] border-2 border-accent bg-transparent px-8 py-3 font-medium text-text transition-all duration-300 hover:bg-accent">
                 Neem contact op
