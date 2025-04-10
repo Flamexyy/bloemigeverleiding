@@ -785,7 +785,7 @@ export default function ProductPage({ params }: ProductPageProps) {
               <div>
                 <h3 className="mb-2 text-lg font-bold text-text">Bezorgtijd</h3>
                 <ul className="mt-2 list-disc space-y-1 pl-5">
-                  <li>Bezorging (5-7 werkdagen)</li>
+                  <li>Bezorging (3-5 werkdagen)</li>
                 </ul>
               </div>
 

@@ -98,7 +98,7 @@ export default function HelpPage() {
         },
         {
           question: "Hoe lang duurt de levering?",
-          answer: <p>Standaard leveringen worden meestal binnen 5-7 werkdagen bezorgd.</p>,
+          answer: <p>Standaard leveringen worden meestal binnen 3-5 werkdagen bezorgd.</p>,
         },
         {
           question: "Leveren jullie ook internationaal?",
