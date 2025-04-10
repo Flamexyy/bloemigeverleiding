@@ -243,6 +243,13 @@ export default function CartPage() {
                     height={24}
                     className="h-6 w-auto opacity-80"
                   />
+                  <Image
+                    src="/ApplePay.svg"
+                    alt="Apple Pay"
+                    width={40}
+                    height={24}
+                    className="h-6 w-auto opacity-80"
+                  />
                 </div>
               </div>
             </div>

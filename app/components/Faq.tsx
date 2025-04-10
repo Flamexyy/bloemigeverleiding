@@ -31,7 +31,7 @@ const defaultFaqs: FaqItem[] = [
   },
 ];
 
-export default function Faq({ faqs = defaultFaqs, title = "Veel gestelde vragen" }: FaqProps) {
+export default function Faq({ faqs = defaultFaqs, title = "Veelgestelde vragen" }: FaqProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const contentRefs = useRef<HTMLDivElement[]>([]);
 

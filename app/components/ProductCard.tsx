@@ -173,11 +173,13 @@ export default function ProductCard({ product }: ProductCardProps) {
           <div className="mb-4 text-center">
             <div className="flex items-center justify-center gap-2">
               {product.compareAtPrice && parseFloat(product.compareAtPrice.toString()) > priceAsNumber && (
-                <span className="text-sm text-text/50 line-through">€{parseFloat(product.compareAtPrice.toString()).toFixed(2)}</span>
+                <span className="flex items-center justify-center gap-2 text-sm text-text/50 line-through">
+                  €{parseFloat(product.compareAtPrice.toString()).toFixed(2)}
+                </span>
               )}
               <span
-                className={`font-medium ${
-                  product.compareAtPrice && parseFloat(product.compareAtPrice.toString()) > priceAsNumber ? "text-red-400" : "text-text"
+                className={` ${
+                  product.compareAtPrice && parseFloat(product.compareAtPrice.toString()) > priceAsNumber ? "font-bold text-red-400" : "text-text"
                 }`}
               >
                 €{priceAsNumber.toFixed(2)}

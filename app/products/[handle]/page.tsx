@@ -9,7 +9,6 @@ import { IoMdAdd, IoMdRemove, IoMdHeart, IoMdHeartEmpty } from "react-icons/io";
 import { useLiked } from "@/app/context/LikedContext";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import { IoStar, IoCheckmark } from "react-icons/io5";
 import Link from "next/link";
 import { RiArrowRightUpLine } from "react-icons/ri";
 import ProductCard from "@/app/components/ProductCard";
@@ -17,8 +16,8 @@ import { ProductCardSkeleton } from "@/app/components/SkeletonLoader";
 import { IoClose } from "react-icons/io5";
 import { IoFlowerOutline } from "react-icons/io5";
 import { IoCartOutline } from "react-icons/io5";
-import { HiMiniChevronUp, HiMiniChevronDown } from "react-icons/hi2";
 import { CgShoppingBag } from "react-icons/cg";
+import Faq from "@/app/components/Faq";
 
 interface ProductPageProps {
   params: {
@@ -425,9 +424,10 @@ export default function ProductPage({ params }: ProductPageProps) {
                   <button
                     key={index}
                     onClick={() => setSelectedImage(index)}
-                    className={`relative h-[60px] w-[60px] flex-shrink-0 overflow-hidden rounded-[35%] transition-all ${
+                    className={`relative h-[60px] w-[60px] flex-shrink-0 overflow-hidden rounded-[35%] transition-all duration-300 ease-in-out ${productReady ? "opacity-100" : "opacity-0"} ${
                       selectedImage === index ? "" : "opacity-30 hover:opacity-80"
                     }`}
+                    style={{ transitionDelay: `${index * 50}ms` }}
                   >
                     <div className="relative aspect-square h-full w-full overflow-hidden">
                       {image.node.originalSrc ? (
@@ -605,9 +605,10 @@ export default function ProductPage({ params }: ProductPageProps) {
                 <button
                   key={index}
                   onClick={() => setSelectedImage(index)}
-                  className={`relative aspect-square overflow-hidden rounded-[35%] transition-all ${
+                  className={`relative aspect-square overflow-hidden rounded-[35%] transition-all duration-300 ease-in-out ${productReady ? "opacity-100" : "opacity-0"} ${
                     selectedImage === index ? "border-text" : "border-transparent opacity-30 hover:opacity-80"
                   }`}
+                  style={{ transitionDelay: `${index * 50}ms` }}
                 >
                   <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-accent/10">
                     {image.node.originalSrc ? (
@@ -839,65 +840,7 @@ export default function ProductPage({ params }: ProductPageProps) {
         </div>
       </div>
 
-      {/* FAQ Section */}
-      <div className="mx-auto max-w-[1600px] px-4 py-12 pt-8 lg:px-8">
-        <div className="mb-10 flex flex-col items-start gap-6 text-text">
-          <div className="flex w-full flex-col-reverse items-start justify-between gap-5 md:flex-row md:gap-10">
-            <div className="max-w-[800px]">
-              <h2 className="text-3xl font-bold">VEELGESTELDE VRAGEN</h2>
-            </div>
-          </div>
-          <p className="max-w-[800px] text-text/70">Antwoorden op de meest gestelde vragen over dit product</p>
-        </div>
-
-        <div className="max-w-3xl space-y-4">
-          {[
-            {
-              question: "Hoe lang blijven de bloemen mooi?",
-              answer:
-                "Bij goede verzorging blijven onze boeketten gemiddeld 7-10 dagen mooi. Dit kan variëren afhankelijk van de bloemensoorten en de verzorging.",
-            },
-            {
-              question: "Kan ik een persoonlijke boodschap toevoegen?",
-              answer: "Ja, tijdens het afrekenen kunt u een persoonlijke boodschap toevoegen die op een kaartje bij het boeket wordt geleverd.",
-            },
-            {
-              question: "Zijn de getoonde bloemen seizoensgebonden?",
-              answer:
-                "Sommige bloemen in onze boeketten zijn seizoensgebonden. Als een specifieke bloem niet beschikbaar is, vervangen we deze door een vergelijkbare bloem van dezelfde kwaliteit en kleur.",
-            },
-            {
-              question: "Kan ik het boeket aanpassen?",
-              answer: "Voor speciale verzoeken of aanpassingen aan het boeket, neem contact met ons op via het contactformulier of telefonisch.",
-            },
-          ].map((faq, index) => (
-            <div
-              key={index}
-              className="overflow-hidden rounded-[25px] border-2 border-accent/40 bg-accent/5 transition-all duration-300 hover:border-accent hover:bg-accent/10"
-            >
-              <button
-                className="flex w-full items-center justify-between p-6 text-left text-lg font-bold text-text/80"
-                onClick={() => toggleFaq(index)}
-              >
-                <span>{faq.question}</span>
-                {activeFaq === index ? <HiMiniChevronUp className="text-xl text-text/70" /> : <HiMiniChevronDown className="text-xl text-text/70" />}
-              </button>
-              <div className={`overflow-hidden transition-all duration-300 ${activeFaq === index ? "max-h-96" : "max-h-0"}`}>
-                <div className="p-6 pt-0 text-text/70">{faq.answer}</div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="mt-10 flex justify-center">
-          <Link
-            href="/contact"
-            className="flex items-center justify-center rounded-[100px] border-2 border-accent bg-transparent p-3 px-10 text-text transition-all duration-300 hover:bg-accent"
-          >
-            Neem contact op
-          </Link>
-        </div>
-      </div>
+      <Faq />
 
       {/* Image Lightbox */}
       {isLightboxOpen && (

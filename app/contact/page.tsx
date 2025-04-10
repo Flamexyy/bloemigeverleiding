@@ -78,7 +78,6 @@ export default function ContactPage() {
 
         {/* Alternative Contact Methods */}
         <div className="mt-16">
-          <h2 className="mb-6 text-2xl font-bold text-text">Andere manieren om contact op te nemen</h2>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
             <div className="rounded-[25px] border-2 border-accent/20 bg-accent/5 p-6">
               <h3 className="mb-2 text-lg font-bold text-text">Volg ons op social media</h3>
@@ -134,19 +133,6 @@ export default function ContactPage() {
                   </svg>
                 </a>
               </div>
-            </div>
-
-            <div className="rounded-[25px] border-2 border-accent/20 bg-accent/5 p-6">
-              <h3 className="mb-2 text-lg font-bold text-text">Veelgestelde vragen</h3>
-              <p className="mb-4 text-text/70">
-                Bekijk onze FAQ-pagina voor antwoorden op veelgestelde vragen over onze producten, bezorging en retourbeleid.
-              </p>
-              <Link
-                href="/shop"
-                className="inline-block rounded-[100px] bg-accent px-6 py-2 text-text transition-colors hover:bg-accent/70"
-              >
-                Bekijk FAQ
-              </Link>
             </div>
           </div>
         </div>

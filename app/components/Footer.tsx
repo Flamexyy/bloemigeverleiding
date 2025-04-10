@@ -145,15 +145,6 @@ export default function Footer() {
                     <RiArrowRightUpLine className="opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
                   </Link>
                 </li>
-                <li>
-                  <Link
-                    href="/news"
-                    className="group inline-flex items-center gap-1 transition-colors hover:text-text"
-                  >
-                    Nieuws
-                    <RiArrowRightUpLine className="opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
-                  </Link>
-                </li>
               </ul>
             </div>
 
@@ -236,6 +227,13 @@ export default function Footer() {
                 <Image
                   src="/GooglePay.svg"
                   alt="Google Pay"
+                  width={40}
+                  height={24}
+                  className="h-8 w-auto opacity-80 transition-opacity hover:opacity-100"
+                />
+                <Image
+                  src="/ApplePay.svg"
+                  alt="Apple Pay"
                   width={40}
                   height={24}
                   className="h-8 w-auto opacity-80 transition-opacity hover:opacity-100"
