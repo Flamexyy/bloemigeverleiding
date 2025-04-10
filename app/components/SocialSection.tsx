@@ -28,7 +28,7 @@ export default function SocialSection() {
               href="/contact"
               className="group mt-2 flex min-w-fit items-center gap-2 transition-opacity"
             >
-              <button className="flex items-center justify-center rounded-[100px] border-2 border-accent bg-transparent px-8 py-3 font-medium text-text transition-all duration-300 hover:bg-accent/10">
+              <button className="flex items-center justify-center rounded-[100px] border-2 border-accent bg-transparent px-8 py-3 font-medium text-text transition-all duration-300 hover:bg-accent">
                 Neem contact op
                 <RiArrowRightUpLine className="ml-2 text-xl transition-transform duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px]" />
               </button>

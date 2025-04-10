@@ -96,7 +96,7 @@ export default function Home() {
                 {/* Simple accent element */}
                 <div className="absolute -bottom-4 -right-4 z-10 flex h-24 w-24 items-center justify-center rounded-full bg-accent font-bold text-text shadow-lg">
                   <div className="text-center">
-                    <div className="text-lg md:text-xl">NIEUW</div>
+                    <div className="text-lg md:text-xl">NIEUWE</div>
                     <div className="text-xs">COLLECTIE</div>
                   </div>
                 </div>

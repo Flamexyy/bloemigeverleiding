@@ -35,6 +35,23 @@ export default function CartPage() {
     }
   };
 
+  // Calculate subtotal based on original prices
+  const subtotal = items.reduce((sum, item) => {
+    const originalPrice =
+      item.compareAtPrice && parseFloat(String(item.compareAtPrice)) > parseFloat(String(item.price))
+        ? parseFloat(String(item.compareAtPrice))
+        : parseFloat(String(item.price));
+    return sum + originalPrice * item.quantity;
+  }, 0);
+
+  // Calculate total discount
+  const totalDiscount = items.reduce((sum, item) => {
+    if (item.compareAtPrice && parseFloat(String(item.compareAtPrice)) > parseFloat(String(item.price))) {
+      return sum + (parseFloat(String(item.compareAtPrice)) - parseFloat(String(item.price))) * item.quantity;
+    }
+    return sum;
+  }, 0);
+
   return (
     <div className="mx-auto max-w-[1600px] px-4 py-12 md:py-20 lg:px-8">
       <h1 className="mb-8 text-3xl font-bold text-text md:text-4xl">WINKELWAGEN</h1>
@@ -142,31 +159,21 @@ export default function CartPage() {
               <h2 className="mb-4 text-xl font-bold text-text">Besteloverzicht</h2>
 
               <div className="space-y-3 text-text">
-                {/* Subtotal */}
+                {/* Subtotal - Updated calculation */}
                 <div className="flex items-center justify-between">
                   <span className="text-text/70">Subtotaal:</span>
-                  <span className="font-medium">€{total.toFixed(2)}</span>
+                  <span className="font-medium">€{subtotal.toFixed(2)}</span>
                 </div>
 
-                {/* Discount */}
-                {items.some((item) => item.compareAtPrice) && (
+                {/* Discount - Updated calculation */}
+                {totalDiscount > 0 && (
                   <div className="flex items-center justify-between text-red-400">
                     <span>Korting:</span>
-                    <span className="font-medium">
-                      -€
-                      {items
-                        .reduce((sum, item) => {
-                          if (item.compareAtPrice) {
-                            return sum + (parseFloat(String(item.compareAtPrice)) - parseFloat(String(item.price))) * item.quantity;
-                          }
-                          return sum;
-                        }, 0)
-                        .toFixed(2)}
-                    </span>
+                    <span className="font-medium">-€{totalDiscount.toFixed(2)}</span>
                   </div>
                 )}
 
-                {/* Total - No shipping section */}
+                {/* Total - Uses the 'total' from useCart which is based on final prices */}
                 <div className="border-t border-text/20 pt-4">
                   <div className="flex items-center justify-between">
                     <span className="text-lg font-medium text-text">Totaal:</span>
