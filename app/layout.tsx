@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Gabarito, Courgette, Pacifico } from "next/font/google";
+import { Gabarito, Courgette, Pacifico } from "next/font/google"; // Keep Courgette import for variable
 import "./globals.css";
 import RootLayoutWrapper from "./components/RootLayoutWrapper";
 import { AuthProvider } from "./context/AuthContext";
@@ -10,10 +10,11 @@ import { LikedProvider } from "./context/LikedContext";
 const gabarito = Gabarito({
   subsets: ["latin"],
   display: "swap",
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["400", "700"], // Simplified weights
   variable: "--font-gabarito",
 });
 
+// Keep Courgette instantiation for the CSS variable
 const courgette = Courgette({
   subsets: ["latin"],
   weight: "400",
@@ -40,7 +41,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    // Add the courgette variable to the html tag so it's globally available
+    <html lang="en" className={`${courgette.variable}`}>
       <head>
         <meta
           name="viewport"
@@ -68,7 +70,8 @@ export default function RootLayout({
           href="/favicon_io/site.webmanifest"
         />
       </head>
-      <body className={`${gabarito.variable} ${courgette.variable} ${pacifico.variable} flex min-h-screen flex-col font-sans antialiased`}>
+      {/* Ensure gabarito is the default font-sans */}
+      <body className={`${gabarito.variable} flex min-h-screen flex-col font-sans antialiased`}>
         <AuthProvider>
           <CartProvider>
             <LikedProvider>

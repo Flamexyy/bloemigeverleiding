@@ -57,7 +57,8 @@ export default function Home() {
           <div className="flex flex-col-reverse items-center gap-10 lg:flex-row lg:gap-16">
             {/* Text Content */}
             <div className="order-2 w-full space-y-6 text-center lg:order-1 lg:w-1/2 lg:text-left">
-              <h1 className="text-4xl font-bold text-text md:text-5xl lg:text-6xl">Zijden bloemen die emoties overbrengen</h1>
+              {/* Use font-courgette class */}
+              <h1 className="font-courgette text-4xl text-text md:text-5xl lg:text-6xl">Zijden bloemen die emoties overbrengen</h1>
 
               <p className="mx-auto max-w-2xl text-lg text-text/70 md:text-xl lg:mx-0">
                 Handgemaakte zijden boeketten voor elke gelegenheid, gemaakt met liefde en zorg
