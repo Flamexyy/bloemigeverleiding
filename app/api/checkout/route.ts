@@ -8,7 +8,6 @@ interface CartItem {
 export async function POST(request: Request) {
   try {
     const { items } = (await request.json()) as { items: CartItem[] };
-    console.log("🛒 Received items:", items);
 
     if (!items || items.length === 0) {
       return NextResponse.json({ message: "No items in cart" }, { status: 400 });
@@ -21,7 +20,6 @@ export async function POST(request: Request) {
       if (!variantId.startsWith("gid://")) {
         variantId = `gid://shopify/ProductVariant/${variantId}`;
       }
-      console.log("✅ Sending variant ID:", variantId);
 
       return {
         merchandiseId: variantId,
@@ -55,7 +53,6 @@ export async function POST(request: Request) {
     const shopifyDomain = "6s5ipy-02.myshopify.com";
     const shopifyUrl = `https://${shopifyDomain}/api/2024-01/graphql.json`;
 
-    console.log("🔗 Sending request to Shopify:", shopifyUrl);
 
     // Create cart with items in one step
     const createCartResponse = await fetch(shopifyUrl, {
@@ -68,7 +65,6 @@ export async function POST(request: Request) {
     });
 
     const createCartData = await createCartResponse.json();
-    console.log("📦 Create Cart Response:", createCartData);
 
     if (createCartData.errors) {
       throw new Error(`GraphQL Errors: ${JSON.stringify(createCartData.errors)}`);
@@ -83,7 +79,6 @@ export async function POST(request: Request) {
       throw new Error("No checkout URL in response");
     }
 
-    console.log("🔗 Original Checkout URL from Shopify:", originalCheckoutUrl);
 
     // Extract the token and key from the checkout URL
     // This is a more robust approach to handle different URL formats
@@ -91,7 +86,6 @@ export async function POST(request: Request) {
     // Try to extract token and key using regex
     const cartMatch = originalCheckoutUrl.match(/\/cart\/c\/([^?\/]+)(?:\?key=(.+))?/);
 
-    console.log(`https://${process.env.NEXT_PUBLIC_CHECKOUT_DOMAIN!}${cartMatch[0]}`);
 
     if (cartMatch.length >= 1) {
       return NextResponse.json({ checkoutUrl: `https://${process.env.NEXT_PUBLIC_CHECKOUT_DOMAIN!}${cartMatch[0]}` });

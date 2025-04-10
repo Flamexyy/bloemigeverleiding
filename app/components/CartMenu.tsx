@@ -43,7 +43,6 @@ export default function CartMenu() {
     if (isLoading || items.length === 0) return;
     setIsLoading(true);
     try {
-      console.log("Sending items to checkout:", items); // Debug log
 
       const response = await fetch("/api/checkout", {
         method: "POST",
@@ -59,7 +58,6 @@ export default function CartMenu() {
       });
 
       const data = await response.json();
-      console.log("Checkout response:", data); // Debug log
 
       if (!response.ok) {
         throw new Error(data.message || "Error creating checkout");

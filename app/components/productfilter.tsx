@@ -73,7 +73,6 @@ export default function ProductFilter({
       // Use exact price filtering with the slider
       const priceRanges = ['exact-range'];
       
-      console.log('Using exact price range:', min, max);
       setSelectedPrices(priceRanges);
       
       if (onPriceFilter) {

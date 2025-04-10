@@ -1,18 +1,9 @@
 const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!;
-const storefrontAccessToken =
-  process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
+const storefrontAccessToken = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
 
-async function shopifyFetch({
-  query,
-  variables,
-}: {
-  query: string;
-  variables: any;
-}) {
+async function shopifyFetch({ query, variables }: { query: string; variables: any }) {
   try {
     const url = `https://${domain}/api/2024-01/graphql.json`;
-    console.log("Fetching from:", url);
-    console.log("Variables:", JSON.stringify(variables, null, 2));
 
     const response = await fetch(url, {
       method: "POST",
@@ -25,13 +16,6 @@ async function shopifyFetch({
         variables,
       }),
     });
-
-    // Log response status and headers
-    console.log("Response status:", response.status);
-    console.log(
-      "Response headers:",
-      Object.fromEntries(response.headers.entries())
-    );
 
     // Check if response is ok
     if (!response.ok) {
@@ -54,7 +38,6 @@ async function shopifyFetch({
     }
 
     const json = await response.json();
-    console.log("Response JSON:", JSON.stringify(json, null, 2));
 
     if (json.errors) {
       console.error("GraphQL Errors:", json.errors);
@@ -151,9 +134,7 @@ export async function customerLogin(email: string, password: string) {
     });
 
     if (response.customerAccessTokenCreate.customerUserErrors.length > 0) {
-      throw new Error(
-        response.customerAccessTokenCreate.customerUserErrors[0].message
-      );
+      throw new Error(response.customerAccessTokenCreate.customerUserErrors[0].message);
     }
 
     return response.customerAccessTokenCreate.customerAccessToken;
@@ -220,19 +201,13 @@ export async function getCollections() {
   }));
 }
 
-export async function getProducts({ 
-  collection = undefined as string | undefined,
-  first = 20,
-  query = '',
-  reverse = false,
-  sortKey = 'TITLE'
-} = {}) {
+export async function getProducts({ collection = undefined as string | undefined, first = 20, query = "", reverse = false, sortKey = "TITLE" } = {}) {
   // If we have a collection, let's try to query by handle first
   if (collection) {
     // Try to determine if this is a handle or ID
-    const isGid = collection.includes('gid://');
+    const isGid = collection.includes("gid://");
     const isNumeric = /^\d+$/.test(collection);
-    
+
     // If it's not a GID and not numeric, assume it's a handle
     if (!isGid && !isNumeric) {
       // Query by collection handle
@@ -296,20 +271,17 @@ export async function getProducts({
           query: collectionQuery,
           variables: {
             handle: collection,
-            first
+            first,
           },
         });
 
         if (response.collection && response.collection.products.edges.length > 0) {
-          console.log(`Found ${response.collection.products.edges.length} products in collection by handle`);
-          
           return response.collection.products.edges.map((edge: any) => {
             const product = edge.node;
             const variant = product.variants.edges[0]?.node;
             const image = product.images.edges[0]?.node;
 
             const hasVariants = product.variants.edges.length > 1;
-            console.log(`Product ${product.title} has ${product.variants.edges.length} variants. hasVariants: ${hasVariants}`);
 
             return {
               id: product.id,
@@ -317,16 +289,16 @@ export async function getProducts({
               handle: product.handle,
               description: product.description,
               createdAt: product.createdAt,
-              collections: [{ id: collection, title: 'Collection' }], // Placeholder
+              collections: [{ id: collection, title: "Collection" }], // Placeholder
               price: variant?.price.amount || product.priceRange.minVariantPrice.amount,
               compareAtPrice: variant?.compareAtPrice?.amount || null,
               currencyCode: variant?.price.currencyCode || product.priceRange.minVariantPrice.currencyCode,
-              imageUrl: image?.url || '',
+              imageUrl: image?.url || "",
               imageAlt: image?.altText || product.title,
               availableForSale: variant?.availableForSale || false,
-              variantId: variant?.id || '',
+              variantId: variant?.id || "",
               quantityAvailable: variant?.quantityAvailable || 0,
-              hasVariants: hasVariants
+              hasVariants: hasVariants,
             };
           });
         }
@@ -406,19 +378,19 @@ export async function getProducts({
   `;
 
   // Build the query string
-  let queryString = '';
+  let queryString = "";
   if (collection) {
     // Handle different collection ID formats
     let collectionId: string | null = collection;
-    
+
     // If it's not already a gid format
-    if (!collection.includes('gid://')) {
+    if (!collection.includes("gid://")) {
       // Check if it's just a numeric ID
       if (/^\d+$/.test(collection)) {
         collectionId = `gid://shopify/Collection/${collection}`;
-      } 
+      }
       // If it has a Collection/ prefix but no gid
-      else if (collection.includes('Collection/')) {
+      else if (collection.includes("Collection/")) {
         collectionId = `gid://shopify/${collection}`;
       }
       // Otherwise assume it's a handle and use collection:handle syntax
@@ -427,18 +399,15 @@ export async function getProducts({
         collectionId = null; // Skip adding collection_id
       }
     }
-    
+
     if (collectionId) {
-      console.log('Using collection ID for query:', collectionId);
       queryString += `collection_id:${collectionId} `;
     }
   }
-  
+
   if (query) {
     queryString += query;
   }
-
-  console.log('Final query string:', queryString);
 
   const response = await shopifyFetch({
     query: gqlQuery,
@@ -450,25 +419,20 @@ export async function getProducts({
     },
   });
 
-  console.log(`Found ${response.products.edges.length} products with query`);
-
   const processedProducts = response.products.edges.map((edge: any) => {
     const product = edge.node;
     const variant = product.variants.edges[0]?.node;
     const image = product.images.edges[0]?.node;
-    
+
     // Extract collections data
     const collections = product.collections.edges.map((colEdge: any) => ({
       id: colEdge.node.id,
       title: colEdge.node.title,
-      handle: colEdge.node.handle
+      handle: colEdge.node.handle,
     }));
 
     // Check if the product has multiple variants
     const hasVariants = product.variants.edges.length > 1;
-    
-    // Log for debugging
-    console.log(`Product ${product.title} has ${product.variants.edges.length} variants. hasVariants: ${hasVariants}`);
 
     return {
       id: product.id,
@@ -480,13 +444,13 @@ export async function getProducts({
       price: variant?.price.amount || product.priceRange.minVariantPrice.amount,
       compareAtPrice: variant?.compareAtPrice?.amount || null,
       currencyCode: variant?.price.currencyCode || product.priceRange.minVariantPrice.currencyCode,
-      imageUrl: image?.url || '',
+      imageUrl: image?.url || "",
       imageAlt: image?.altText || product.title,
       availableForSale: variant?.availableForSale || false,
-      variantId: variant?.id || '',
+      variantId: variant?.id || "",
       quantityAvailable: variant?.quantityAvailable || 0,
       hasVariants: hasVariants,
-      variantsCount: product.variants.edges.length
+      variantsCount: product.variants.edges.length,
     };
   });
 
@@ -556,7 +520,7 @@ export async function getProduct(handle: string) {
     });
 
     if (!response?.product) {
-      throw new Error('Product not found');
+      throw new Error("Product not found");
     }
 
     return response.product;
@@ -566,9 +530,7 @@ export async function getProduct(handle: string) {
   }
 }
 
-export async function createCheckout(
-  lineItems: { variantId: string; quantity: number }[]
-) {
+export async function createCheckout(lineItems: { variantId: string; quantity: number }[]) {
   const mutation = `
     mutation checkoutCreate($input: CheckoutCreateInput!) {
       checkoutCreate(input: $input) {
@@ -717,7 +679,7 @@ export async function updateCustomer(
     lastName: string;
     email: string;
     phone?: string;
-  }
+  },
 ) {
   const mutation = `
     mutation customerUpdate($customerAccessToken: String!, $customer: CustomerUpdateInput!) {
@@ -746,10 +708,7 @@ export async function updateCustomer(
       formattedPhone = formattedPhone.replace(/\D/g, "");
 
       // Add +31 (Netherlands) country code if not present
-      if (
-        !formattedPhone.startsWith("31") &&
-        !formattedPhone.startsWith("+31")
-      ) {
+      if (!formattedPhone.startsWith("31") && !formattedPhone.startsWith("+31")) {
         // Remove leading 0 if present
         if (formattedPhone.startsWith("0")) {
           formattedPhone = formattedPhone.substring(1);
@@ -784,10 +743,7 @@ export async function updateCustomer(
   }
 }
 
-export async function updateCustomerPassword(
-  accessToken: string,
-  password: string
-) {
+export async function updateCustomerPassword(accessToken: string, password: string) {
   const mutation = `
     mutation customerReset($customerAccessToken: String!, $customer: CustomerUpdateInput!) {
       customerUpdate(customerAccessToken: $customerAccessToken, customer: $customer) {

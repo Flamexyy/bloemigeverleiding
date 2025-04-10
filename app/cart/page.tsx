@@ -25,7 +25,6 @@ export default function CartPage() {
 
     try {
       const checkoutUrl = await createCheckout();
-      console.log("Redirecting to checkout:", checkoutUrl);
       window.location.href = checkoutUrl;
     } catch (err) {
       console.error("Checkout error:", err);
@@ -239,13 +238,6 @@ export default function CartPage() {
                   <Image
                     src="/GooglePay.svg"
                     alt="Google Pay"
-                    width={40}
-                    height={24}
-                    className="h-6 w-auto opacity-80"
-                  />
-                  <Image
-                    src="/ApplePay.svg"
-                    alt="Apple Pay"
                     width={40}
                     height={24}
                     className="h-6 w-auto opacity-80"

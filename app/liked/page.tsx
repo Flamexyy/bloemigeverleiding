@@ -27,9 +27,11 @@ export default function LikedPage() {
       <div className="mx-auto max-w-[1600px] px-4 py-12 md:py-20 lg:px-8">
         <div className="mb-10 flex flex-col items-start gap-6 text-text">
           <h1 className="text-3xl font-bold md:text-4xl">FAVORIETEN</h1>
-          <p className="max-w-3xl text-text/70">
-            Hier vind je de producten die je hebt opgeslagen als favoriet. Klik op het hartje om ze weer te verwijderen.
-          </p>
+          {likedItems.length > 0 && (
+            <p className="max-w-3xl text-text/70">
+              Hier vind je de producten die je hebt opgeslagen als favoriet. Klik op het hartje om ze weer te verwijderen.
+            </p>
+          )}
         </div>
 
         {likedItems.length === 0 ? (
@@ -37,7 +39,7 @@ export default function LikedPage() {
             <div className="mb-4 flex justify-center">
               <IoMdHeartEmpty className="text-6xl text-text/30" />
             </div>
-            <h2 className="text-xl font-medium text-text">Je hebt nog geen favorieten</h2>
+            <h2 className="text-xl font-bold text-text">Je hebt nog geen favorieten</h2>
             <p className="mx-auto mb-6 max-w-md text-text/70">Klik op het hartje bij een product om het hier op te slaan.</p>
             <Link
               href="/shop"

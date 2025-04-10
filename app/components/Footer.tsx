@@ -1,264 +1,232 @@
 import Image from "next/image";
 import Link from "next/link";
 import { FaInstagram, FaTiktok, FaFacebook } from "react-icons/fa";
-import { RiArrowRightUpLine } from "react-icons/ri";
 
 export default function Footer() {
   return (
-    <footer className="mt-auto">
-      {/* Newsletter Section */}
-      {/* <div className="bg-accent/20 border-t border-accent/30">
-                <div className="max-w-[1600px] mx-auto px-4 lg:px-8 py-12 md:py-16">
-                    <div className="flex flex-col md:flex-row gap-10 justify-between items-center">
-                        <div className="max-w-xl text-center md:text-left">
-                            <h2 className="text-2xl md:text-3xl font-bold text-text mb-4">SLUIT AAN BIJ ONZE NIEUWSBRIEF</h2>
-                            <p className="text-text/70 text-sm md:text-base">
-                                Schrijf je in voor onze nieuwsbrief en ontvang speciale aanbiedingen, gratis giveaways en updates over nieuwe producten.
-                            </p>
-                        </div>
-                        
-                        <div className="w-full flex justify-end">
-                            <form className="w-full flex flex-col sm:flex-row gap-3 max-w-md mx-auto md:mx-0">
-                                <input 
-                                    type="email" 
-                                    placeholder="Vul uw email in" 
-                                    className="flex-1 bg-white rounded-[25px] px-6 py-3 text-sm md:text-base placeholder:text-text/50 border border-text/10 focus:outline-none focus:border-text/30 valid:border-green-500/50"
-                                    required
-                                />
-                                <button 
-                                    type="submit"
-                                    className="bg-text text-cream px-6 py-3 rounded-[25px] hover:bg-text/70 transition-colors text-sm md:text-base whitespace-nowrap font-medium"
-                                >
-                                    Abonneer
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div> */}
-
-      {/* Main Footer */}
-      <div className="bg-cream text-text">
-        <div className="mx-auto max-w-[1600px] px-4 pb-12 pt-16 lg:px-8">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-5 lg:gap-4">
-            {/* Logo and Description */}
-            <div className="space-y-6 lg:col-span-2">
+    <footer className="mt-auto bg-cream text-text">
+      <div className="mx-auto max-w-[1600px] px-4 py-12 lg:px-8">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-12">
+          {/* Left Section: Logo, Description, Social */}
+          <div className="md:col-span-4 lg:col-span-5">
+            <div className="mb-6 inline-block">
               <Image
                 src="/logo-footer.svg"
                 alt="Bloemige Verleiding Logo"
-                width={120}
-                height={120}
+                width={100}
+                height={100}
               />
-              <p className="max-w-md text-sm leading-loose text-text/70">
-                Bloemige Verleiding is jouw bestemming voor handgemaakte zijden boeketten, gemaakt met liefde en zorg. Ontdek onze unieke creaties en
-                maak elke gelegenheid speciaal.
-              </p>
-
-              {/* Social Media Icons */}
-              <div className="flex gap-4">
-                <a
-                  href="https://www.instagram.com/bloemigeverleiding"
-                  target="_blank"
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f0e8e0] text-text transition-colors hover:bg-text hover:text-cream"
-                >
-                  <FaInstagram className="text-xl" />
-                </a>
-                <a
-                  href="https://www.tiktok.com/bloemigeverleiding"
-                  target="_blank"
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f0e8e0] text-text transition-colors hover:bg-text hover:text-cream"
-                >
-                  <FaTiktok className="text-lg" />
-                </a>
-                <a
-                  href="https://www.facebook.com/bloemigeverleiding"
-                  target="_blank"
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f0e8e0] text-text transition-colors hover:bg-text hover:text-cream"
-                >
-                  <FaFacebook className="text-xl" />
-                </a>
-              </div>
             </div>
+            <p className="mb-6 max-w-[70%] text-sm leading-relaxed text-text/70">
+              Handgemaakte zijden boeketten, met liefde en zorg samengesteld voor elke speciale gelegenheid.
+            </p>
+            <div className="flex gap-4">
+              <a
+                href="https://www.instagram.com/bloemigeverleiding"
+                target="_blank"
+                className="text-text/70 transition-colors hover:text-text"
+                aria-label="Instagram"
+              >
+                <FaInstagram className="text-2xl" />
+              </a>
+              <a
+                href="https://www.tiktok.com/@selina_christina?_t=ZN-8vQ3MtDsYTq&_r=1"
+                target="_blank"
+                className="text-text/70 transition-colors hover:text-text"
+                aria-label="TikTok"
+              >
+                <FaTiktok className="text-xl" />
+              </a>
+              <a
+                href="https://www.facebook.com/bloemigeverleiding"
+                target="_blank"
+                className="text-text/70 transition-colors hover:text-text"
+                aria-label="Facebook"
+              >
+                <FaFacebook className="text-xl" />
+              </a>
+            </div>
+          </div>
 
-            {/* Quick Links */}
+          {/* Right Section: Links */}
+          <div className="grid grid-cols-2 gap-8 md:col-span-8 md:grid-cols-3 lg:col-span-7">
             <div>
-              <h3 className="mb-6 text-lg font-bold">ONTVANG HULP</h3>
+              <h3 className="mb-4 font-bold uppercase tracking-wider text-text">Hulp</h3>
               <ul className="space-y-3 text-sm text-text/70">
                 <li>
                   <Link
                     href="/help"
-                    className="group inline-flex items-center gap-1 transition-colors hover:text-text"
+                    className="transition-colors hover:text-text"
                   >
                     Bestelstatus
-                    <RiArrowRightUpLine className="opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/help"
-                    className="group inline-flex items-center gap-1 transition-colors hover:text-text"
+                    className="transition-colors hover:text-text"
                   >
                     Verzending & Levering
-                    <RiArrowRightUpLine className="opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/help"
-                    className="group inline-flex items-center gap-1 transition-colors hover:text-text"
+                    className="transition-colors hover:text-text"
                   >
                     Retourneren
-                    <RiArrowRightUpLine className="opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/help"
-                    className="group inline-flex items-center gap-1 transition-colors hover:text-text"
+                    className="transition-colors hover:text-text"
                   >
                     Betaalmethoden
-                    <RiArrowRightUpLine className="opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/contact"
-                    className="group inline-flex items-center gap-1 transition-colors hover:text-text"
+                    className="transition-colors hover:text-text"
                   >
                     Contact
-                    <RiArrowRightUpLine className="opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
                   </Link>
                 </li>
               </ul>
             </div>
-
-            {/* About */}
             <div>
-              <h3 className="mb-6 text-lg font-bold">OVER ONS</h3>
+              <h3 className="mb-4 font-bold uppercase tracking-wider text-text">Over Ons</h3>
               <ul className="space-y-3 text-sm text-text/70">
                 <li>
                   <Link
                     href="/about"
-                    className="group inline-flex items-center gap-1 transition-colors hover:text-text"
+                    className="transition-colors hover:text-text"
                   >
-                    Over
-                    <RiArrowRightUpLine className="opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
+                    Over Ons
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/"
+                    className="transition-colors hover:text-text"
+                  >
+                    Instagram
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/"
+                    className="transition-colors hover:text-text"
+                  >
+                    Tiktok
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/"
+                    className="transition-colors hover:text-text"
+                  >
+                    Facebook
                   </Link>
                 </li>
               </ul>
             </div>
-
-            {/* Legal */}
             <div>
-              <h3 className="mb-6 text-lg font-bold">RECHTELIJK</h3>
+              <h3 className="mb-4 font-bold uppercase tracking-wider text-text">Rechtelijk</h3>
               <ul className="space-y-3 text-sm text-text/70">
                 <li>
                   <Link
                     href="/terms-of-service"
-                    className="group inline-flex items-center gap-1 transition-colors hover:text-text"
+                    className="transition-colors hover:text-text"
                   >
                     Servicevoorwaarden
-                    <RiArrowRightUpLine className="opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/terms-of-use"
-                    className="group inline-flex items-center gap-1 transition-colors hover:text-text"
+                    className="transition-colors hover:text-text"
                   >
                     Gebruiksvoorwaarden
-                    <RiArrowRightUpLine className="opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
                   </Link>
                 </li>
                 <li>
                   <Link
                     href="/privacy-policy"
-                    className="group inline-flex items-center gap-1 transition-colors hover:text-text"
+                    className="transition-colors hover:text-text"
                   >
                     Privacybeleid
-                    <RiArrowRightUpLine className="opacity-0 transition-all duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px] group-hover:opacity-100" />
                   </Link>
                 </li>
               </ul>
             </div>
           </div>
-
-          {/* Payment Methods */}
-          <div className="mt-16 border-t border-text/10 pt-10">
-            <div className="flex flex-col items-center">
-              <p className="mb-6 text-sm font-medium text-text/70">Veilig betalen met</p>
-              <div className="flex flex-wrap justify-center gap-3">
-                <Image
-                  src="/Ideal.svg"
-                  alt="iDEAL"
-                  width={40}
-                  height={24}
-                  className="h-8 w-auto opacity-80 transition-opacity hover:opacity-100"
-                />
-                <Image
-                  src="/Visa.svg"
-                  alt="Visa"
-                  width={40}
-                  height={24}
-                  className="h-8 w-auto opacity-80 transition-opacity hover:opacity-100"
-                />
-                <Image
-                  src="/Mastercard.svg"
-                  alt="Mastercard"
-                  width={40}
-                  height={24}
-                  className="h-8 w-auto opacity-80 transition-opacity hover:opacity-100"
-                />
-                <Image
-                  src="/PayPal.svg"
-                  alt="PayPal"
-                  width={40}
-                  height={24}
-                  className="h-8 w-auto opacity-80 transition-opacity hover:opacity-100"
-                />
-                <Image
-                  src="/Maestro.svg"
-                  alt="Maestro"
-                  width={40}
-                  height={24}
-                  className="h-8 w-auto opacity-80 transition-opacity hover:opacity-100"
-                />
-                {/* <Image src="/Klarna.svg" alt="Klarna" width={40} height={24} className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" /> */}
-                <Image
-                  src="/GooglePay.svg"
-                  alt="Google Pay"
-                  width={40}
-                  height={24}
-                  className="h-8 w-auto opacity-80 transition-opacity hover:opacity-100"
-                />
-                <Image
-                  src="/ApplePay.svg"
-                  alt="Apple Pay"
-                  width={40}
-                  height={24}
-                  className="h-8 w-auto opacity-80 transition-opacity hover:opacity-100"
-                />
-                {/* <Image src="/ShopPay.svg" alt="Shop Pay" width={40} height={24} className="h-8 w-auto opacity-80 hover:opacity-100 transition-opacity" /> */}
-              </div>
-            </div>
-          </div>
         </div>
 
-        {/* Bottom Section */}
-        <div className="border-t border-text bg-text text-sm text-cream">
-          <div className="mx-auto flex w-full max-w-[1600px] flex-col justify-between gap-2 p-4 px-4 text-center md:flex-row md:gap-20 md:text-left lg:px-8">
-            <p>© {new Date().getFullYear()} Bloemigeverleiding. Alle Rechten Voorbehouden</p>
-            <span>
-              Developed and designed by{" "}
-              <a
-                href="https://enhancedigital.nl"
-                target="_blank"
-                className="hover:underline"
-              >
-                Enhancedigital.nl
-              </a>
-            </span>
+        {/* Payment Methods - Centered */}
+        <div className="mt-12 border-t border-text/10 pt-8 text-center">
+          <p className="mb-4 text-sm font-medium text-text/70">Veilig betalen met</p>
+          <div className="flex flex-wrap justify-center gap-3">
+            <Image
+              src="/Ideal.svg"
+              alt="iDEAL"
+              width={35}
+              height={21}
+              className="h-6 w-auto opacity-70"
+            />
+            <Image
+              src="/Visa.svg"
+              alt="Visa"
+              width={35}
+              height={21}
+              className="h-6 w-auto opacity-70"
+            />
+            <Image
+              src="/Mastercard.svg"
+              alt="Mastercard"
+              width={35}
+              height={21}
+              className="h-6 w-auto opacity-70"
+            />
+            <Image
+              src="/PayPal.svg"
+              alt="PayPal"
+              width={35}
+              height={21}
+              className="h-6 w-auto opacity-70"
+            />
+            <Image
+              src="/Maestro.svg"
+              alt="Maestro"
+              width={35}
+              height={21}
+              className="h-6 w-auto opacity-70"
+            />
+            <Image
+              src="/GooglePay.svg"
+              alt="Google Pay"
+              width={35}
+              height={21}
+              className="h-6 w-auto opacity-70"
+            />
           </div>
+        </div>
+      </div>
+
+      {/* Final Bar */}
+      <div className="bg-text py-3 text-center text-xs text-cream/70">
+        <div className="mx-auto max-w-[1600px] px-4 lg:px-8">
+          <span>
+            © {new Date().getFullYear()} Bloemigeverleiding. Alle Rechten Voorbehouden | Developed by{" "}
+            <a
+              href="https://enhancedigital.nl"
+              target="_blank"
+              className="underline hover:text-cream"
+            >
+              Enhancedigital.nl
+            </a>
+          </span>
         </div>
       </div>
     </footer>

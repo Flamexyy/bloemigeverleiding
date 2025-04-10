@@ -159,7 +159,6 @@ export default function HelpPage() {
                 <li>Creditcard (Visa, Mastercard)</li>
                 <li>PayPal</li>
                 <li>Google Pay</li>
-                <li>Apple Pay</li>
               </ul>
             </div>
           ),

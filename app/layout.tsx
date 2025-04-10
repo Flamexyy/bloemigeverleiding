@@ -42,7 +42,10 @@ export default function RootLayout({
 }>) {
   return (
     // Add the courgette variable to the html tag so it's globally available
-    <html lang="en" className={`${courgette.variable}`}>
+    <html
+      lang="en"
+      className={`${courgette.variable}`}
+    >
       <head>
         <meta
           name="viewport"

@@ -67,7 +67,7 @@ export default function Home() {
               <div className="flex flex-col items-center justify-center gap-3 pt-4 sm:flex-row md:gap-4 lg:justify-start">
                 <Link href="/shop">
                   <button className="group flex items-center justify-center rounded-[100px] bg-accent px-8 py-3 font-medium text-text transition-all duration-300 hover:bg-accent/70">
-                    Shop nu
+                    Zijden Boeketten
                     <RiArrowRightUpLine className="ml-2 text-xl transition-transform duration-300 group-hover:translate-x-[3px] group-hover:translate-y-[-3px]" />
                   </button>
                 </Link>
