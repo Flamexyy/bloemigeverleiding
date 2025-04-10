@@ -74,13 +74,13 @@ export default function Header() {
 
           {/* Desktop Nav */}
           <nav className="hidden md:block">
-            <ul className="flex gap-6 font-bold lg:gap-10">
+            <ul className="flex gap-6 lg:gap-10">
               <li>
                 <Link
                   href="/"
                   className={`transition-opacity duration-200 ${isActive("/") ? "opacity-100" : "opacity-50 hover:opacity-75"}`}
                 >
-                  HOME
+                  Home
                 </Link>
               </li>
               <li>
@@ -88,7 +88,7 @@ export default function Header() {
                   href="/shop"
                   className={`transition-opacity duration-200 ${isShopActive ? "opacity-100" : "opacity-50 hover:opacity-75"}`}
                 >
-                  SHOP
+                  Shop
                 </Link>
               </li>
               <li>
@@ -96,7 +96,7 @@ export default function Header() {
                   href="/about"
                   className={`transition-opacity duration-200 ${isActive("/about") ? "opacity-100" : "opacity-50 hover:opacity-75"}`}
                 >
-                  ABOUT
+                  Over Ons
                 </Link>
               </li>
               <li>
@@ -104,7 +104,7 @@ export default function Header() {
                   href="/contact"
                   className={`transition-opacity duration-200 ${isActive("/contact") ? "opacity-100" : "opacity-50 hover:opacity-75"}`}
                 >
-                  CONTACT
+                  Contact
                 </Link>
               </li>
             </ul>

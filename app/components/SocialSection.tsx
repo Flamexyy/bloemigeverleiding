@@ -38,7 +38,7 @@ export default function SocialSection() {
       </div>
 
       {/* Instagram-style gallery */}
-      <div className="mt-16">
+      {/* <div className="mt-16">
         <div className="mb-8 flex w-full flex-col-reverse items-start justify-between gap-5 md:flex-row md:gap-10">
           <div className="flex items-center gap-3">
             <h3 className="text-2xl font-bold text-text sm:whitespace-nowrap">VOLG ONS OP INSTAGRAM</h3>
@@ -79,7 +79,7 @@ export default function SocialSection() {
             </Link>
           ))}
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
